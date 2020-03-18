@@ -20,131 +20,152 @@ Probability theory is the mathematical foundation of statistical inference which
 - The meaning of expected values and standard errors and how to compute them in R
 - The importance of the Central Limit Theorem
 
-Course Overview
+## Course Overview
 
-Section 1: Discrete Probability
+## Section 1: Discrete Probability
 You will learn about basic principles of probability related to categorical data using card games as examples.
 
-Section 2: Continuous Probability
+## Section 2: Continuous Probability
 You will learn about basic principles of probability related to numeric and continuous data.
 
-Section 3: Random Variables, Sampling Models, and The Central Limit Theorem
+## Section 3: Random Variables, Sampling Models, and The Central Limit Theorem
 You will learn about random variables (numeric outcomes resulting from random processes), how to model data generation procedures as draws from an urn, and the Central Limit Theorem, which applies to large sample sizes.
 
-Section 4: The Big Short
+## Section 4: The Big Short
 You will learn how interest rates are determined and how some bad assumptions led to the financial crisis of 2007-2008.
-Section 1 Overview
+
+## Section 1 Overview
 
 Section 1 introduces you to Discrete Probability. Section 1 is divided into three parts:
-
-    Introduction to Discrete Probability
-    Combinations and Permutations
-    Addition Rule and Monty Hall
+- Introduction to Discrete Probability
+- Combinations and Permutations
+- Addition Rule and Monty Hall
 
 After completing Section 1, you will be able to:
+- Apply basic probability theory to categorical data.
+- Perform a Monte Carlo simulation to approximate the results of repeating an experiment over and over, including simulating the outcomes in the Monty Hall problem.
+- Distinguish between: sampling with and without replacement, events that are and are not independent, and combinations and permutations.
+- Apply the multiplication and addition rules, as appropriate, to calculate the probably of multiple events occurring.
+- Use sapply instead of a for loop to perform element-wise operations on a function.
 
-    Apply basic probability theory to categorical data.
-    Perform a Monte Carlo simulation to approximate the results of repeating an experiment over and over, including simulating the outcomes in the Monty Hall problem.
-    Distinguish between: sampling with and without replacement, events that are and are not independent, and combinations and permutations.
-    Apply the multiplication and addition rules, as appropriate, to calculate the probably of multiple events occurring.
-    Use sapply instead of a for loop to perform element-wise operations on a function.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#discrete-probability)
 
-The textbook for this section is available here
-1.1 Introduction to Discrete Probability
-Discrete Probability
+## 1.1 Introduction to Discrete Probability
+
+## Discrete Probability
 
 Example 1: If I have two red beads and three blue beads inside an urn and I pick one at random, what is the probability of picking a red one?
-
+```
 red <- 2
 blue <- 3
 beads <- red + blue
 p <- red/beads
 p
-
+```
+```
 ## [1] 0.4
-
-Monte Carlo Simulation
+```
+## Monte Carlo Simulation
 
 Random number generators permit us to mimic the process of picking at random. An example is the sample() function in R.
-
+```
 beads <- rep(c("red", "blue"), times = c(2,3))
 beads
-
+```
+```
 ## [1] "red"  "red"  "blue" "blue" "blue"
-
+```
+```
 #use sample() to pick a bead at random:
 sample(beads, 1)
-
+```
+```
 ## [1] "blue"
-
+```
 An example of Monte Carlo Simulation is that repeat the experiment a large enough number of times to make the results practically equivalent to doing it over and over forever. To perform our first Monte Carlo simulation, we use the replicate() function, which permits us to repeat the same task any number of times. Here, we repeat the random event B = 10,000 times
-
+```
 B <- 10000
 events <- replicate(B, sample(beads, 1))
 
 #Use table to see the distribution:
 tab <- table(events)
 tab
-
+```
+```
 ## events
 ## blue  red 
 ## 5902 4098
-
+```
+```
 #and prop.table gives us the proportions:
 prop.table(tab)
-
+```
+```
 ## events
 ##   blue    red 
 ## 0.5902 0.4098
-
+```
 The function sample has an argument that permits us to pick more than one element from the urn. However, by default, this selection occurs without replacement.
-
+```
 #Without Replacement:
 sample(beads, 5)
-
+```
+```
 ## [1] "blue" "red"  "red"  "blue" "blue"
-
+```
+```
 sample(beads, 5)
-
+```
+```
 ## [1] "red"  "blue" "red"  "blue" "blue"
-
+```
+```
 sample(beads, 5)
-
+```
+```
 ## [1] "blue" "blue" "red"  "blue" "red"
-
+```
+```
 #With Replacement:
 events <- sample(beads, B, replace = TRUE)
 prop.table(table(events))
-
+```
+```
 ## events
 ##   blue    red 
 ## 0.5982 0.4018
-
-Probability Distributions
+```
+## Probability Distributions
 
 If you’re are randomly calling likely voters from a population that has 44% Democrat, 44% Republican, 10% undecided, and 2% green, these proportions define the probability for each group. For this example, the probability distribution is simply these four proportions.
-Independence
+
+### Independence
 
 Every time we toss a fair coin, the probability of seeing heads is 1/2 regardless of what previous tosses have revealed.
-Non-Independent Events
 
-The first outcome affects the second. If we deal a King for the first card, and don’t replace it into the deck, the probabilities of a second card being a King is less because there are only three Kings left: the probability is 3 out of 51. more…
-Assessment 1: Introduction to Discrete Probability
+### Non-Independent Events
 
-    Probability of cyan
-    One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
+The first outcome affects the second. If we deal a King for the first card, and don’t replace it into the deck, the probabilities of a second card being a King is less because there are only three Kings left: the probability is 3 out of 51. [more…](https://rafalab.github.io/dsbook/probability.html#independence)
 
+## Assessment 1: Introduction to Discrete Probability
+
+1. Probability of cyan
+
+One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?
+```
 cyan <- 3
 magenta <- 5
 yellow <- 7
 balls <- cyan + magenta + yellow
 p_cyan <- cyan/balls
 p_cyan
-
+```
+```
 ## [1] 0.2
+```
+2. Probability of not cyan
 
-    Probability of not cyan
-    One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will not be cyan?
+One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will not be cyan?
 
 cyan <- 3
 magenta <- 5
