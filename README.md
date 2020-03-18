@@ -1,22 +1,24 @@
 # Data_Science_Probability
-HarvardX: PH125.3x | Data Science: Probability
-Abstract
 
-This is the third in a series of courses in a Professional Certificate in Data Science program. The courses in the Professional Certificate program are designed to prepare you to do data analysis in R, from simple computations to machine learning. The courses are designed to be taken in order. A prerequisite for this course is courses 1 and 2 of the series or equivalent knowledge of basic R coding and data visualization. If you need to learn or refresh some basic R, check out Data Science: R Basics, the first course in this series.
+# HarvardX: PH125.3x | Data Science: Probability
 
-The textbook for the Data Science course series is freely available online. This course corresponds to the Probability section of textbook, starting here.
+## Abstract
+
+This is the third in a series of courses in a [Professional Certificate in Data Science program](https://www.edx.org/professional-certificate/harvardx-data-science). The courses in the Professional Certificate program are designed to prepare you to do data analysis in R, from simple computations to machine learning. The courses are designed to be taken in order. A prerequisite for this course is courses 1 and 2 of the series or equivalent knowledge of basic R coding and data visualization. If you need to learn or refresh some basic R, check out Data Science: R Basics, the first course in this series.
+
+The textbook for the Data Science course series is [freely available online](https://rafalab.github.io/dsbook/). This course corresponds to the Probability section of textbook, starting [here](https://rafalab.github.io/dsbook/probability.html).
 
 This course assumes you are comfortable with basic math, algebra, and logical operations. HarvardX has partnered with DataCamp for all assignments in R that allow you to program directly in a browser-based interface. You will not need to download any special software.
 
 Using a combination of a guided introduction through short video lectures and more independent in-depth exploration, you will get to practice your new R skills on real-life applications.
 
 Probability theory is the mathematical foundation of statistical inference which is indispensable for analyzing data affected by chance, and thus essential for data scientists. In this course, you will learn important concepts in probability theory. The motivation for this course is the circumstances surrounding the financial crisis of 2007-2008. Part of what caused this financial crisis was that the risk of certain securities sold by financial institutions was underestimated. To begin to understand this very complicated event, we need to understand the basics of probability. We will introduce important concepts such as random variables, independence, Monte Carlo simulations, expected values, standard errors, and the Central Limit Theorem. These statistical concepts are fundamental to conducting statistical tests on data and understanding whether the data you are analyzing are likely occurring due to an experimental method or to chance. Statistical inference, covered in the next course in this series, builds upon probability theory.
-Learning Objectives
 
-    Important concepts in probability theory including random variables and independence
-    How to perform a Monte Carlo simulation
-    The meaning of expected values and standard errors and how to compute them in R
-    The importance of the Central Limit Theorem
+## Learning Objectives
+- Important concepts in probability theory including random variables and independence
+- How to perform a Monte Carlo simulation
+- The meaning of expected values and standard errors and how to compute them in R
+- The importance of the Central Limit Theorem
 
 Course Overview
 
