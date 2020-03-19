@@ -166,7 +166,7 @@ p_cyan
 2. Probability of not cyan
 
 One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will not be cyan?
-
+```
 cyan <- 3
 magenta <- 5
 yellow <- 7
@@ -174,70 +174,80 @@ balls <- cyan + magenta + yellow
 p_cyan <- cyan/balls
 p_not_cyan= 1 - p_cyan
 p_not_cyan
-
+```
+```
 ## [1] 0.8
-
+```
+```
 #or
 p_not_cyan= (magenta+yellow)/balls
 p_not_cyan
-
+```
+```
 ## [1] 0.8
+```
+3. Sampling without replacement
 
-    Sampling without replacement
-    Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling without replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
-
+Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling without replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
+```
 #p=p1_cyan * p2_not_cyan, without replacement
 p_1= cyan/balls 
 p_2=1 - (cyan-1)/(balls-1)
 p_1 * p_2
-
+```
+```
 ## [1] 0.1714286
+```
+4. Sampling with replacement
 
-    Sampling with replacement
-    Now repeat the experiment, but this time, after taking the first draw and recording the color, return it back to the box and shake the box. We call this sampling with replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
-
+Now repeat the experiment, but this time, after taking the first draw and recording the color, return it back to the box and shake the box. We call this sampling with replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?
+```
 #p=p1_cyan * p2_not_cyan, with replacement
 p_1= cyan/balls
 p_2=1 - cyan/balls
 p_1 * p_2
-
+```
+```
 ## [1] 0.16
-
+```
 1.2 Combinations and Permutations
 
-let’s start by constructing a deck of cards using R. For this, we will use the function expand.grid() and the function paste()
+Let’s start by constructing a deck of cards using R. For this, we will use the function expand.grid() and the function paste()
 
 Here is how we generate a deck of cards:
-
+```
 suits <- c("Diamonds", "Clubs", "Hearts", "Spades")
 numbers <- c("Ace", "Deuce", "Three", "Four", "Five", 
              "Six", "Seven", "Eight", "Nine", "Ten", 
              "Jack", "Queen", "King")
 deck <- expand.grid(number=numbers, suit=suits)
 deck <- paste(deck$number, deck$suit)
-
+```
 With the deck constructed, we can now double check that the probability of a King in the first card is 1/13. We simply compute the proportion of possible outcomes that satisfy our condition:
-
+```
 kings <- paste("King", suits)
 mean(deck %in% kings)
-
+```
+```
 ## [1] 0.07692308
-
+```
 which is 1/13.
 
 Now, how about the conditional probability of the second card being a King given that the first was a King? Earlier, we deduced that if one King is already out of the deck and there are 51 left, then this probability is 3/51. Let’s confirm by listing out all possible outcomes.
 
 To do this, we can use the permutations() function from the gtools package. For any list of size n, this function computes all the different combinations we can get when we select r items. Here are all the ways we can choose two numbers from a list consisting of 1,2,3:
-
+```
 #here all the ways we can choose 2 numbers from the list 1, 2, 3, 4, 5.
 #Notice that the order matters. So 3, 1 is different than 1, 3, So it appears in our permutations.
 #Also notice that 1, 1; 2, 2; and 3, 3 don't appear, because once we pick a number, it can't appear again.
 library(gtools)
 library(permutations)
 library(dplyr)
-
+```
+```
 permutations(5, 2)
-
+```
+```
 ##       [,1] [,2]
 ##  [1,]    1    2
 ##  [2,]    1    3
@@ -259,59 +269,67 @@ permutations(5, 2)
 ## [18,]    5    2
 ## [19,]    5    3
 ## [20,]    5    4
-
+```
 Optionally for this function permutations, we can add a vector. So for example, if you want to see 5 random 7-digit phone numbers out of all possible phone numbers, you could type code like this.
-
+```
 all_phone_numbers <- permutations(10, 7, v = 0:9)
 n <- nrow(all_phone_numbers)
 index <- sample(n, 5)
 all_phone_numbers[index,]
-
+```
+```
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
 ## [1,]    5    3    1    2    8    6    9
 ## [2,]    7    3    5    8    1    9    6
 ## [3,]    3    4    0    5    7    8    9
 ## [4,]    0    9    8    4    5    7    1
 ## [5,]    2    6    1    5    3    9    8
-
+```
+```
 #Here we're defining a vector of digits that goes from 0 to 9 rather than 1 through 10.
 #So these four lines of code generate all phone numbers, picks 5 at random.
+```
+To compute all possible ways that we can choose 2 cards when the order matters, we simply type the following piece of code. 
 
-To compute all possible ways that we can choose 2 cards when the order matters, we simply type the following piece of code.
-
-To compute all possible ways that we can choose 2 cards when the order matters, we simply type the following piece of code. Here we use permutations.
-
+Here we use permutations.
+```
 hands <- permutations(52, 2, v = deck)
-
+```
 There’s 52 cards, we’re going to choose 2, and we’re going to select them out of the vector that includes our card names, which we called deck earlier. This is going to be a matrix with 2 dimensions, 2 columns, and in this case, it’s going to have 2,652 rows. Those are all the permutations.
 
 Define the first card and the second card by grabbing the first and second columns using this simple piece of code.
-
+```
 first_card <- hands[,1]
 second_card <- hands[,2]
 
 #Now the cases for which the first hand was a King can be computed like this:
 kings <- paste("King", suits)
 sum(first_card %in% kings)
-
+```
+```
 ## [1] 204
-
+```
+```
 #To get the conditional probability, we compute what fraction of these have a King in the second card:
 sum(first_card %in% kings & second_card %in% kings) /
   sum(first_card %in% kings)
-
+```
+```
 ## [1] 0.05882353
-
+```
+```
 #which is exactly 3/51, as we had already deduced. Notice that the code above is equivalent to:
 mean(first_card %in% kings & second_card %in% kings) /
   mean(first_card %in% kings)
-
+```
+```
 ## [1] 0.05882353
-
+```
 the difference between the permutations functions, which lists all permutations, and the combination function, where order does not matter.
-
+```
 permutations(3,2)
-
+```
+```
 ##      [,1] [,2]
 ## [1,]    1    2
 ## [2,]    1    3
@@ -319,18 +337,21 @@ permutations(3,2)
 ## [4,]    2    3
 ## [5,]    3    1
 ## [6,]    3    2
-
+```
+```
 combinations(3,2)
-
+```
+```
 ##      [,1] [,2]
 ## [1,]    1    2
 ## [2,]    1    3
 ## [3,]    2    3
-
+```
+```
 #In the second line, the outcome does not include (2,1) because (1,2) already was enumerated. The same applies to (3,1) and (3,2).
-
+```
 So to compute the probability of a Natural 21 in Blackjack, we can do this:
-
+```
 aces <- paste("Ace", suits)
 
 facecard <- c("King", "Queen", "Jack", "Ten")
@@ -339,20 +360,22 @@ facecard <- paste(facecard$number, facecard$suit)
 
 hands <- combinations(52, 2, v = deck)
 mean(hands[,1] %in% aces & hands[,2] %in% facecard)
-
+```
+```
 ## [1] 0.04826546
-
+```
 In the last line, we assume the Ace comes first. This is only because we know the way combination enumerates possibilities and it will list this case first. But to be safe, we could have written this and produced the same answer:
-
+```
 mean((hands[,1] %in% aces & hands[,2] %in% facecard) |
        (hands[,2] %in% aces & hands[,1] %in% facecard))
-
+```
+```
 ## [1] 0.04826546
-
-Monte Carlo example
+```
+## Monte Carlo example
 
 Instead of using combinations to deduce the exact probability of a Natural 21, we can use a Monte Carlo to estimate this probability.
-
+```
 B <- 10000
 results <- replicate(B, {
   hand <- sample(deck,2)
@@ -360,71 +383,79 @@ results <- replicate(B, {
        (hands[,2] %in% aces & hands[,1] %in% facecard))
 })
 mean(results)
-
+```
+```
 ## [1] 0.04826546
-
+```
 In this case, we draw two cards over and over and keep track of how many 21s we get. We can use the function sample to draw two cards without replacements:
-
+```
 hand <- sample(deck, 2)
 hand
-
+```
+```
 ## [1] "Seven Diamonds" "Deuce Diamonds"
-
+```
 And then check if one card is an Ace and the other a face card or a 10. Going forward, we include 10 when we say face card. Now we need to check both possibilities:
-
+```
 (hands[1] %in% aces & hands[2] %in% facecard) | 
   (hands[2] %in% aces & hands[1] %in% facecard)
-
+```
+```
 ## [1] FALSE
-
+```
 If we repeat this 10,000 times, we get a very good approximation of the probability of a Natural 21.
 
 Let’s start by writing a function that draws a hand and returns TRUE if we get a 21. The function does not need any arguments because it uses objects defined in the global environment.
-
+```
 blackjack <- function(){
    hand <- sample(deck, 2)
   (hand[1] %in% aces & hand[2] %in% facecard) | 
     (hand[2] %in% aces & hand[1] %in% facecard)
 }
-
+```
 Here we do have to check both possibilities: Ace first or Ace second because we are not using the combinations function. The function returns TRUE if we get a 21 and FALSE otherwise:
-
+```
 blackjack()
-
+```
+```
 ## [1] FALSE
-
+```
 Now we can play this game, say, 10,000 times:
-
+```
 B <- 10000
 results <- replicate(B, blackjack())
 mean(results)
-
+```
+```
 ## [1] 0.0468
-
-The Birthday Problem
+```
+## The Birthday Problem
 
 If we assume this is a randomly selected group of 50 people, what is the chance that at least two people have the same birthday?
-ere we use a Monte Carlo simulation. For simplicity, we assume nobody was born on February 29. This actually doesn’t change the answer much.
-
+Here we use a Monte Carlo simulation. For simplicity, we assume nobody was born on February 29. This actually doesn’t change the answer much.
+```
 #birthdays can be represented as numbers between 1 and 365, so a sample of 50 birthdays can be obtained like this:
 n <- 50
 bdays <- sample(1:365, n, replace = TRUE)
-
+```
 To check if in this particular set of 50 people we have at least two with the same birthday, we can use the function duplicated, which returns TRUE whenever an element of a vector is a duplicate. Here is an example:
-
+```
 duplicated(c(1,2,3,1,4,3,5))
-
+```
+```
 ## [1] FALSE FALSE FALSE  TRUE FALSE  TRUE FALSE
-
+```
+```
 #The second time 1 and 3 appear, we get a TRUE. So to check if two birthdays were the same, we simply use the any and duplicated functions like this:
 any(duplicated(bdays))
-
+```
+```
 ## [1] TRUE
-
+```
 In this case, we see that it did happen. At least two people had the same birthday.
 
 To estimate the probability of a shared birthday in the group, we repeat this experiment by sampling sets of 50 birthdays over and over:
-
+```
 same_birthday <- function(n){
   bdays <- sample(1:365, n, replace=TRUE)
   any(duplicated(bdays))
@@ -433,9 +464,10 @@ same_birthday <- function(n){
 B <- 10000
 results <- replicate(B, same_birthday(50))
 mean(results)
-
+```
+```
 ## [1] 0.9722
-
+```
 Were you expecting the probability to be this high?
 
 People tend to underestimate these probabilities. To get an intuition as to why it is so high, think about what happens when the group size is close to 365. At this stage, we run out of days and the probability is one.
@@ -443,7 +475,7 @@ People tend to underestimate these probabilities. To get an intuition as to why 
 Say we want to use this knowledge to bet with friends about two people having the same birthday in a group of people. When are the chances larger than 50%? Larger than 75%?
 
 Let’s create a look-up table. We can quickly create a function to compute this for any group size:
-
+```
 compute_prob <- function(n, B=10000){
   results <- replicate(B, same_birthday(n))
   mean(results)
@@ -452,13 +484,16 @@ compute_prob <- function(n, B=10000){
 #Using the function sapply, we can perform element-wise operations on any function:
 n <- seq(1,60)
 prob <- sapply(n, compute_prob)
-
+```
 We can now make a plot of the estimated probabilities of two people having the same birthday in a group of size n :
-
+```
 library(tidyverse)
-
+```
+```
 prob <- sapply(n, compute_prob)
 qplot(n, prob)
+```
+
 
 Now let’s compute the exact probabilities rather than use Monte Carlo approximations. To make the math simpler, instead of computing the probability of it happening, we will compute the probability of it not happening. For this, we use the multiplication rule.
 
