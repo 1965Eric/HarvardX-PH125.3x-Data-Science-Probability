@@ -494,6 +494,7 @@ prob <- sapply(n, compute_prob)
 qplot(n, prob)
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77095536-55375f00-6a0e-11ea-9f29-fba0a40c59dc.png)
 
 Now let’s compute the exact probabilities rather than use Monte Carlo approximations. To make the math simpler, instead of computing the probability of it happening, we will compute the probability of it not happening. For this, we use the multiplication rule.
 
@@ -502,7 +503,7 @@ Let’s start with the first person. The probability that person 1 has a unique 
 1 ? 364/365 ? 363/365 . 365???n+1/365
 
 We can write a function that does this for any number:
-
+```
 exact_prob <- function(n){
   prob_unique <- seq(365,365-n+1)/365 
   1 - prod( prob_unique)
@@ -511,6 +512,8 @@ eprob <- sapply(n, exact_prob)
 
 qplot(n, prob) + 
   geom_line(aes(n, eprob), col = "red")
+```
+
 
 How many Monte Carlo experiments are enough?
 
