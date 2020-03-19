@@ -500,7 +500,7 @@ Now let’s compute the exact probabilities rather than use Monte Carlo approxim
 
 Let’s start with the first person. The probability that person 1 has a unique birthday is 1. The probability that person 2 has a unique birthday, given that person 1 already took one, is 364/365. Then, given that the first two people have unique birthdays, person 3 is left with 363 days to choose from. We continue this way and find the chances of all 50 people having a unique birthday is:
 
-1 ? 364/365 ? 363/365 . 365???n+1/365
+1 * 364/365 * 363/365 .. 365-n+1/365
 
 We can write a function that does this for any number:
 ```
@@ -513,14 +513,14 @@ eprob <- sapply(n, exact_prob)
 qplot(n, prob) + 
   geom_line(aes(n, eprob), col = "red")
 ```
+![Unknown](https://user-images.githubusercontent.com/17474099/77096097-1e157d80-6a0f-11ea-9e66-3e101ea8ab8f.png)
 
-
-How many Monte Carlo experiments are enough?
+## How many Monte Carlo experiments are enough?
 
 We know that the larger B, the better the approximation. But how big do we need it to be? This is actually a challenging question and answering it often requires advanced theoretical statistics training.
 
 One practical approach we will describe here is to check for the stability of the estimate. The following is an example with the birthday problem for a group of 22 people.
-
+```
 B <- 10^seq(1, 5, len = 100)
 compute_prob <- function(B, n=25){
   same_day <- replicate(B, same_birthday(n))
@@ -528,12 +528,15 @@ compute_prob <- function(B, n=25){
 }
 prob <- sapply(B, compute_prob)
 qplot(log10(B), prob, geom = "line")
+```
 
 In this plot, we can see that the values start to stabilize (that is, they vary less than .01) around 1000. Note that the exact probability, which we know in this case, is 0.569.
-Assessment 2: Combinations and Permutations
 
-    Independence
-    Imagine you draw two balls from a box containing colored balls. You either replace the first ball before you draw the second or you leave the first ball out of the box when you draw the second ball.
+## Assessment 2: Combinations and Permutations
+
+1.Independence
+
+Imagine you draw two balls from a box containing colored balls. You either replace the first ball before you draw the second or you leave the first ball out of the box when you draw the second ball.
 
 Under which situation are the two draws independent of one another?
 
