@@ -530,6 +530,8 @@ prob <- sapply(B, compute_prob)
 qplot(log10(B), prob, geom = "line")
 ```
 
+![Unknown-2](https://user-images.githubusercontent.com/17474099/77096584-d3e0cc00-6a0f-11ea-8bc5-32e8eee50651.png)
+
 In this plot, we can see that the values start to stabilize (that is, they vary less than .01) around 1000. Note that the exact probability, which we know in this case, is 0.569.
 
 ## Assessment 2: Combinations and Permutations
