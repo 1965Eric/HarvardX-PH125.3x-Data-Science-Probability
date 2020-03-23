@@ -544,19 +544,17 @@ Under which situation are the two draws independent of one another?
 
 Remember that two events A and B are independent if Pr(A and B)=Pr(A)P(B).
 
-A. You don’t replace the first ball before drawing the next.
+- [ ] A. You don’t replace the first ball before drawing the next.
+- [X] B. You do replace the first ball before drawing the next.
+- [ ] C. Neither situation describes independent events.
+- [ ] D. Both situations describe independent events.
 
-B. You do replace the first ball before drawing the next.
+2. Sampling with replacement
 
-C. Neither situation describes independent events.
-
-D. Both situations describe independent events.
-
-    Sampling with replacement
-    Say you’ve drawn 5 balls from the a box that has 3 cyan balls, 5 magenta balls, and 7 yellow balls, with replacement, and all have been yellow.
+Say you’ve drawn 5 balls from the a box that has 3 cyan balls, 5 magenta balls, and 7 yellow balls, with replacement, and all have been yellow.
 
 What is the probability that the next one is yellow?
-
+```
 cyan <- 3
 magenta <- 5
 yellow <- 7
@@ -565,47 +563,51 @@ yellow <- 7
 p_yellow <- yellow/(cyan+magenta+yellow)
 # Using the variable 'p_yellow', calculate the probability of drawing a yellow ball on the sixth draw. Print this value to the console.
 p_yellow
-
+```
+```
 ## [1] 0.4666667
+```
+3. Rolling a die
 
-    Rolling a die
-    If you roll a 6-sided die once, what is the probability of not seeing a 6? If you roll a 6-sided die six times, what is the probability of not seeing a 6 on any roll?
-
+If you roll a 6-sided die once, what is the probability of not seeing a 6? If you roll a 6-sided die six times, what is the probability of not seeing a 6 on any roll?
+```
 # Assign the variable 'p_no6' as the probability of not seeing a 6 on a single roll.
 p_no6 <- 5/6
 
 # Calculate the probability of not seeing a 6 on six rolls using `p_no6`. Print your result to the console: do not assign it to a variable.
 p_no6^6
-
+```
+```
 ## [1] 0.334898
+```
+4. Probability the Celtics win a game
 
-    Probability the Celtics win a game
-    Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game.
+Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game.
 
 What is the probability that the Celtics win at least one game? Remember that the Celtics must win one of the first four games, or the series will be over!
 
-    Calculate the probability that the Cavs will win the first four games of the series.
-
-    Calculate the probability that the Celtics win at least one game in the first four games of the series.
-
+- Calculate the probability that the Cavs will win the first four games of the series.
+- Calculate the probability that the Celtics win at least one game in the first four games of the series.
+```
 # Assign the variable `p_cavs_win4` as the probability that the Cavs will win the first four games of the series.
 p_cavs_win4 <- 0.6^4
 
 # Using the variable `p_cavs_win4`, calculate the probability that the Celtics win at least one game in the first four games of the series.
 (1-p_cavs_win4)
-
+```
+```
 ## [1] 0.8704
+```
+5. Monte Carlo simulation for Celtics winning a game
 
-    Monte Carlo simulation for Celtics winning a game
-    Create a Monte Carlo simulation to confirm your answer to the previous problem by estimating how frequently the Celtics win at least 1 of 4 games. Use B <- 10000 simulations.
+Create a Monte Carlo simulation to confirm your answer to the previous problem by estimating how frequently the Celtics win at least 1 of 4 games. Use B <- 10000 simulations.
 
 The provided sample code simulates a single series of four random games, simulated_games
-
-    Use the replicate function for B <- 10000 simulations of a four game series.
-    Within each simulation, replicate the sample code to simulate a four-game series named simulated_games.
-    Then, use the any function to indicate whether the four-game series contains at least one win for the Celtics.
-    Use the mean function to find the proportion of simulations that contain at least one win for the Celtics out of four games.
-
+- Use the replicate function for B <- 10000 simulations of a four game series.
+- Within each simulation, replicate the sample code to simulate a four-game series named simulated_games.
+- Then, use the any function to indicate whether the four-game series contains at least one win for the Celtics.
+- Use the mean function to find the proportion of simulations that contain at least one win for the Celtics out of four games.
+```
 # This line of example code simulates four independent random games where the Celtics either lose or win. Copy this example code to use within the `replicate` function.
 simulated_games <- sample(c("lose","win"), 4, replace = TRUE, prob = c(0.6, 0.4))
 
@@ -623,23 +625,26 @@ celtic_wins <- replicate(B, {
 
 # Calculate the frequency out of B iterations that the Celtics won at least one game. Print your answer to the console.
 mean(celtic_wins)
-
+```
+```
 ## [1] 0.8757
+```
+## 1.3 Addition rule
 
-##1.3 Addition rule
 The addition rule tells us that:
 
-Pr(A or B) = Pr(A) + Pr(B) ??? Pr(A and B)
+Pr(A or B) = Pr(A) + Pr(B) - Pr(A and B)
 
 This rule is intuitive: think of a Venn diagram. If we simply add the probabilities, we count the intersection twice so we need to substract one instance.
-The Monty Hall Problem
+
+## The Monty Hall Problem
 
 In the 1970s, there was a game show called “Let’s Make a Deal” and Monty Hall was the host. At some point in the game, contestants were asked to pick one of three doors. Behind one door there was a prize. The other doors had a goat behind them to show the contestant they had lost. After the contestant picked a door, before revealing whether the chosen door contained a prize, Monty Hall would open one of the two remaining doors and show the contestant there was no prize behind that door. Then he would ask “Do you want to switch doors?” What would you do?
 
 We can use probability to show that if you stick with the original door choice, your chances of winning a prize remain 1 in 3. However, if you switch to the other door, your chances of winning double to 2 in 3! This seems counterintuitive. Many people incorrectly think both chances are 1 in 2 since you are choosing between 2 options. You can watch a detailed mathematical explanation of why this is here or read one here. Below we use a Monte Carlo simulation to see which strategy is better. Note that this code is written longer than it should be for pedagogical purposes.
 
 Let’s start with the stick strategy:
-
+```
 B <- 10000
 stick <- replicate(B, {
   doors <- as.character(1:3)
@@ -651,13 +656,14 @@ stick <- replicate(B, {
   stick == prize_door
 })
 mean(stick)
-
+```
+```
 ## [1] 0.3388
-
+```
 As we write the code, we note that the lines starting with my_pick and show have no influence on the last logical operation since we stick to our original choice anyway. From this we should realize that the chance is 1 in 3, what we began with.
 
 Now let’s repeat the exercise, but consider the switch strategy:
-
+```
 switch <- replicate(B, {
   doors <- as.character(1:3)
   prize <- sample(c("car", "goat", "goat"))
@@ -669,17 +675,20 @@ switch <- replicate(B, {
   switch == prize_door
 })
 mean(switch)
-
+```
+```
 ## [1] 0.6708
-
+```
 The Monte Carlo estimate confirms the 2/3 calculation. This helps us gain some insight by showing that we are removing a door, show, that is definitely not a winner from our choices. We also see that unless we get it right when we first pick, you win: 1 - 1/3 = 2/3.
-Assessment 3: The Addition Rule and Monty Hall
 
-    The Cavs and the Warriors
-    Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games wins the series. The teams are equally good, so they each have a 50-50 chance of winning each game.
+## Assessment 3: The Addition Rule and Monty Hall
+
+1. The Cavs and the Warriors
+
+Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games wins the series. The teams are equally good, so they each have a 50-50 chance of winning each game.
 
 If the Cavs lose the first game, what is the probability that they win the series?
-
+```
 # Assign a variable 'n' as the number of remaining games.
 n <-6
 
@@ -694,12 +703,14 @@ results <- rowSums(possibilities)>=4
 
 # Calculate the proportion of 'results' in which the Cavs win the series. Print the outcome to the console.
 mean(results)
-
+```
+```
 ## [1] 0.34375
+```
+3. The Cavs and the Warriors - Monte Carlo
 
-    The Cavs and the Warriors - Monte Carlo
-    Confirm the results of the previous question with a Monte Carlo simulation to estimate the probability of the Cavs winning the series after losing the first game.
-
+Confirm the results of the previous question with a Monte Carlo simulation to estimate the probability of the Cavs winning the series after losing the first game.
+```
 # The variable `B` specifies the number of times we want the simulation to run. Let's run the Monte Carlo simulation 10,000 times.
 B <- 10000
 
@@ -714,12 +725,14 @@ results <- replicate(B, {
 
 # Calculate the frequency out of `B` iterations that the Cavs won at least four games in the remainder of the series. Print your answer to the console.
 mean(results)
-
+```
+```
 ## [1] 0.3371
+```
+3. A and B play a series - part 1
 
-    A and B play a series - part 1
-    Two teams, A and B, are playing a seven series game series. Team A is better than team B and has a p>0.5 chance of winning each game.
-
+Two teams, A and B, are playing a seven series game series. Team A is better than team B and has a p > 0.5 chance of winning each game.
+```
 # Let's assign the variable 'p' as the vector of probabilities that team A will win.
 p <- seq(0.5, 0.95, 0.025)
 
@@ -738,9 +751,12 @@ Pr <- sapply(p, prob_win)
 
 # Plot the probability 'p' on the x-axis and 'Pr' on the y-axis.
 plot(p, Pr)
+```
 
-    A and B play a series - part 2
-    Repeat the previous exercise, but now keep the probability that team A wins fixed at p <- 0.75 and compute the probability for different series lengths. For example, wins in best of 1 game, 3 games, 5 games, and so on through a series that lasts 25 games.
+
+4. A and B play a series - part 2
+
+Repeat the previous exercise, but now keep the probability that team A wins fixed at p <- 0.75 and compute the probability for different series lengths. For example, wins in best of 1 game, 3 games, 5 games, and so on through a series that lasts 25 games.
 
 # Given a value 'p', the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:
 prob_win <- function(N, p=0.75){
