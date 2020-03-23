@@ -1207,35 +1207,42 @@ data.frame(S=S) %>% ggplot(aes(S, ..density..)) +
   geom_line(data = normal_density, mapping=aes(s,f), color="blue")
 ```
 
+![Unknown-2](https://user-images.githubusercontent.com/17474099/77340239-4c57cd80-6d2d-11ea-9ce0-cdeb682df422.png)
 
 In the histogram above, we see that the distribution appears to be approximately normal. A qq-plot will confirm that the normal approximation is close to perfect. If, in fact, the distribution is normal, then all we need to define the distribution is the average and the standard deviation. Because we have the original values from which the distribution is created, we can easily compute these:
-
+```
 mean(S)
-
+```
+```
 ## [1] 52.842
-
+```
+```
 sd(S)
-
+```
+```
 ## [1] 31.50489
-
-Distributions versus Probability Distributions
+```
+## Distributions versus Probability Distributions
 
 Previously we described how any list of numbers, let’s call it x1 through xn,has a distribution. The definition is quite straightforward. We define capital F of a as a function that answers the question, what proportion of the list is less than or equal to a. Because they are useful summaries, when the distribution is approximately normal, we define the average and the standard deviation. These are defined with a straightforward operation of the list. In r we simply compute the average and standard deviation this way,
-
+```
 m <- sum(x)/length(x)
 s <- sqrt(sum((x - m)^2) / length(x))
-
+```
 A random variable x has a distribution function. To define this, we do not need a list of numbers. It’s a theoretical concept. In this case, to define the distribution, we define capital F of a as a function that answers the question, what is the probability that x is less than or equal to a. There is no list of numbers. However, if x is defined by drawing from an urn with numbers in it, then there is a list, the list of numbers inside the urn. In this case, the distribution of that list is the probability distribution of x and the average and standard deviation of that list are the expected value and standard errors of the random variable. Another way to think about it that does not involve an urn is to run a Monte Carlo simulation and generate a very large list of outcomes of x. These outcomes are a list of numbers. The distribution of this list will be a very good approximation of the probability distribution of x. The longer the list, the better the approximation. The average and standard deviation of this list will approximate the expected value and standard error of the random variable.
-Central Limit Theorem (CLT)
+
+## Central Limit Theorem (CLT)
 
 The Central Limit Theorem-or the CLT for short tells us that when the number of independent draws-also called sample size-is large, the probability distribution of the sum of these draws is approximately normal.
-Assessment 5: Random Variables and Sampling Models
 
-    American Roulette probabilities
-    An American roulette wheel has 18 red, 18 black, and 2 green pockets. Each red and black pocket is associated with a number from 1 to 36. The two remaining green slots feature “0” and “00”. Players place bets on which pocket they think a ball will land in after the wheel is spun. Players can bet on a specific number (0, 00, 1-36) or color (red, black, or green).
+## Assessment 5: Random Variables and Sampling Models
+
+1.American Roulette probabilities
+
+An American roulette wheel has 18 red, 18 black, and 2 green pockets. Each red and black pocket is associated with a number from 1 to 36. The two remaining green slots feature “0” and “00”. Players place bets on which pocket they think a ball will land in after the wheel is spun. Players can bet on a specific number (0, 00, 1-36) or color (red, black, or green).
 
 What are the chances that the ball lands in a green pocket?
-
+```
 # The variables `green`, `black`, and `red` contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1246,18 +1253,19 @@ p_green <- green/(green+black+red)
 
 # Print the variable `p_green` to the console
 p_green
-
+```
+```
 ## [1] 0.05263158
+```
+2. American Roulette payout
 
-    American Roulette payout
-    In American roulette, the payout for winning on green is $17. This means that if you bet $1 and it lands on green, you get $17 as a prize.
+In American roulette, the payout for winning on green is $17. This means that if you bet $1 and it lands on green, you get $17 as a prize.
 
 Create a model to predict your winnings from betting on green one time.
-
-    Use the sample function return a random value from a specified range of values.
-    Use the prob = argument in the sample function to specify a vector of probabilities for returning each of the values contained in the vector of values being sampled.
-    Take a single sample (n = 1).
-
+- Use the sample function return a random value from a specified range of values.
+- Use the prob = argument in the sample function to specify a vector of probabilities for returning each of the values contained in the vector of values being sampled.
+- Take a single sample (n = 1).
+```
 # Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
 set.seed(1)
 
@@ -1277,16 +1285,17 @@ x <- sample(c(17,-1), 1, replace = TRUE, prob=c(p_green, p_not_green))
 
 # Print the value of `X` to the console
 x
-
+```
+```
 ## [1] -1
+```
+3. American Roulette expected value
 
-    American Roulette expected value
-    In American roulette, the payout for winning on green is $17. This means that if you bet $1 and it lands on green, you get $17 as a prize.In the previous exercise, you created a model to predict your winnings from betting on green.
+In American roulette, the payout for winning on green is $17. This means that if you bet $1 and it lands on green, you get $17 as a prize.In the previous exercise, you created a model to predict your winnings from betting on green.
 
 Now, compute the expected value of X, the random variable you generated previously.
-
-    Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket.
-
+- Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket.
+```
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1300,17 +1309,18 @@ p_not_green <- 1-p_green
 
 # Calculate the expected outcome if you win $17 if the ball lands on green and you lose $1 if the ball doesn't land on green
 p_green * 17 + p_not_green * (-1)
-
+```
+```
 ## [1] -0.05263158
+```
+4. American Roulette standard error
 
-    American Roulette standard error
-    The standard error of a random variable X tells us the difference between a random variable and its expected value. You calculated a random variable X in exercise 2 and the expected value of that random variable in exercise 3.
+The standard error of a random variable X tells us the difference between a random variable and its expected value. You calculated a random variable X in exercise 2 and the expected value of that random variable in exercise 3.
 
 Now, compute the standard error of that random variable, which represents a single outcome after one spin of the roulette wheel.
-
-    Compute the standard error of the random variable you generated in exercise 2, or the outcome of any one spin of the roulette wheel.
-    Recall that the payout for winning on green is $17 for a $1 bet.
-
+- Compute the standard error of the random variable you generated in exercise 2, or the outcome of any one spin of the roulette wheel.
+- Recall that the payout for winning on green is $17 for a $1 bet.
+```
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1324,19 +1334,20 @@ p_not_green <- 1-p_green
 
 # Compute the standard error of the random variable
 abs((17 - -1))*sqrt(p_green*p_not_green)
-
+```
+```
 ## [1] 4.019344
+```
+5. American Roulette sum of winnings
 
-    American Roulette sum of winnings
-    You modeled the outcome of a single spin of the roulette wheel, X, in exercise 2.
+You modeled the outcome of a single spin of the roulette wheel, X, in exercise 2.
 
 Now create a random variable S that sums your winnings after betting on green 1,000 times.
-
-    Use set.seed to make sure the result of your random operation matches the expected answer for this problem.
-    Specify the number of times you want to sample from the possible outcomes.
-    Use the sample function to return a random value from a vector of possible values.
-    Be sure to assign a probability to each outcome and to indicate that you are sampling with replacement.
-
+- Use set.seed to make sure the result of your random operation matches the expected answer for this problem.
+- Specify the number of times you want to sample from the possible outcomes.
+- Use the sample function to return a random value from a vector of possible values.
+- Be sure to assign a probability to each outcome and to indicate that you are sampling with replacement.
+```
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1362,16 +1373,17 @@ S <- sum(X)
 
 # Print the value of 'S' to the console
 S
-
+```
+```
 ## [1] -10
+```
+6. American Roulette winnings expected value
 
-    American Roulette winnings expected value
-    In the previous exercise, you generated a vector of random outcomes, S, after betting on green 1,000 times.
+In the previous exercise, you generated a vector of random outcomes, S, after betting on green 1,000 times.
 
 What is the expected value of S?
-
-    Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket over 1,000 bets.
-
+- Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket over 1,000 bets.
+```
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1388,16 +1400,17 @@ n <- 1000
 
 # Calculate the expected outcome of 1,000 spins if you win $17 when the ball lands on green and you lose $1 when the ball doesn't land on green
 n * (p_green * 17 + p_not_green * (-1))
-
+```
+```
 ## [1] -52.63158
+```
+7. American Roulette winnings expected value
 
-    American Roulette winnings expected value
-    You generated the expected value of S, the outcomes of 1,000 bets that the ball lands in the green pocket, in the previous exercise.
+You generated the expected value of S, the outcomes of 1,000 bets that the ball lands in the green pocket, in the previous exercise.
 
 What is the standard error of S?
-
-    Compute the standard error of the random variable you generated in exercise 5, or the outcomes of 1,000 spins of the roulette wheel.
-
+- Compute the standard error of the random variable you generated in exercise 5, or the outcomes of 1,000 spins of the roulette wheel.
+```
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1414,36 +1427,48 @@ n <- 1000
 
 # Compute the standard error of the sum of 1,000 outcomes
 sqrt(n) * abs((17 + 1))*sqrt(p_green*p_not_green)
-
+```
+```
 ## [1] 127.1028
+```
+## The Central Limit Theorem Continued
 
-The Central Limit Theorem Continued
+### Property 1: 
 
-Property 1: The first, is that the expected value of a sum of random variables is the sum of the expected values of the individual random variables.
+The first, is that the expected value of a sum of random variables is the sum of the expected values of the individual random variables.
 
-Prperty 2: is that the expected value of random variables times a non-random constant is the expected value times that non-random constant.
+### Property 2: 
 
-Property 3: is that the square of the standard error of the sum of independent random variables is the sum of the square of the standard error of each random variable.
+The second, is that the expected value of random variables times a non-random constant is the expected value times that non-random constant.
 
-Property 4: is that the standard error of random variables times a non-random constant is the standard error times a non-random constant.
-Law of Large Numbers
+### Property 3: 
+
+The third, is that the square of the standard error of the sum of independent random variables is the sum of the square of the standard error of each random variable.
+
+### Property 4: 
+
+The fourth, is that the standard error of random variables times a non-random constant is the standard error times a non-random constant.
+
+## Law of Large Numbers
 
 An important implication of the final result is that the standard error of the average becomes smaller and smaller as n grows larger. When n is very large, then the standard error is practically 0 and the average of the draws converges to the average of the urn. This is known in statistical textbooks as the law of large numbers or the law of averages.
-How Large is Large in CLT?
+
+## How Large is Large in CLT?
 
 In the lottery, the chance of winning are less than 1 in a million. Thousands of people play, so the number of draws is very large. So the central limit should work. Yet, the number of winners, the sum of the draws, range between 0, and in very extreme cases, four. This sum is certainly not well approximated by the normal distribution. So the central limit theorem doesn’t apply, even with a very large sample size. This is generally true when the probability of success is very low. In these cases, the Poisson distribution is more appropriate.
-Assessment 6: The Central Limit Theorem
 
-    American Roulette probability of winning money
-    The exercises in the previous chapter explored winnings in American roulette. In this chapter of exercises, we will continue with the roulette example and add in the Central Limit Theorem.
+## Assessment 6: The Central Limit Theorem
+
+1. American Roulette probability of winning money
+
+The exercises in the previous chapter explored winnings in American roulette. In this chapter of exercises, we will continue with the roulette example and add in the Central Limit Theorem.
 
 In the previous chapter of exercises, you created a random variable S that is the sum of your winnings after betting on green a number of times in American Roulette.
 
 What is the probability that you end up winning money if you bet on green 100 times?
-
-    Execute the sample code to determine the expected value avg and standard error se as you have done in previous exercises.
-    Use the pnorm function to determine the probability of winning money.
-
+- Execute the sample code to determine the expected value avg and standard error se as you have done in previous exercises.
+- Use the pnorm function to determine the probability of winning money.
+```
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
 p_green <- 2 / 38
 
@@ -1461,19 +1486,20 @@ se <- sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
 
 # Using the expected value 'avg' and standard error 'se', compute the probability that you win money betting on green 100 times.
 1-pnorm(0,avg,se)
-
+```
+```
 ## [1] 0.4479091
+```
+2. American Roulette Monte Carlo simulation
 
-    American Roulette Monte Carlo simulation
-    Create a Monte Carlo simulation that generates 10,000 outcomes of S, the sum of 100 bets.
+Create a Monte Carlo simulation that generates 10,000 outcomes of S, the sum of 100 bets.
 
 Compute the average and standard deviation of the resulting list and compare them to the expected value (-5.263158) and standard error (40.19344) for S that you calculated previously.
-
-    Use the replicate function to replicate the sample code for B <- 10000 simulations.
-    Within replicate, use the sample function to simulate n <- 100 outcomes of either a win (17)oraloss(-1) for the bet. Use the order c(17, -1) and corresponding probabilities. Then, use the sum function to add up the winnings over all iterations of the model. Make sure to include sum or DataCamp may crash with a “Session Expired” error.
-    Use the mean function to compute the average winnings.
-    Use the sd function to compute the standard deviation of the winnings.
-
+- Use the replicate function to replicate the sample code for B <- 10000 simulations.
+- Within replicate, use the sample function to simulate n <- 100 outcomes of either a win (17)oraloss(-1) for the bet. Use the order c(17, -1) and corresponding probabilities. Then, use the sum function to add up the winnings over all iterations of the model. Make sure to include sum or DataCamp may crash with a “Session Expired” error.
+- Use the mean function to compute the average winnings.
+- Use the sd function to compute the standard deviation of the winnings.
+```
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
 p_green <- 2 / 38
 
@@ -1497,45 +1523,47 @@ S <- replicate(B,{
 
 # Compute the average value for 'S'
 mean(S)
-
+```
+```
 ## [1] -5.9086
-
+```
+```
 # Calculate the standard deviation of 'S'
 sd(S)
-
+```
+```
 ## [1] 40.30608
+```
+3. American Roulette Monte Carlo vs CLT
 
-    American Roulette Monte Carlo vs CLT
-    In this chapter, you calculated the probability of winning money in American roulette using the CLT.
+In this chapter, you calculated the probability of winning money in American roulette using the CLT.
 
 Now, calculate the probability of winning money from the Monte Carlo simulation. The Monte Carlo simulation from the previous exercise has already been pre-run for you, resulting in the variable S that contains a list of 10,000 simulated outcomes.
-
-    Use the mean function to calculate the probability of winning money from the Monte Carlo simulation, S.
-
+- Use the mean function to calculate the probability of winning money from the Monte Carlo simulation, S.
+```
 # Calculate the proportion of outcomes in the vector `S` that exceed $0
 mean(S>0)
-
+```
+```
 ## [1] 0.4232
+```
+4. American Roulette Monte Carlo vs CLT comparison
 
-    American Roulette Monte Carlo vs CLT comparison
-    The Monte Carlo result and the CLT approximation for the probability of losing money after 100 bets are close, but not that close. What could account for this?
+The Monte Carlo result and the CLT approximation for the probability of losing money after 100 bets are close, but not that close. What could account for this?
 
-A. 10,000 simulations is not enough. If we do more, the estimates will match.
+- [ ] A. 10,000 simulations is not enough. If we do more, the estimates will match.
+- [X] B. The CLT does not work as well when the probability of success is small.
+- [ ] C. The difference is within rounding error.
+- [ ] D. The CLT only works for the averages.
 
-B. The CLT does not work as well when the probability of success is small.
+5. American Roulette average winnings per bet
 
-C. The difference is within rounding error.
-
-D. The CLT only works for the averages.
-
-    American Roulette average winnings per bet
-    Now create a random variable Y that contains your average winnings per bet after betting on green 10,000 times.
-
-    Run a single Monte Carlo simulation of 10,000 bets using the following steps. (You do not need to replicate the sample code.)
-    Specify n as the number of times you want to sample from the possible outcomes.
-    Use the sample function to return n values from a vector of possible values: winning $17 or losing $1. Be sure to assign a probability to each outcome and indicate that you are sampling with replacement.
-    Calculate the average result per bet placed using the mean function.
-
+Now create a random variable Y that contains your average winnings per bet after betting on green 10,000 times.
+- Run a single Monte Carlo simulation of 10,000 bets using the following steps. (You do not need to replicate the sample code.)
+- Specify n as the number of times you want to sample from the possible outcomes.
+- Use the sample function to return n values from a vector of possible values: winning $17 or losing $1. Be sure to assign a probability to each outcome and indicate that you are sampling with replacement.
+- Calculate the average result per bet placed using the mean function.
+```
 # Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
 set.seed(1)
 
@@ -1554,15 +1582,16 @@ X <- sample(c(17,-1), size = n, replace = TRUE, prob = c(p_green, p_not_green))
 # Define a variable `Y` that contains the mean outcome per bet. Print this mean to the console.
 Y <- mean(X)
 Y
-
+```
+```
 ## [1] 0.008
+```
+6. American Roulette per bet expected value
 
-    American Roulette per bet expected value
-    What is the expected value of Y, the average outcome per bet after betting on green 10,000 times?
-
-    Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket.
-    Print this value to the console (do not assign it to a variable).
-
+What is the expected value of Y, the average outcome per bet after betting on green 10,000 times?
+- Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket.
+- Print this value to the console (do not assign it to a variable).
+```
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
 p_green <- 2 / 38
 
@@ -1572,14 +1601,15 @@ p_not_green <- 1 - p_green
 # Calculate the expected outcome of `Y`, the mean outcome per bet in 10,000 bets
 Y <- p_green * 17 + p_not_green * (-1)
 Y
-
+```
+```
 ## [1] -0.05263158
+```
+7. American Roulette per bet standard error
 
-    American Roulette per bet standard error
-    What is the standard error of Y, the average result of 10,000 spins?
-
-    Compute the standard error of Y, the average result of 10,000 independent spins.
-
+What is the standard error of Y, the average result of 10,000 spins?
+- Compute the standard error of Y, the average result of 10,000 independent spins.
+```
 # Define the number of bets using the variable 'n'
 n <- 10000
 
@@ -1591,15 +1621,16 @@ p_not_green <- 1 - p_green
 
 # Compute the standard error of 'Y', the mean outcome per bet from 10,000 bets.
 abs((17 - (-1))*sqrt(p_green*p_not_green) / sqrt(n))
-
+```
+```
 ## [1] 0.04019344
+```
+8. American Roulette winnings per game are positive
 
-    American Roulette winnings per game are positive
-    What is the probability that your winnings are positive after betting on green 10,000 times?
-
-    Execute the code that we wrote in previous exercises to determine the average and standard error.
-    Use the pnorm function to determine the probability of winning more than $0.
-
+What is the probability that your winnings are positive after betting on green 10,000 times?
+- Execute the code that we wrote in previous exercises to determine the average and standard error.
+- Use the pnorm function to determine the probability of winning more than $0.
+```
 # We defined the average using the following code
 avg <- 17*p_green + -1*p_not_green
 
@@ -1608,19 +1639,20 @@ se <- 1/sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
 
 # Given this average and standard error, determine the probability of winning more than $0. Print the result to the console.
 1 - pnorm(0, avg, se)
-
+```
+```
 ## [1] 0.0951898
+```
+9. American Roulette Monte Carlo again
 
-    American Roulette Monte Carlo again
-    Create a Monte Carlo simulation that generates 10,000 outcomes of S, the average outcome from 10,000 bets on green.
+Create a Monte Carlo simulation that generates 10,000 outcomes of S, the average outcome from 10,000 bets on green.
 
 Compute the average and standard deviation of the resulting list to confirm the results from previous exercises using the Central Limit Theorem.
-
-    Use the replicate function to model 10,000 iterations of a series of 10,000 bets.
-    Each iteration inside replicate should simulate 10,000 bets and determine the average outcome of those 10,000 bets. If you forget to take the mean, DataCamp will crash with a “Session Expired” error.
-    Find the average of the 10,000 average outcomes.
-    Compute the standard deviation of the 10,000 simulations.
-
+- Use the replicate function to model 10,000 iterations of a series of 10,000 bets.
+- Each iteration inside replicate should simulate 10,000 bets and determine the average outcome of those 10,000 bets. If you forget to take the mean, DataCamp will crash with a “Session Expired” error.
+- Find the average of the 10,000 average outcomes.
+- Compute the standard deviation of the 10,000 simulations.
+```
 # The variable `n` specifies the number of independent bets on green
 n <- 10000
 
@@ -1638,76 +1670,83 @@ S <- replicate(B,{
 
 # Compute the average of `S`
 mean(S)
-
+```
+```
 ## [1] -0.05223142
-
+```
+```
 # Compute the standard deviation of `S`
 sd(S)
-
+```
+```
 ## [1] 0.03996168
+```
+10. American Roulette comparison
 
-    American Roulette comparison
-    In a previous exercise, you found the probability of winning more than $0 after betting on green 10,000 times using the Central Limit Theorem. Then, you used a Monte Carlo simulation to model the average result of betting on green 10,000 times over 10,000 simulated series of bets.
+In a previous exercise, you found the probability of winning more than $0 after betting on green 10,000 times using the Central Limit Theorem. Then, you used a Monte Carlo simulation to model the average result of betting on green 10,000 times over 10,000 simulated series of bets.
 
 What is the probability of winning more than $0 as estimated by your Monte Carlo simulation? The code to generate the vector S that contains the the average outcomes of 10,000 bets modeled 10,000 times has already been run for you.
-
-    Calculate the probability of winning more than $0 in the Monte Carlo simulation from the previous exercise.
-    You do not need to run another simulation: the results of the simulation are in your workspace as the vector S.
-
+- Calculate the probability of winning more than $0 in the Monte Carlo simulation from the previous exercise.
+- You do not need to run another simulation: the results of the simulation are in your workspace as the vector S.
+```
 # Compute the proportion of outcomes in the vector 'S' where you won more than $0
 mean(S>0)
-
+```
+```
 ## [1] 0.0977
+```
+11. American Roulette comparison analysis
 
-    American Roulette comparison analysis
-    The Monte Carlo result and the CLT approximation are now much closer than when we calculated the probability of winning for 100 bets on green. What could account for this difference?
+The Monte Carlo result and the CLT approximation are now much closer than when we calculated the probability of winning for 100 bets on green. What could account for this difference?
 
-A. We are now computing averages instead of sums.
+- [ ] A. We are now computing averages instead of sums.
+- [ ] B. 10,000 Monte Carlo simulations was not enough to provide a good estimate.
+- [X] C. The CLT works better when the sample size is larger.
+- [ ] D. It is not closer. The difference is within rounding error.
 
-B. 10,000 Monte Carlo simulations was not enough to provide a good estimate.
-
-C. The CLT works better when the sample size is larger.
-
-D. It is not closer. The difference is within rounding error.
-Section 4 Overview
+## Section 4 Overview
 
 Section 4 introduces you to the Big Short.
 
 After completing Section 4, you will:
+- understand the relationship between sampling models and interest rates as determined by banks.
+- understand how interest rates can be set to minimize the chances of the bank losing money.
+- understand how inappropriate assumptions of independence contributed to the financial meltdown of 2007.
 
-    understand the relationship between sampling models and interest rates as determined by banks.
-    understand how interest rates can be set to minimize the chances of the bank losing money.
-    understand how inappropriate assumptions of independence contributed to the financial meltdown of 2007.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#case-study-the-big-short)
 
-The textbook for this section is available here
-Interest Rates Explained
+## Interest Rates Explained
 
 Suppose your bank will give out 1,000 loans for 180,000 this year. Also suppose that your bank loses, after adding up all the costs, $200,000 per foreclosure.For simplicity, we assume that that includes all operational costs. A sampling model for this scenario is coded like this.
-
+```
 #Code: Interest rate sampling model
 n <- 1000
 loss_per_foreclosure <- -200000
 p <- 0.02
 defaults <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
 sum(defaults * loss_per_foreclosure)
-
+```
+```
 ## [1] -5e+06
-
+```
 We either default and lose money, or not default and not lose money. If we run the simulation we see that we lose $2.8 millions. Note that the total loss defined by the final sum is a random variable. Every time you run the code you get a different answer. This is because it’s a probability of defaulting. It’s not going to happen for sure. We can easily construct a Monte Carlo simulation to get an idea of the distribution of this random variable. Here’s the distribution.
-
+```
 #Code: Interest rate Monte Carlo simulation
 B <- 10000
 losses <- replicate(B, {
     defaults <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE) 
   sum(defaults * loss_per_foreclosure)
 })
-
+```
+```
 #Code: Plotting expected losses
 library(tidyverse)
-
+```
 data.frame(losses_in_millions = losses/10^6) %>%
   ggplot(aes(losses_in_millions)) +
   geom_histogram(binwidth = 0.6, col = "black")
+```
+
 
 We don’t really need a Monte Carlo simulation though. Using what we’ve learned, the CLT tells us that because our losses are a sum of independent draws, its distribution is approximately normal with expected value and standard deviation given by the following formula.
 
