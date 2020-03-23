@@ -779,44 +779,50 @@ Pr<- sapply(N, prob_win)
 plot(N, Pr)
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77336634-18c67480-6d28-11ea-9a5b-73bab56b5e6a.png)
 
-Section 2 Overview
+## Section 2 Overview
 
 Section 2 introduces you to Continuous Probability.
 
 After completing Section 2, you will:
+- understand the differences between calculating probabilities for discrete and continuous data.
+- be able to use cumulative distribution functions to assign probabilities to intervals when dealing with continuous data.
+- be able to use R to generate normally distributed outcomes for use in Monte Carlo simulations.
+- know some of the useful theoretical continuous distributions in addition to the normal distribution, such as the student-t, chi-squared, exponential, gamma, beta, and beta-binomial distributions.
 
-    understand the differences between calculating probabilities for discrete and continuous data.
-    be able to use cumulative distribution functions to assign probabilities to intervals when dealing with continuous data.
-    be able to use R to generate normally distributed outcomes for use in Monte Carlo simulations.
-    know some of the useful theoretical continuous distributions in addition to the normal distribution, such as the student-t, chi-squared, exponential, gamma, beta, and beta-binomial distributions.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-probability)
 
-The textbook for this section is available here
-Continuous Probability
-
+## Continuous Probability
+```
 library(tidyverse)
 library(dslabs)
-
+```
+```
 data(heights)
 x <- heights %>% filter(sex=="Male") %>% pull(height)
 
-#We defined the empirical distribution function as:
+# We defined the empirical distribution function as:
 F <- function(a) mean(x<=a)
-
+```
 Keep in mind that we have not yet introduced probability in the context of CDFs. Let’s do this by asking the following: if I pick one of the male students at random, what is the chance that he is taller than 70.5 inches? Because every student has the same chance of being picked, the answer to this is equivalent to the proportion of students that are taller than 70.5 inches. Using the CDF we obtain an answer by typing:
-
+```
 1 - F(70)
-
+```
+```
 ## [1] 0.3768473
-
+```
 Once a CDF is defined, we can use this to compute the probability of any subset. For instance, the probability of a student being between height a and height b is:
 
 F(b)-F(a)
-Theoretical Distribution
 
-obtained with the function pnorm. Using the normal distribution:
+## Theoretical Distribution
 
+Obtained with the function pnorm. Using the normal distribution:
+```
 plot(prop.table(table(x)), xlab= "a= Height in inches", ylab= "Pr(x = a")
+```
+
 
 The cumulative distribution for the normal distribution is defined by a mathematical formula, which in R can be obtained with the function pnorm. Using the normal distribution:
 
