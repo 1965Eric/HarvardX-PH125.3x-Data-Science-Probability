@@ -946,15 +946,18 @@ mean(tallest >= 7*12)
 ds_theme_set()
 data.frame(tallest) %>% ggplot(aes(tallest)) + geom_histogram(color='black', fill='#595959', binwidth=1)
 ```
+![Unknown](https://user-images.githubusercontent.com/17474099/77337896-da31b980-6d29-11ea-9729-bab8b0a0c9e2.png)
 
-Other Continuous Distributions
+## Other Continuous Distributions
 
 Other continuous distributions that we may encounter are the student-t, chi-squared, exponential, gamma, beta, and beta-binomial. R provides functions to compute the density, the quantiles, the cumulative distribution functions and to generate Monte Carlo simulations. R uses a convention that lets us remember the names, namely using the letters d, q, p and r in front of a shorthand for the distribution. We have already seen the functions dnorm, pnorm and rnorm for the normal distribution. The functions qnorm gives us the quantiles. We can therefore draw a distribution like this:
-
+```
 x <- seq(-4, 4, length.out = 100)
 data.frame(x, f = dnorm(x)) %>% 
   ggplot(aes(x, f)) + 
   geom_line()
+```
+
 
 For example, for the student-t, described later in Section 17.10, the shorthand t is used so the functions are dt for the density, qt for the quantiles, pt for the cumulative distribution function, and rt for Monte Carlo simulation.
 Assessment 4: Continuous Probability
