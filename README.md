@@ -922,11 +922,12 @@ simulated_heights <- rnorm(n, m, s)
 ds_theme_set()
 data.frame(simulated_heights) %>% ggplot(aes(simulated_heights)) + geom_histogram(color='black', fill='#595959', binwidth=2)
 ```
+![Unknown](https://user-images.githubusercontent.com/17474099/77337596-62638f00-6d29-11ea-9af4-0e6976cb6874.png)
 
 This is one of the most useful functions in R as it will permit us to generate data that mimics natural events and answers questions related to what could happen by chance by running Monte Carlo simulations.
 
 If, for example, we pick 800 males at random, what is the distribution of the tallest person? How rare is a seven footer in a group of 800 males? The following Monte Carlo simulation helps us answer that question:
-
+```
 B <- 10000
 tallest <- replicate(B, {
   simulated_data <- rnorm(800, m, s)
@@ -936,12 +937,15 @@ tallest <- replicate(B, {
 #Having a seven footer is quite rare:
 
 mean(tallest >= 7*12)
-
+```
+```
 ## [1] 0.0214
-
+```
+```
 #Here is the resulting distribution, note that it does not look normal.
 ds_theme_set()
 data.frame(tallest) %>% ggplot(aes(tallest)) + geom_histogram(color='black', fill='#595959', binwidth=1)
+```
 
 Other Continuous Distributions
 
