@@ -753,11 +753,12 @@ Pr <- sapply(p, prob_win)
 plot(p, Pr)
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77336492-dd2baa80-6d27-11ea-815a-4e08a271be1a.png)
 
 4. A and B play a series - part 2
 
 Repeat the previous exercise, but now keep the probability that team A wins fixed at p <- 0.75 and compute the probability for different series lengths. For example, wins in best of 1 game, 3 games, 5 games, and so on through a series that lasts 25 games.
-
+```
 # Given a value 'p', the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:
 prob_win <- function(N, p=0.75){
       B <- 10000
@@ -776,6 +777,8 @@ Pr<- sapply(N, prob_win)
 
 # Plot the number of games in the series 'N' on the x-axis and 'Pr' on the y-axis.
 plot(N, Pr)
+```
+
 
 Section 2 Overview
 
