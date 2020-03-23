@@ -1899,7 +1899,7 @@ mean(profit < -10000000)    # probability of losing over $10 million
 ```
 #The Central Limit Theorem states that the sum of independent draws of a random variable follows a normal distribution. However, when the draws are not independent, this assumption does not hold.
 ```
-## Assessment7: The Big Short
+## Assessment 7: The Big Short
 
 1. Bank earnings
 
@@ -1938,6 +1938,7 @@ Run a Monte Carlo simulation with 10,000 outcomes for S, the sum of losses over 
 - Still within the loop, use the function sum to count the number of foreclosures multiplied by loss_per_foreclosure to return the sum of all losses across the 10,000 loans. If you do not take the sum inside the replicate loop, DataCamp may crash with a “Session Expired” error.
 - Plot the histogram of values using the function hist.
 
+```
 # Assign the number of loans to the variable `n`
 n <- 10000
 
@@ -1961,12 +1962,15 @@ S <- replicate(B, {
 
 # Plot a histogram of 'S'.  Ignore any warnings for now.
 hist(S)
+```
 
-    Bank earnings expected value
-    What is the expected value of S, the sum of losses over 10,000 loans? For now, assume a bank makes no money if the loan is paid.
+![Unknown](https://user-images.githubusercontent.com/17474099/77343596-36004080-6d32-11ea-916e-500cff29c72f.png)
 
-    Using the chances of default (p_default), calculate the expected losses over 10,000 loans.
+3. Bank earnings expected value
 
+What is the expected value of S, the sum of losses over 10,000 loans? For now, assume a bank makes no money if the loan is paid.
+- Using the chances of default (p_default), calculate the expected losses over 10,000 loans.
+```
 # Assign the number of loans to the variable `n`
 n <- 10000
 
@@ -1978,14 +1982,15 @@ p_default <- 0.03
 
 # Calculate the expected loss due to default out of 10,000 loans
 n*(p_default*loss_per_foreclosure + (1-p_default)*0)
-
+```
+```
 ## [1] -6e+07
+```
+4. Bank earnings standard error
 
-    Bank earnings standard error
-    What is the standard error of S?
-
-    Compute the standard error of the random variable S you generated in the previous exercise, the summed outcomes of 10,000 loans.
-
+What is the standard error of S?
+- Compute the standard error of the random variable S you generated in the previous exercise, the summed outcomes of 10,000 loans.
+```
 # Assign the number of loans to the variable `n`
 n <- 10000
 
@@ -1997,17 +2002,18 @@ p_default <- 0.03
 
 # Compute the standard error of the sum of 10,000 loans
 sqrt(n) * abs(loss_per_foreclosure) * sqrt(p_default*(1 - p_default))
-
+```
+```
 ## [1] 3411744
+```
+5. Bank earnings interest rate - 1
 
-    Bank earnings interest rate - 1
-    So far, we’ve been assuming that we make no money when people pay their loans and we lose a lot of money when people default on their loans. Assume we give out loans for $180,000. How much money do we need to make when people pay their loans so that our net loss is $0?
+So far, we’ve been assuming that we make no money when people pay their loans and we lose a lot of money when people default on their loans. Assume we give out loans for $180,000. How much money do we need to make when people pay their loans so that our net loss is $0?
 
 In other words, what interest rate do we need to charge in order to not lose money?
-
-    If the amount of money lost or gained equals 0, the probability of default times the total loss per default equals the amount earned per probability of the loan being paid.
-    Divide the total amount needed per loan by the loan amount to determine the interest rate.
-
+- If the amount of money lost or gained equals 0, the probability of default times the total loss per default equals the amount earned per probability of the loan being paid.
+- Divide the total amount needed per loan by the loan amount to determine the interest rate.
+```
 # Assign the loss per foreclosure to the variable `loss_per_foreclosure`
 loss_per_foreclosure <- -200000
 
@@ -2019,16 +2025,19 @@ x <- -(loss_per_foreclosure*p_default) / (1 - p_default)
 
 # Convert `x` to a rate, given that the loan amount is $180,000. Print this value to the console.
 x / 180000
-
+```
+```
 ## [1] 0.03436426
+```
+6. Bank earnings interest rate - 2
 
-    Bank earnings interest rate - 2
-    With the interest rate calculated in the last example, we still lose money 50% of the time. What should the interest rate be so that the chance of losing money is 1 in 20?
+With the interest rate calculated in the last example, we still lose money 50% of the time. What should the interest rate be so that the chance of losing money is 1 in 20?
 
 In math notation, what should the interest rate be so that Pr(S<0)=0.05?
 
 Remember that we can add a constant to both sides of the equation to get:
-Bank_earnings_interest_rate
+
+
 
     Use the qnorm function to compute a continuous variable at given quantile of the distribution to solve for z.
     In this equation, l, p, and n are known values. Once you’ve solved for z, solve for x.
