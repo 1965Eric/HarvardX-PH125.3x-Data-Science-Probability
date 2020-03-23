@@ -958,15 +958,17 @@ data.frame(x, f = dnorm(x)) %>%
   geom_line()
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77338046-0f3e0c00-6d2a-11ea-91b8-03f846fa295e.png)
 
 For example, for the student-t, described later in Section 17.10, the shorthand t is used so the functions are dt for the density, qt for the quantiles, pt for the cumulative distribution function, and rt for Monte Carlo simulation.
-Assessment 4: Continuous Probability
 
-    Distribution of female heights - 1
-    Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter?
+## Assessment 4: Continuous Probability
 
-    Use pnorm to define the probability that a height will take a value less than 5 feet given the stated distribution.
+1. Distribution of female heights - 1
 
+Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 5 feet or shorter?
+- Use pnorm to define the probability that a height will take a value less than 5 feet given the stated distribution.
+```
 # Assign a variable 'female_avg' as the average female height.
 female_avg <- 64
 
@@ -975,14 +977,15 @@ female_sd <- 3
 
 # Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is shorter than 5 feet. Print this value to the console.
 pnorm(5*12, female_avg,female_sd)
-
+```
+```
 ## [1] 0.09121122
+```
+2. Distribution of female heights - 2
 
-    Distribution of female heights - 2
-    Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller?
-
-    Use pnorm to define the probability that a height will take a value of 6 feet or taller.
-
+Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is 6 feet or taller?
+- Use pnorm to define the probability that a height will take a value of 6 feet or taller.
+```
 # Assign a variable 'female_avg' as the average female height.
 female_avg <- 64
 
@@ -991,15 +994,16 @@ female_sd <- 3
 
 # Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is 6 feet or taller. Print this value to the console.
 1-pnorm(6*12, female_avg,female_sd)
-
+```
+```
 ## [1] 0.003830381
+```
+3. Distribution of female heights - 3
 
-    Distribution of female heights - 3
-    Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
-
-    Use pnorm to define the probability that a randomly chosen woman will be shorter than 67 inches.
-    Subtract the probability that a randomly chosen will be shorter than 61 inches.
-
+Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. If we pick a female at random, what is the probability that she is between 61 and 67 inches?
+- Use pnorm to define the probability that a randomly chosen woman will be shorter than 67 inches.
+- Subtract the probability that a randomly chosen will be shorter than 61 inches.
+```
 # Assign a variable 'female_avg' as the average female height.
 female_avg <- 64
 
@@ -1008,15 +1012,16 @@ female_sd <- 3
 
 # Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.
 pnorm(67, female_avg,female_sd) - pnorm(61, female_avg,female_sd)
-
+```
+```
 ## [1] 0.6826895
+```
+- Distribution of female heights - 4
 
-    Distribution of female heights - 4
-    Repeat the previous exercise, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
-
-    Convert the average height and standard deviation to centimeters by multiplying each value by 2.54.
-    Repeat the previous calculation using pnorm to define the probability that a randomly chosen woman will have a height between 61 and 67 inches, converted to centimeters by multiplying each value by 2.54.
-
+Repeat the previous exercise, but convert everything to centimeters. That is, multiply every height, including the standard deviation, by 2.54. What is the answer now?
+- Convert the average height and standard deviation to centimeters by multiplying each value by 2.54.
+- Repeat the previous calculation using pnorm to define the probability that a randomly chosen woman will have a height between 61 and 67 inches, converted to centimeters by multiplying each value by 2.54.
+```
 # Assign a variable 'female_avg' as the average female height. Convert this value to centimeters.
 female_avg <- 64*2.54
 
@@ -1025,15 +1030,16 @@ female_sd <- 3*2.54
 
 # Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.
 pnorm(67*2.54, female_avg,female_sd) - pnorm(61*2.54, female_avg,female_sd)
-
+```
+```
 ## [1] 0.6826895
+```
+5. Probability of 1 SD from average
 
-    Probability of 1 SD from average
-    Compute the probability that the height of a randomly chosen female is within 1 SD from the average height.
-
-    Calculate the values for heights one standard deviation taller and shorter than the average.
-    Calculate the probability that a randomly chosen woman will be within 1 SD from the average height.
-
+Compute the probability that the height of a randomly chosen female is within 1 SD from the average height.
+- Calculate the values for heights one standard deviation taller and shorter than the average.
+- Calculate the probability that a randomly chosen woman will be within 1 SD from the average height.
+```
 # Assign a variable 'female_avg' as the average female height.
 female_avg <- 64
 
@@ -1048,14 +1054,15 @@ shorter <- female_avg - female_sd
 
 # Calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.
 pnorm(taller, female_avg,female_sd) - pnorm(shorter, female_avg,female_sd)
-
+```
+```
 ## [1] 0.6826895
+```
+6. Distribution of male heights
 
-    Distribution of male heights
-    Imagine the distribution of male adults is approximately normal with an expected value of 69 inches and a standard deviation of 3 inches. How tall is a male in the 99th percentile?
-
-    Determine the height of a man in the 99th percentile, given an average height of 69 inches and a standard deviation of 3 inches.
-
+Imagine the distribution of male adults is approximately normal with an expected value of 69 inches and a standard deviation of 3 inches. How tall is a male in the 99th percentile?
+- Determine the height of a man in the 99th percentile, given an average height of 69 inches and a standard deviation of 3 inches.
+```
 # Assign a variable 'male_avg' as the average male height.
 male_avg <- 69
 
@@ -1064,19 +1071,20 @@ male_sd <- 3
 
 # Determine the height of a man in the 99th percentile of the distribution.
 qnorm(0.99, male_avg, male_sd)
-
+```
+```
 ## [1] 75.97904
+```
+7. Distribution of IQ scores
 
-    Distribution of IQ scores
-    The distribution of IQ scores is approximately normally distributed. The expected value is 100 and the standard deviation is 15. Suppose you want to know the distribution of the person with the highest IQ in your school district, where 10,000 people are born each year.
+The distribution of IQ scores is approximately normally distributed. The expected value is 100 and the standard deviation is 15. Suppose you want to know the distribution of the person with the highest IQ in your school district, where 10,000 people are born each year.
 
 Generate 10,000 IQ scores 1,000 times using a Monte Carlo simulation. Make a histogram of the highest IQ scores.
-
-    Use the function rnorm to generate a random distribution of 10,000 values with a given average and standard deviation.
-    Use the function max to return the largest value from a supplied vector.
-    Repeat the previous steps a total of 1,000 times. Store the vector of the top 1,000 IQ scores as highestIQ.
-    Plot the histogram of values using the function hist.
-
+- Use the function rnorm to generate a random distribution of 10,000 values with a given average and standard deviation.
+- Use the function max to return the largest value from a supplied vector.
+- Repeat the previous steps a total of 1,000 times. Store the vector of the top 1,000 IQ scores as highestIQ.
+- Plot the histogram of values using the function hist.
+```
 # The variable `B` specifies the number of times we want the simulation to run.
 B <- 1000
 
@@ -1091,6 +1099,8 @@ highestIQ <- replicate(B, {
 
 # Make a histogram of the highest IQ scores.
 hist(highestIQ)
+```
+
 
 Section 3 Overview
 
