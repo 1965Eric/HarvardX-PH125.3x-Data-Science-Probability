@@ -2037,12 +2037,12 @@ In math notation, what should the interest rate be so that Pr(S<0)=0.05?
 
 Remember that we can add a constant to both sides of the equation to get:
 
+<img width="414" alt="Schermafbeelding 2020-03-23 om 18 19 16" src="https://user-images.githubusercontent.com/17474099/77344079-f423ca00-6d32-11ea-84c4-857de7bc700e.png">
 
-
-    Use the qnorm function to compute a continuous variable at given quantile of the distribution to solve for z.
-    In this equation, l, p, and n are known values. Once you’ve solved for z, solve for x.
-    Divide x by the loan amount to calculate the rate.
-
+- Use the qnorm function to compute a continuous variable at given quantile of the distribution to solve for z.
+- In this equation, l, p, and n are known values. Once you’ve solved for z, solve for x.
+- Divide x by the loan amount to calculate the rate.
+```
 # Assign the number of loans to the variable `n`
 n <- 10000
 
@@ -2060,16 +2060,15 @@ x <- -loss_per_foreclosure*( n*p_default - z*sqrt(n*p_default*(1 - p_default)))/
 
 # Convert `x` to an interest rate, given that the loan amount is $180,000. Print this value to the console.
 x / 180000
-
+```
+```
 ## [1] 0.03768738
+```
+7. Bank earnings - minimize money loss
 
-    Bank earnings - minimize money loss
-    The bank wants to minimize the probability of losing money. Which of the following achieves their goal without making interest rates go up?
+The bank wants to minimize the probability of losing money. Which of the following achieves their goal without making interest rates go up?
 
-A. A smaller pool of loans
-
-B. A larger probability of default
-
-C. A reduced default rate
-
-D. A larger cost per loan default
+- [ ] A. A smaller pool of loans
+- [ ] B. A larger probability of default
+- [X] C. A reduced default rate
+- [ ] D. A larger cost per loan default
