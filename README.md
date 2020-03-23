@@ -946,6 +946,7 @@ mean(tallest >= 7*12)
 ds_theme_set()
 data.frame(tallest) %>% ggplot(aes(tallest)) + geom_histogram(color='black', fill='#595959', binwidth=1)
 ```
+
 ![Unknown](https://user-images.githubusercontent.com/17474099/77337896-da31b980-6d29-11ea-9729-bab8b0a0c9e2.png)
 
 ## Other Continuous Distributions
@@ -1101,48 +1102,54 @@ highestIQ <- replicate(B, {
 hist(highestIQ)
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77339487-2251db80-6d2c-11ea-9b13-909b3a56498d.png)
 
-Section 3 Overview
+## Section 3 Overview
 
 Section 3 introduces you to Random Variables, Sampling Models, and the Central Limit Theorem.
 
 Section 3 is divided into two parts:
-
-    Random Variables and Sampling Models
-    The Central Limit Theorem.
+- Random Variables and Sampling Models
+- The Central Limit Theorem.
 
 After completing Section 3, you will:
+- understand what random variables are, how to generate them, and the correct mathematical notation to use with them.
+- be able to use sampling models to estimate characteristics of a larger population.
+- be able to explain the difference between a distribution and a probability distribution.
+- understand the Central Limit Theorem and the law of large numbers.
 
-    understand what random variables are, how to generate them, and the correct mathematical notation to use with them.
-    be able to use sampling models to estimate characteristics of a larger population.
-    be able to explain the difference between a distribution and a probability distribution.
-    understand the Central Limit Theorem and the law of large numbers.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html)
 
-The textbook for this section is available here
-Random variables
+## Random variables
 
 Random variables are numeric outcomes resulting from random processes. We can easily generate random variables using some of the simple examples we have shown. For example, define X to be 1 if a bead is blue and red otherwise:
-
+```
 beads <- rep( c("red", "blue"), times = c(2,3))
 X <- ifelse(sample(beads, 1) == "blue", 1, 0)
 
 #Here X is a random variable: every time we select a new bead the outcome changes randomly. See below:
 
 ifelse(sample(beads, 1) == "blue", 1, 0)
-
+```
+```
 ## [1] 1
-
+```
+```
 ifelse(sample(beads, 1) == "blue", 1, 0)
-
+```
+```
 ## [1] 1
-
+```
+```
 ifelse(sample(beads, 1) == "blue", 1, 0)
-
+```
+```
 ## [1] 1
-
+```
+```
 #Sometimes it's 1 and sometimes it's 0.
-
-Sampling Models
+```
+## Sampling Models
 
 For example, we can model the process of polling likely voters as drawing 0’s- Republicans- and 1’s- Democrats- from an urn containing the 0 and 1 code for all likely voters.
 
@@ -1153,7 +1160,7 @@ Similarly, in experimental research, we often assume that the individual organis
 Casino games offer a plethora of examples of real-world situations in which sampling models are used to answer specific questions.
 
 Roulette wheel example
-
+```
 color <- rep(c("Black", "Red", "Green"), c(18,18,2))
 
 n <- 1000
@@ -1162,11 +1169,12 @@ X <- sample(ifelse(color =="Red", -1, 1), n, replace = TRUE)
 X <- sample(c(-1,1), n, replace = TRUE, prob=c(9/19, 10/19))
 S <- sum(X)
 S
-
+```
+```
 ## [1] 38
-
+```
 Running a Monte Carlo Simulation with the above example:
-
+```
 a <- 0
 n <- 1000
 B <- 10000
@@ -1179,20 +1187,26 @@ S <- replicate(B, roulette_winnings(n))
 #Now we can ask the following: in our simulations, how often did we get sums less than or equal to a?
 
 mean(S <= a)
-
+```
+```
 ## [1] 0.0492
-
+```
+```
 #Now we can easily answer the casino's question: how likely is it that we will lose money?
 mean(S<0)
-
+```
+```
 ## [1] 0.0438
-
+```
+```
 s <- seq(min(S), max(S), length = 100)
 normal_density <- data.frame(S = s, f=dnorm(s, mean(S), sd(S)))
 data.frame(S=S) %>% ggplot(aes(S, ..density..)) +
   geom_histogram(color = "black", binwidth = 10) +
   ylab("Probability") +
   geom_line(data = normal_density, mapping=aes(s,f), color="blue")
+```
+
 
 In the histogram above, we see that the distribution appears to be approximately normal. A qq-plot will confirm that the normal approximation is close to perfect. If, in fact, the distribution is normal, then all we need to define the distribution is the average and the standard deviation. Because we have the original values from which the distribution is created, we can easily compute these:
 
