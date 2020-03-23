@@ -1742,46 +1742,59 @@ losses <- replicate(B, {
 #Code: Plotting expected losses
 library(tidyverse)
 ```
+```
 data.frame(losses_in_millions = losses/10^6) %>%
   ggplot(aes(losses_in_millions)) +
   geom_histogram(binwidth = 0.6, col = "black")
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77342879-26ccc300-6d31-11ea-849a-5aac6e6f407d.png)
 
 We don’t really need a Monte Carlo simulation though. Using what we’ve learned, the CLT tells us that because our losses are a sum of independent draws, its distribution is approximately normal with expected value and standard deviation given by the following formula.
-
+```
 #Expected value and standard error of the sum of 1,000 loans
 n*(p*loss_per_foreclosure + (1-p)*0) # expected value   
-
+```
+```
 ## [1] -4e+06
-
+```
+```
 sqrt(n)*abs(loss_per_foreclosure)*sqrt(p*(1-p)) # standard error 
-
+```
+```
 ## [1] 885437.7
-
+```
+```
 #Code: Calculating interest rate for 1% probability of losing money
 
 l <- loss_per_foreclosure
 z <- qnorm(0.01)
 x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
 x    # required profit when loan is not a foreclosure
-
+```
+```
 ## [1] 6249.181
-
+```
+```
 x/180000    # interest rate
-
+```
+```
 ## [1] 0.03471767
-
+```
+```
 loss_per_foreclosure*p + x*(1-p)    # expected value of the profit per loan
-
+```
+```
 ## [1] 2124.198
-
+```
+```
 n*(loss_per_foreclosure*p + x*(1-p)) # expected value of the profit over n loans
-
+```
+```
 ## [1] 2124198
-
-we get that the x has to be about 6,249, which is an interest rate of about 3%, which is still pretty good. Note also that by choosing this interest rate, we now have an expected profit per loan of about $2,124, which is a total expected profit of about $2 million. We can run a Monte Carlo simulation and check our theoretical approximation. We do that, and we indeed get that value again. And again, the probability of profit being less than zero according to the Monte Carlo simulation is about 1%.
-
+```
+We get that the x has to be about 6,249, which is an interest rate of about 3%, which is still pretty good. Note also that by choosing this interest rate, we now have an expected profit per loan of about $2,124, which is a total expected profit of about $2 million. We can run a Monte Carlo simulation and check our theoretical approximation. We do that, and we indeed get that value again. And again, the probability of profit being less than zero according to the Monte Carlo simulation is about 1%.
+```
 #Code: Monte Carlo simulation for 1% probability of losing money
 
 B <- 100000
@@ -1791,16 +1804,20 @@ profit <- replicate(B, {
     sum(draws)
 })
 mean(profit)    # expected value of the profit over n loans
-
+```
+```
 ## [1] 2122535
-
+```
+```
 mean(profit<0)    # probability of losing money
-
+```
+```
 ## [1] 0.01237
+```
+## The Big Short
 
-###The Big Short
 One of our employees points out that since the bank is making about $2,000 per loan, that you should give out more loans. Why just n? You explain that finding those n clients was hard. You need a group that is predictable, and that keeps the chances of defaults low. He then points out that even if the probability of default is higher, as long as your expected value is positive, you can minimize your chances of losing money by increasing n, the number of loans, and relying on the law of large numbers. He claims that even if the default rate is twice as high, say 4%, if we set the rate just a bit higher so that this happens, you will get a positive expected value. So if we set the interest rate at 5%, we are guaranteed a positive expected value of $640 per loan. And we can minimize our chances of losing money by simply increasing the number of loans, since the probability of S being less than 0 is equal to the probability of Z being less than negative expected value of S divided by standard error S, with Z a standard normal random variable, as we saw earlier. And if we do the math, we will see that we can pick an n so that this probability is 1 in 100.
-
+```
 #Code: Expected value with higher default rate and interest rate
 
 p <- .04
@@ -1808,9 +1825,11 @@ loss_per_foreclosure <- -200000
 r <- 0.05
 x <- r*180000
 loss_per_foreclosure*p + x*(1-p)
-
+```
+```
 ## [1] 640
-
+```
+```
 #Code: Calculating number of loans for desired probability of losing money
 
 #The number of loans required is:
@@ -1819,13 +1838,17 @@ z <- qnorm(0.01)
 l <- loss_per_foreclosure
 n <- ceiling((z^2*(x-l)^2*p*(1-p))/(l*p + x*(1-p))^2)
 n    # number of loans required
-
+```
+```
 ## [1] 22163
-
+```
+```
 n*(loss_per_foreclosure*p + x * (1-p))    # expected profit over n loans
-
+```
+```
 ## [1] 14184320
-
+```
+```
 #Code: Monte Carlo simulation with known default probability
 
 #This Monte Carlo simulation estimates the expected profit given a known probability of default . Note that your results will differ from the video because the seed is not set.
@@ -1839,9 +1862,11 @@ profit <- replicate(B, {
     sum(draws)
 })
 mean(profit)
-
+```
+```
 ## [1] 14090646
-
+```
+```
 #Code: Monte Carlo simulation with unknown default probability
 
 #This Monte Carlo simulation estimates the expected profit given an unknown probability of default , modeling the situation where an event changes the probability of default for all borrowers simultaneously. Note that your results will differ from the video because the seed is not set.
@@ -1855,29 +1880,35 @@ profit <- replicate(B, {
     sum(draws)
 })
 mean(profit)    # expected profit
-
+```
+```
 ## [1] 14109853
-
+```
+```
 mean(profit < 0)    # probability of losing money
-
+```
+```
 ## [1] 0.3479
-
+```
+```
 mean(profit < -10000000)    # probability of losing over $10 million
-
+```
+```
 ## [1] 0.2422
-
+```
+```
 #The Central Limit Theorem states that the sum of independent draws of a random variable follows a normal distribution. However, when the draws are not independent, this assumption does not hold.
+```
+## Assessment7: The Big Short
 
-Assessment7: The Big Short
+1. Bank earnings
 
-    Bank earnings
-    Say you manage a bank that gives out 10,000 loans. The default rate is 0.03 and you lose $200,000 in each foreclosure.
+Say you manage a bank that gives out 10,000 loans. The default rate is 0.03 and you lose $200,000 in each foreclosure.
 
 Create a random variable S that contains the earnings of your bank. Calculate the total amount of money lost in this scenario.
-
-    Using the sample function, generate a vector called defaults that contains n samples from a vector of c(0,1), where 0 indicates a payment and 1 indicates a default
-    Multiply the total number of defaults by the loss per foreclosure.
-
+- Using the sample function, generate a vector called defaults that contains n samples from a vector of c(0,1), where 0 indicates a payment and 1 indicates a default
+- Multiply the total number of defaults by the loss per foreclosure.
+```
 # Assign the number of loans to the variable `n`
 n <- 10000
 
@@ -1896,15 +1927,16 @@ defaults <- sample( c(0,1), n, replace = TRUE, prob=c(1-p_default, p_default))
 # Generate `S`, the total amount of money lost across all foreclosures. Print the value to the console.
 S <- sum(defaults * loss_per_foreclosure)
 S
-
+```
+```
 ## [1] -6.3e+07
+```
+2. Bank earnings Monte Carlo
 
-    Bank earnings Monte Carlo
-    Run a Monte Carlo simulation with 10,000 outcomes for S, the sum of losses over 10,000 loans. Make a histogram of the results.
-
-    Within a replicate loop with 10,000 iterations, use sample to generate a list of 10,000 loan outcomes: payment (0) or default (1). Use the outcome order c(0,1) and probability of default p_default.
-    Still within the loop, use the function sum to count the number of foreclosures multiplied by loss_per_foreclosure to return the sum of all losses across the 10,000 loans. If you do not take the sum inside the replicate loop, DataCamp may crash with a “Session Expired” error.
-    Plot the histogram of values using the function hist.
+Run a Monte Carlo simulation with 10,000 outcomes for S, the sum of losses over 10,000 loans. Make a histogram of the results.
+- Within a replicate loop with 10,000 iterations, use sample to generate a list of 10,000 loan outcomes: payment (0) or default (1). Use the outcome order c(0,1) and probability of default p_default.
+- Still within the loop, use the function sum to count the number of foreclosures multiplied by loss_per_foreclosure to return the sum of all losses across the 10,000 loans. If you do not take the sum inside the replicate loop, DataCamp may crash with a “Session Expired” error.
+- Plot the histogram of values using the function hist.
 
 # Assign the number of loans to the variable `n`
 n <- 10000
