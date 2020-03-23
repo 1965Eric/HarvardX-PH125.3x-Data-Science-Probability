@@ -802,7 +802,7 @@ library(dslabs)
 data(heights)
 x <- heights %>% filter(sex=="Male") %>% pull(height)
 
-# We defined the empirical distribution function as:
+#We defined the empirical distribution function as:
 F <- function(a) mean(x<=a)
 ```
 Keep in mind that we have not yet introduced probability in the context of CDFs. Let’s do this by asking the following: if I pick one of the male students at random, what is the chance that he is taller than 70.5 inches? Because every student has the same chance of being picked, the answer to this is equivalent to the proportion of students that are taller than 70.5 inches. Using the CDF we obtain an answer by typing:
@@ -823,75 +823,96 @@ Obtained with the function pnorm. Using the normal distribution:
 plot(prop.table(table(x)), xlab= "a= Height in inches", ylab= "Pr(x = a")
 ```
 
+![Unknown](https://user-images.githubusercontent.com/17474099/77337093-ba4dc600-6d28-11ea-8ec2-71ed62d9bca6.png)
 
 The cumulative distribution for the normal distribution is defined by a mathematical formula, which in R can be obtained with the function pnorm. Using the normal distribution:
-
+```
 1 - pnorm(70.5, mean(x), sd(x))
-
+```
+```
 ## [1] 0.371369
-
+```
+```
 #the normal distribution is useful for approximating the proportion of students reporting values in intervals like the following three:
+
 #This is actual:
 mean(x <= 68.5) - mean(x <= 67.5)
-
+```
+```
 ## [1] 0.114532
-
+```
+```
 mean(x <= 69.5) - mean(x <= 68.5)
-
+```
+```
 ## [1] 0.1194581
-
+```
+```
 mean(x <= 70.5) - mean(x <= 69.5)
-
+```
+```
 ## [1] 0.1219212
-
+```
 Note how close we get with the normal approximation:
-
+```
 #and this is the approximation:
 pnorm(68.5, mean(x), sd(x)) - pnorm(67.5, mean(x), sd(x)) 
-
+```
+```
 ## [1] 0.1031077
-
+```
+```
 pnorm(69.5, mean(x), sd(x)) - pnorm(68.5, mean(x), sd(x)) 
-
+```
+```
 ## [1] 0.1097121
-
+```
+```
 pnorm(70.5, mean(x), sd(x)) - pnorm(69.5, mean(x), sd(x)) 
-
+```
+```
 ## [1] 0.1081743
-
+```
 However, the approximation is not as useful for other intervals. For instance, notice how the approximation breaks down when we try to estimate:
-
+```
 mean(x <= 70.9) - mean(x<=70.1)
-
+```
+```
 ## [1] 0.02216749
-
+```
+```
 #with
 pnorm(70.9, mean(x), sd(x)) - pnorm(70.1, mean(x), sd(x))
-
+```
+```
 ## [1] 0.08359562
-
+```
 In general, we call this situation discretization. Although the true height distribution is continuous, the reported heights tend to be more common at discrete values, in this case, due to rounding. As long as we are aware of how to deal with this reality, the normal approximation can still be a very useful tool.
-Probability Density
+
+## Probability Density
 
 The probability density at x is defined as the function, we’re going to call it little f of x, such that the probability distribution big F of a, which is the probability of x being less than or equal to a, is the integral of all values up to a of little f of x dx.
 
 dnorm() is the probability density function for the normal distribution:
-
+```
 # the probability that a person is higher than 76 inch
 avg <- mean(x)
 s <- sd(x)
 1 - pnorm(76, avg, s)
-
+```
+```
 ## [1] 0.03206008
-
+```
+```
 dnorm(76, mean(x), sd(x))
-
+```
+```
 ## [1] 0.01990735
-
-Monte Carlo simulations for continuous variables
+```
+## Monte Carlo simulations for continuous variables
 
 R provides functions to generate normally distributed outcomes. Specifically, the rnorm function takes three arguments: size, average (defaults to 0), and standard deviation (defaults to 1) and produces random numbers. Here is an example of how we could generate data that looks like our reported heights:
-
+```
 x <- heights %>% filter(sex=="Male") %>% .$height
 n <- length(x)
 m <- mean(x)
@@ -900,6 +921,7 @@ simulated_heights <- rnorm(n, m, s)
 
 ds_theme_set()
 data.frame(simulated_heights) %>% ggplot(aes(simulated_heights)) + geom_histogram(color='black', fill='#595959', binwidth=2)
+```
 
 This is one of the most useful functions in R as it will permit us to generate data that mimics natural events and answers questions related to what could happen by chance by running Monte Carlo simulations.
 
