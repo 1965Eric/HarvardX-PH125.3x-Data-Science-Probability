@@ -326,7 +326,7 @@ random.
 \begin{verbatim}
 ## events
 ## blue  red 
-## 5923 4077
+## 6000 4000
 \end{verbatim}
 
 \begin{Shaded}
@@ -337,8 +337,8 @@ random.
 
 \begin{verbatim}
 ## events
-##   blue    red 
-## 0.5923 0.4077
+## blue  red 
+##  0.6  0.4
 \end{verbatim}
 
 \hypertarget{setting-the-random-seed}{%
@@ -798,11 +798,11 @@ The textbook for this section is available
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
-## [1,]    1    9    3    6    4    2    8
-## [2,]    6    8    2    7    4    1    0
-## [3,]    6    7    4    5    3    1    9
-## [4,]    9    1    5    0    4    6    8
-## [5,]    0    9    4    5    8    1    7
+## [1,]    7    3    4    9    8    1    5
+## [2,]    9    0    4    2    6    8    5
+## [3,]    3    4    9    2    7    6    8
+## [4,]    8    5    0    9    3    2    4
+## [5,]    4    2    6    9    0    8    1
 \end{verbatim}
 
 \begin{Shaded}
@@ -906,7 +906,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Jack Hearts"   "Jack Diamonds"
+## [1] "Six Diamonds" "Five Hearts"
 \end{verbatim}
 
 \begin{Shaded}
@@ -922,7 +922,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0454
+## [1] 0.0498
 \end{verbatim}
 
 \hypertarget{the-birthday-problem}{%
@@ -975,7 +975,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9712
+## [1] 0.9701
 \end{verbatim}
 
 \hypertarget{sapply}{%
@@ -2193,148 +2193,227 @@ After completing Section 2, you will:
 The textbook for this section is available
 \href{https://rafalab.github.io/dsbook/probability.html\#continuous-probability}{here}
 
-\begin{verbatim}
-if(!require(tidyverse)) install.packages("tidyverse")
+The previous discussion of CDF is from the Data Visualization course.
+Here is the
+\href{https://rafalab.github.io/dsbook/distributions.html\#cdf-intro}{textbook
+section on the CDF}.
 
-library(dslabs)
+\textbf{Key points}
+
+\begin{itemize}
+\tightlist
+\item
+  The \emph{cumulative distribution function (CDF)} is a distribution
+  function for continuous data \(x\) that reports the proportion of the
+  data below \(a\) for all values of \(a\):
+\end{itemize}
+
+\(F(a) = Pr(a) = Pr(x \le a)\)
+
+\begin{itemize}
+\tightlist
+\item
+  The CDF is the \emph{probability distribution function} for continuous
+  variables. For example, to determine the probability that a male
+  student is taller than 70.5 inches given a vector of male heights
+  \(x\), we can use the CDF:
+\end{itemize}
+
+\(Pr(x > 70.5) = 1 − Pr(x \le 70.5) = 1 − F(70.5)\)
+
+\begin{itemize}
+\tightlist
+\item
+  The probability that an observation is in between two values \(a, b\)
+  is \(F(b) - F(a)\).
+\end{itemize}
+
+\emph{Code: Cumulative distribution function}
+
+Define \textbf{x} as male heights from the \textbf{dslabs} dataset:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{require}\NormalTok{(dslabs)) }\KeywordTok{install.packages}\NormalTok{(}\StringTok{"dslabs"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: dslabs
 \end{verbatim}
 
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(dslabs)}
+\KeywordTok{data}\NormalTok{(heights)}
+\NormalTok{x \textless{}{-}}\StringTok{ }\NormalTok{heights }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{filter}\NormalTok{(sex}\OperatorTok{==}\StringTok{"Male"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{pull}\NormalTok{(height)}
+\end{Highlighting}
+\end{Shaded}
+
+Given a vector \textbf{x}, we can define a function for computing the
+CDF of \textbf{x} using:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{F \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(a) }\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\NormalTok{a)}
+
+\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{F}\NormalTok{(}\DecValTok{70}\NormalTok{)    }\CommentTok{\# probability of male taller than 70 inches}
+\end{Highlighting}
+\end{Shaded}
+
 \begin{verbatim}
-data(heights)
-x <- heights %>% filter(sex=="Male") %>% pull(height)
-
-#We defined the empirical distribution function as:
-F <- function(a) mean(x<=a)
+## [1] 0.377
 \end{verbatim}
-
-Keep in mind that we have not yet introduced probability in the context
-of CDFs. Let's do this by asking the following: if I pick one of the
-male students at random, what is the chance that he is taller than 70.5
-inches? Because every student has the same chance of being picked, the
-answer to this is equivalent to the proportion of students that are
-taller than 70.5 inches. Using the CDF we obtain an answer by typing:
-
-\begin{verbatim}
-1 - F(70)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.3768473
-\end{verbatim}
-
-Once a CDF is defined, we can use this to compute the probability of any
-subset. For instance, the probability of a student being between height
-a and height b is:
-
-F(b)-F(a)
 
 \hypertarget{theoretical-distribution}{%
 \subsection{Theoretical Distribution}\label{theoretical-distribution}}
 
-Obtained with the function pnorm. Using the normal distribution:
+The textbook for this section is available
+\href{https://rafalab.github.io/dsbook/probability.html\#theoretical-continuous-distributions}{here}
+
+\textbf{Key points}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{pnorm(a, avg, s)} gives the value of the cumulative
+  distribution function \(F(a)\) for the normal distribution defined by
+  average \textbf{avg} and standard deviation \textbf{s}.
+\item
+  We say that a random quantity is normally distributed with average
+  \textbf{avg} and standard deviation \textbf{s} if the approximation
+  \textbf{pnorm(a, avg, s)} holds for all values of \textbf{a}.
+\item
+  If we are willing to use the normal approximation for height, we can
+  estimate the distribution simply from the mean and standard deviation
+  of our values.
+\item
+  If we treat the height data as discrete rather than categorical, we
+  see that the data are not very useful because integer values are more
+  common than expected due to rounding. This is called
+  \emph{discretization}.
+\item
+  With rounded data, the normal approximation is particularly useful
+  when computing probabilities of intervals of length 1 that include
+  exactly one integer.
+\end{itemize}
+
+\emph{Code: Using \textbf{pnorm} to calculate probabilities}
+
+Given male heights \textbf{x}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x \textless{}{-}}\StringTok{ }\NormalTok{heights }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{filter}\NormalTok{(sex}\OperatorTok{==}\StringTok{"Male"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{pull}\NormalTok{(height)}
+\end{Highlighting}
+\end{Shaded}
+
+We can estimate the probability that a male is taller than 70.5 inches
+using:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\FloatTok{70.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-plot(prop.table(table(x)), xlab= "a= Height in inches", ylab= "Pr(x = a")
+## [1] 0.371
 \end{verbatim}
 
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77337093-ba4dc600-6d28-11ea-8ec2-71ed62d9bca6.png}
-\caption{Unknown}
-\end{figure}
+\emph{Code: Discretization and the normal approximation}
 
-The cumulative distribution for the normal distribution is defined by a
-mathematical formula, which in R can be obtained with the function
-pnorm. Using the normal distribution:
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# plot distribution of exact heights in data}
+\KeywordTok{plot}\NormalTok{(}\KeywordTok{prop.table}\NormalTok{(}\KeywordTok{table}\NormalTok{(x)), }\DataTypeTok{xlab =} \StringTok{"a = Height in inches"}\NormalTok{, }\DataTypeTok{ylab =} \StringTok{"Pr(x = a)"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-65-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# probabilities in actual data over length 1 ranges containing an integer}
+\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{68.5}\NormalTok{) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{67.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-1 - pnorm(70.5, mean(x), sd(x))
+## [1] 0.115
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{69.5}\NormalTok{) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{68.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## [1] 0.371369
+## [1] 0.119
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{70.5}\NormalTok{) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{69.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-#the normal distribution is useful for approximating the proportion of students reporting values in intervals like the following three:
-
-#This is actual:
-mean(x <= 68.5) - mean(x <= 67.5)
+## [1] 0.122
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# probabilities in normal approximation match well}
+\KeywordTok{pnorm}\NormalTok{(}\FloatTok{68.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x)) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\FloatTok{67.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## [1] 0.114532
+## [1] 0.103
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pnorm}\NormalTok{(}\FloatTok{69.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x)) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\FloatTok{68.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-mean(x <= 69.5) - mean(x <= 68.5)
+## [1] 0.11
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pnorm}\NormalTok{(}\FloatTok{70.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x)) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\FloatTok{69.5}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1194581
+## [1] 0.108
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# probabilities in actual data over other ranges don\textquotesingle{}t match normal approx as well}
+\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{70.9}\NormalTok{) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(x }\OperatorTok{\textless{}=}\StringTok{ }\FloatTok{70.1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-mean(x <= 70.5) - mean(x <= 69.5)
+## [1] 0.0222
 \end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pnorm}\NormalTok{(}\FloatTok{70.9}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x)) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\FloatTok{70.1}\NormalTok{, }\KeywordTok{mean}\NormalTok{(x), }\KeywordTok{sd}\NormalTok{(x))}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-## [1] 0.1219212
+## [1] 0.0836
 \end{verbatim}
-
-Note how close we get with the normal approximation:
-
-\begin{verbatim}
-#and this is the approximation:
-pnorm(68.5, mean(x), sd(x)) - pnorm(67.5, mean(x), sd(x)) 
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.1031077
-\end{verbatim}
-
-\begin{verbatim}
-pnorm(69.5, mean(x), sd(x)) - pnorm(68.5, mean(x), sd(x)) 
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.1097121
-\end{verbatim}
-
-\begin{verbatim}
-pnorm(70.5, mean(x), sd(x)) - pnorm(69.5, mean(x), sd(x)) 
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.1081743
-\end{verbatim}
-
-However, the approximation is not as useful for other intervals. For
-instance, notice how the approximation breaks down when we try to
-estimate:
-
-\begin{verbatim}
-mean(x <= 70.9) - mean(x<=70.1)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.02216749
-\end{verbatim}
-
-\begin{verbatim}
-#with
-pnorm(70.9, mean(x), sd(x)) - pnorm(70.1, mean(x), sd(x))
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.08359562
-\end{verbatim}
-
-In general, we call this situation discretization. Although the true
-height distribution is continuous, the reported heights tend to be more
-common at discrete values, in this case, due to rounding. As long as we
-are aware of how to deal with this reality, the normal approximation can
-still be a very useful tool.
 
 \hypertarget{probability-density}{%
 \subsection{Probability Density}\label{probability-density}}
