@@ -1048,101 +1048,86 @@ After completing Section 2, you will:
 
 The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-probability)
 
-```
-if(!require(tidyverse)) install.packages("tidyverse")
+The previous discussion of CDF is from the Data Visualization course. Here is the [textbook section on the CDF](https://rafalab.github.io/dsbook/distributions.html#cdf-intro).
+
+**Key points**
+
+* The *cumulative distribution function (CDF)* is a distribution function for continuous data $x$ that reports the proportion of the data below $a$ for all values of $a$:
+
+$F(a) = Pr(a) = Pr(x \le a)$ 
+
+* The CDF is the *probability distribution function* for continuous variables. For example, to determine the probability that a male student is taller than 70.5 inches given a vector of male heights $x$, we can use the CDF:
+
+$Pr(x > 70.5) = 1 − Pr(x \le 70.5) = 1 − F(70.5)$ 
+
+* The probability that an observation is in between two values $a, b$ is $F(b) - F(a)$.
+
+*Code: Cumulative distribution function*
+
+Define **x** as male heights from the **dslabs** dataset:
+
+```{r}
+if(!require(dslabs)) install.packages("dslabs")
 
 library(dslabs)
-```
-```
 data(heights)
 x <- heights %>% filter(sex=="Male") %>% pull(height)
+```
 
-#We defined the empirical distribution function as:
-F <- function(a) mean(x<=a)
-```
-Keep in mind that we have not yet introduced probability in the context of CDFs. Let’s do this by asking the following: if I pick one of the male students at random, what is the chance that he is taller than 70.5 inches? Because every student has the same chance of being picked, the answer to this is equivalent to the proportion of students that are taller than 70.5 inches. Using the CDF we obtain an answer by typing:
-```
-1 - F(70)
-```
-```
-## [1] 0.3768473
-```
-Once a CDF is defined, we can use this to compute the probability of any subset. For instance, the probability of a student being between height a and height b is:
+Given a vector **x**, we can define a function for computing the CDF of **x** using:
 
-F(b)-F(a)
+```{r}
+F <- function(a) mean(x <= a)
+
+1 - F(70)    # probability of male taller than 70 inches
+```
 
 ## Theoretical Distribution
 
-Obtained with the function pnorm. Using the normal distribution:
-```
-plot(prop.table(table(x)), xlab= "a= Height in inches", ylab= "Pr(x = a")
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#theoretical-continuous-distributions)
+
+**Key points**
+
+* **pnorm(a, avg, s)** gives the value of the cumulative distribution function $F(a)$ for the normal distribution defined by average **avg** and standard deviation **s**.
+* We say that a random quantity is normally distributed with average **avg** and standard deviation **s** if the approximation **pnorm(a, avg, s)** holds for all values of **a**.
+* If we are willing to use the normal approximation for height, we can estimate the distribution simply from the mean and standard deviation of our values.
+* If we treat the height data as discrete rather than categorical, we see that the data are not very useful because integer values are more common than expected due to rounding. This is called *discretization*.
+* With rounded data, the normal approximation is particularly useful when computing probabilities of intervals of length 1 that include exactly one integer.
+
+*Code: Using **pnorm** to calculate probabilities*
+
+Given male heights **x**:
+
+```{r}
+x <- heights %>% filter(sex=="Male") %>% pull(height)
 ```
 
-![Unknown](https://user-images.githubusercontent.com/17474099/77337093-ba4dc600-6d28-11ea-8ec2-71ed62d9bca6.png)
+We can estimate the probability that a male is taller than 70.5 inches using:
 
-The cumulative distribution for the normal distribution is defined by a mathematical formula, which in R can be obtained with the function pnorm. Using the normal distribution:
-```
+```{r}
 1 - pnorm(70.5, mean(x), sd(x))
 ```
-```
-## [1] 0.371369
-```
-```
-#the normal distribution is useful for approximating the proportion of students reporting values in intervals like the following three:
 
-#This is actual:
+*Code: Discretization and the normal approximation*
+
+```{r}
+# plot distribution of exact heights in data
+plot(prop.table(table(x)), xlab = "a = Height in inches", ylab = "Pr(x = a)")
+
+# probabilities in actual data over length 1 ranges containing an integer
 mean(x <= 68.5) - mean(x <= 67.5)
-```
-```
-## [1] 0.114532
-```
-```
 mean(x <= 69.5) - mean(x <= 68.5)
-```
-```
-## [1] 0.1194581
-```
-```
 mean(x <= 70.5) - mean(x <= 69.5)
-```
-```
-## [1] 0.1219212
-```
-Note how close we get with the normal approximation:
-```
-#and this is the approximation:
-pnorm(68.5, mean(x), sd(x)) - pnorm(67.5, mean(x), sd(x)) 
-```
-```
-## [1] 0.1031077
-```
-```
-pnorm(69.5, mean(x), sd(x)) - pnorm(68.5, mean(x), sd(x)) 
-```
-```
-## [1] 0.1097121
-```
-```
-pnorm(70.5, mean(x), sd(x)) - pnorm(69.5, mean(x), sd(x)) 
-```
-```
-## [1] 0.1081743
-```
-However, the approximation is not as useful for other intervals. For instance, notice how the approximation breaks down when we try to estimate:
-```
-mean(x <= 70.9) - mean(x<=70.1)
-```
-```
-## [1] 0.02216749
-```
-```
-#with
+
+# probabilities in normal approximation match well
+pnorm(68.5, mean(x), sd(x)) - pnorm(67.5, mean(x), sd(x))
+pnorm(69.5, mean(x), sd(x)) - pnorm(68.5, mean(x), sd(x))
+pnorm(70.5, mean(x), sd(x)) - pnorm(69.5, mean(x), sd(x))
+
+# probabilities in actual data over other ranges don't match normal approx as well
+mean(x <= 70.9) - mean(x <= 70.1)
 pnorm(70.9, mean(x), sd(x)) - pnorm(70.1, mean(x), sd(x))
 ```
-```
-## [1] 0.08359562
-```
-In general, we call this situation discretization. Although the true height distribution is continuous, the reported heights tend to be more common at discrete values, in this case, due to rounding. As long as we are aware of how to deal with this reality, the normal approximation can still be a very useful tool.
 
 ## Probability Density
 
