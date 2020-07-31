@@ -1,10 +1,10 @@
 ---
 title: "Data Science Probability"
 output:
-  word_document: default
   pdf_document:
     latex_engine: xelatex
   html_document: default
+  word_document: default
 urlcolor: blue
 ---
 
@@ -67,7 +67,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 * The *probability of an event* is the proportion of times the event occurs when we repeat the experiment independently under the same conditions.
 
-$Pr(A) = probability of event A$
+$Pr(A)$ = probability of event A
 
 * An *event* is defined as an outcome that can occur when when something happens by chance.
 * We can determine probabilities related to discrete variables (picking a red bead, choosing 48 Democrats and 52 Republicans from 100 likely voters) and continuous variables (height over 6 feet).
@@ -109,13 +109,17 @@ The **set.seed** function
 
 Before we continue, we will briefly explain the following important line of code:
 
-```set.seed(1986)```
+```{r, eval=FALSE, echo=TRUE}
+set.seed(1986)
+```
 
 Throughout this book, we use random number generators. This implies that many of the results presented can actually change by chance, which then suggests that a frozen version of the book may show a different result than what you obtain when you try to code as shown in the book. This is actually fine since the results are random and change from time to time. However, if you want to to ensure that results are exactly the same every time you run them, you can set R’s random number generation seed to a specific number. Above we set it to 1986. We want to avoid using the same seed every time. A popular way to pick the seed is the year - month - day. For example, we picked 1986 on December 20, 2018:  2018 − 12 − 20 = 1986.
 
 You can learn more about setting the seed by looking at the documentation:
 
-```?set.seed```
+```{r, eval=FALSE, echo=TRUE}
+```?set.seed
+```
 
 In the exercises, we may ask you to set the seed to assure that the results you obtain are exactly what we expect them to be.
 
@@ -181,24 +185,24 @@ The textbook section on independence, conditional probability and the multiplica
 
 * *Conditional probabilities* compute the probability that an event occurs given information about dependent events. For example, the probability of drawing a second king given that the first draw is a king is:
 
-$Pr(Card 2 is a king \mid Card 1 is a king) = 3/51$
+$Pr(Card\:2\:is\:a\:king \mid Card\:1\:is\:a\:king) = 3/51$
 
-* If two events $A$ and $B$ are independent, $Pr(A \mid B) = Pr(A).
+* If two events $A$ and $B$ are independent, $Pr(A \mid B) = Pr(A)$.
 * To determine the probability of multiple events occurring, we use the *multiplication rule*.
 
 **Equations**
 
 The multiplication rule for independent events is:
 
-$Pr(A and B and C) = Pr(A) X Pr(B) X Pr(C)$ 
+$Pr(A\:and\:B\:and\:C) = Pr(A)\:X\:Pr(B)\:X\:Pr(C)$ 
 
 The multiplication rule for dependent events considers the conditional probability of both events occurring:
 
-$Pr(A and B) = Pr(A) X Pr(B \mid A)$
+$Pr(A\:and\:B) = Pr(A)\:X\:Pr(B \mid A)$
 
 We can expand the multiplication rule for dependent events to more than 2 events:
 
-$Pr(A and B and C) = Pr(A) X Pr(B \mid A) X Pr(C \mid A and B)$
+$Pr(A\:and\:B\:and\:C) = Pr(A)\:X\:Pr(B \mid A)\:X\:Pr(C \mid A\:and\:B)$
 
 
 ## Assessment - Introduction to Discrete Probability
