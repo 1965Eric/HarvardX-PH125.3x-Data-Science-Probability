@@ -443,7 +443,7 @@ summary {
 beads    # view beads object</code></pre>
 <pre><code>## [1] &quot;red&quot;  &quot;red&quot;  &quot;blue&quot; &quot;blue&quot; &quot;blue&quot;</code></pre>
 <pre class="r"><code>sample(beads, 1)    # sample 1 bead at random</code></pre>
-<pre><code>## [1] &quot;red&quot;</code></pre>
+<pre><code>## [1] &quot;blue&quot;</code></pre>
 <p><em>Code: Monte Carlo simulation</em></p>
 <p>Note that your exact outcome values will differ because the sampling is random.</p>
 <pre class="r"><code>B &lt;- 10000    # number of times to draw 1 bead
@@ -452,11 +452,11 @@ tab &lt;- table(events)    # make a table of outcome counts
 tab    # view count table</code></pre>
 <pre><code>## events
 ## blue  red 
-## 5995 4005</code></pre>
+## 5962 4038</code></pre>
 <pre class="r"><code>prop.table(tab)    # view table of outcome proportions</code></pre>
 <pre><code>## events
 ##   blue    red 
-## 0.5995 0.4005</code></pre>
+## 0.5962 0.4038</code></pre>
 </div>
 <div id="setting-the-random-seed" class="section level2">
 <h2>Setting the Random Seed</h2>
@@ -528,8 +528,9 @@ mean(beads == &quot;blue&quot;)</code></pre>
 <ol style="list-style-type: decimal">
 <li>Probability of cyan</li>
 </ol>
-<p>One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will be cyan?</p>
-<pre><code>cyan &lt;- 3
+<p>One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls.</p>
+<p>What is the probability that the ball will be cyan?</p>
+<pre class="r"><code>cyan &lt;- 3
 magenta &lt;- 5
 yellow &lt;- 7
 balls &lt;- cyan + magenta + yellow
@@ -539,35 +540,37 @@ p_cyan</code></pre>
 <ol start="2" style="list-style-type: decimal">
 <li>Probability of not cyan</li>
 </ol>
-<p>One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls. What is the probability that the ball will not be cyan?</p>
-<pre><code>cyan &lt;- 3
+<p>One ball will be drawn at random from a box containing: 3 cyan balls, 5 magenta balls, and 7 yellow balls.</p>
+<p>What is the probability that the ball will not be cyan?</p>
+<pre class="r"><code>cyan &lt;- 3
 magenta &lt;- 5
 yellow &lt;- 7
 balls &lt;- cyan + magenta + yellow
 p_cyan &lt;- cyan/balls
-p_not_cyan= 1 - p_cyan
+p_not_cyan = 1 - p_cyan
 p_not_cyan</code></pre>
 <pre><code>## [1] 0.8</code></pre>
-<pre><code>#or
-p_not_cyan= (magenta+yellow)/balls
+<p>or:</p>
+<pre class="r"><code>p_not_cyan = (magenta + yellow)/balls
 p_not_cyan</code></pre>
 <pre><code>## [1] 0.8</code></pre>
 <ol start="3" style="list-style-type: decimal">
 <li>Sampling without replacement</li>
 </ol>
-<p>Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling without replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?</p>
-<pre><code>#p=p1_cyan * p2_not_cyan, without replacement
-p_1= cyan/balls 
-p_2=1 - (cyan-1)/(balls-1)
+<p>Instead of taking just one draw, consider taking two draws. You take the second draw without returning the first draw to the box. We call this sampling without replacement.</p>
+<p>What is the probability that the first draw is cyan and that the second draw is not cyan?</p>
+<pre class="r"><code># p = p1_cyan * p2_not_cyan, without replacement
+p_1 = cyan/balls 
+p_2 = 1 - (cyan-1)/(balls-1)
 p_1 * p_2</code></pre>
 <pre><code>## [1] 0.1714286</code></pre>
 <ol start="4" style="list-style-type: decimal">
 <li>Sampling with replacement</li>
 </ol>
 <p>Now repeat the experiment, but this time, after taking the first draw and recording the color, return it back to the box and shake the box. We call this sampling with replacement. What is the probability that the first draw is cyan and that the second draw is not cyan?</p>
-<pre><code>#p=p1_cyan * p2_not_cyan, with replacement
-p_1= cyan/balls
-p_2=1 - cyan/balls
+<pre class="r"><code># p = p1_cyan * p2_not_cyan, with replacement
+p_1 = cyan/balls
+p_2 = 1 - cyan/balls
 p_1 * p_2</code></pre>
 <pre><code>## [1] 0.16</code></pre>
 <p>1.2 Combinations and Permutations</p>
