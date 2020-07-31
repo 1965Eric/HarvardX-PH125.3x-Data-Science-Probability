@@ -636,20 +636,22 @@ mean(switch)    # probability of choosing prize door when switching
 
 ## Assessment 3: The Addition Rule and Monty Hall
 
-1. The Cavs and the Warriors
-
-Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games wins the series. The teams are equally good, so they each have a 50-50 chance of winning each game.
+1. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games wins the series. The teams are equally good, so they each have a 50-50 chance of winning each game.
 
 If the Cavs lose the first game, what is the probability that they win the series?
-```
+
+```{r}
 # Assign a variable 'n' as the number of remaining games.
 n <-6
 
+# Assign a variable `outcomes` as a vector of possible game outcomes, where 0 indicates a loss and 1 indicates a win for the Cavs.
+outcomes <- (0:1)
+
 # Assign a variable `l` to a list of all possible outcomes in all remaining games. Use the `rep` function on `list(outcomes)` to create list of length `n`.
-l <- list(0:1)
+l <- rep(list(outcomes), n)
 
 # Create a data frame named 'possibilities' that contains all combinations of possible outcomes for the remaining games.
-possibilities <- expand.grid(rep(l, n))
+possibilities <- expand.grid(l)
 
 # Create a vector named 'results' that indicates whether each row in the data frame 'possibilities' contains enough wins for the Cavs to win the series.
 results <- rowSums(possibilities)>=4
@@ -657,13 +659,10 @@ results <- rowSums(possibilities)>=4
 # Calculate the proportion of 'results' in which the Cavs win the series. Print the outcome to the console.
 mean(results)
 ```
-```
-## [1] 0.34375
-```
-3. The Cavs and the Warriors - Monte Carlo
 
-Confirm the results of the previous question with a Monte Carlo simulation to estimate the probability of the Cavs winning the series after losing the first game.
-```
+3. Confirm the results of the previous question with a Monte Carlo simulation to estimate the probability of the Cavs winning the series after losing the first game.
+
+```{r}
 # The variable `B` specifies the number of times we want the simulation to run. Let's run the Monte Carlo simulation 10,000 times.
 B <- 10000
 
@@ -671,21 +670,18 @@ B <- 10000
 set.seed(1)
 
 # Create an object called `results` that replicates for `B` iterations a simulated series and determines whether that series contains at least four wins for the Cavs.
-results <- replicate(B, {
-   cavs_wins <- sample(c(0,1), 6, replace = TRUE)
-   sum(cavs_wins)>=4
-})
+results <- replicate(B, { 
+  cavs_wins <- sample(c(0,1), 6, replace = TRUE)
+  sum(cavs_wins)>=4 }
+)
 
 # Calculate the frequency out of `B` iterations that the Cavs won at least four games in the remainder of the series. Print your answer to the console.
 mean(results)
 ```
-```
-## [1] 0.3371
-```
-3. A and B play a series - part 1
 
-Two teams, A and B, are playing a seven series game series. Team A is better than team B and has a p > 0.5 chance of winning each game.
-```
+3. Two teams, $A$ and $B$, are playing a seven series game series. Team $A$ is better than team $B$ and has a ```p > 0.5``` chance of winning each game.
+
+```{r}
 # Let's assign the variable 'p' as the vector of probabilities that team A will win.
 p <- seq(0.5, 0.95, 0.025)
 
@@ -703,15 +699,14 @@ prob_win <- function(p){
 Pr <- sapply(p, prob_win)
 
 # Plot the probability 'p' on the x-axis and 'Pr' on the y-axis.
-plot(p, Pr)
+plot(p,Pr)
 ```
 
-![Unknown](https://user-images.githubusercontent.com/17474099/77336492-dd2baa80-6d27-11ea-815a-4e08a271be1a.png)
+4. Repeat the previous exercise, but now keep the probability that team $A$ wins fixed at ```p <- 0.75``` and compute the probability for different series lengths. 
 
-4. A and B play a series - part 2
+For example, wins in best of 1 game, 3 games, 5 games, and so on through a series that lasts 25 games.
 
-Repeat the previous exercise, but now keep the probability that team A wins fixed at p <- 0.75 and compute the probability for different series lengths. For example, wins in best of 1 game, 3 games, 5 games, and so on through a series that lasts 25 games.
-```
+```{r}
 # Given a value 'p', the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:
 prob_win <- function(N, p=0.75){
       B <- 10000
@@ -726,29 +721,335 @@ prob_win <- function(N, p=0.75){
 N <- seq(1, 25, 2)
 
 # Apply the 'prob_win' function across the vector of series lengths to determine the probability that team B will win. Call this object `Pr`.
-Pr<- sapply(N, prob_win)
+Pr <- sapply(N, prob_win)
 
 # Plot the number of games in the series 'N' on the x-axis and 'Pr' on the y-axis.
-plot(N, Pr)
+plot(N,Pr)
 ```
 
-![Unknown](https://user-images.githubusercontent.com/17474099/77336634-18c67480-6d28-11ea-9a5b-73bab56b5e6a.png)
+## Assessment - Olympic Running
+
+```{r}
+if(!require(tidyverse)) install.packages("tidyverse")
+
+library(tidyverse)
+options(digits = 3)    # report 3 significant digits
+```
+
+1. In the 200m dash finals in the Olympics, 8 runners compete for 3 medals (order matters). In the 2012 Olympics, 3 of the 8 runners were from Jamaica and the other 5 were from different countries. The three medals were all won by Jamaica (Usain Bolt, Yohan Blake, and Warren Weir).
+
+Use the information above to help you answer the following four questions.
+
+1a. How many different ways can the 3 medals be distributed across 8 runners?
+
+```{r}
+medals <- permutations(8,3)
+nrow(medals)
+```
+
+1b. How many different ways can the three medals be distributed among the 3 runners from Jamaica?
+
+```{r}
+jamaica < permutations(3,3)
+nrow(jamaica)
+```
+
+1c. What is the probability that all 3 medals are won by Jamaica?
+
+```{r}
+nrow(jamaica)/nrow(medals)
+```
+
+1d. Run a Monte Carlo simulation on this vector representing the countries of the 8 runners in this race:
+
+```{r, eval=FALSE, echo=TRUE}
+runners <- c("Jamaica", "Jamaica", "Jamaica", "USA", "Ecuador", "Netherlands", "France", "South Africa")
+```
+
+For each iteration of the Monte Carlo simulation, within a ```replicate``` loop, select 3 runners representing the 3 medalists and check whether they are all from Jamaica. Repeat this simulation 10,000 times. Set the seed to 1 before running the loop.
+
+Calculate the probability that all the runners are from Jamaica.
+
+```{r}
+set.seed(1)
+runners <- c("Jamaica", "Jamaica", "Jamaica", "USA", "Ecuador", "Netherlands", "France", "South Africa")
+B <- 10000
+all_jamaica <- replicate(B, {
+  results <- sample(runners, 3)
+  all(results == "Jamaica")
+})
+mean(all_jamaica)
+```
+
+## Assessment - Restaurant Management
+
+2: Use the information below to answer the following five questions.
+
+A restaurant manager wants to advertise that his lunch special offers enough choices to eat different meals every day of the year. He doesn't think his current special actually allows that number of choices, but wants to change his special if needed to allow at least 365 choices.
+
+A meal at the restaurant includes 1 entree, 2 sides, and 1 drink. He currently offers a choice of 1 entree from a list of 6 options, a choice of 2 different sides from a list of 6 options, and a choice of 1 drink from a list of 2 options.
+
+2a. How many meal combinations are possible with the current menu?
+
+```{r}
+6 * nrow(combinations(6,2)) * 2
+```
+
+2b. The manager has one additional drink he could add to the special.
+
+How many combinations are possible if he expands his original special to 3 drink options?
+
+```{r}
+6 * nrow(combinations(6,2)) * 3
+```
+
+2c. The manager decides to add the third drink but needs to expand the number of options. The manager would prefer not to change his menu further and wants to know if he can meet his goal by letting customers choose more sides.
+
+How many meal combinations are there if customers can choose from 6 entrees, 3 drinks, and select 3 sides from the current 6 options?
+
+```{r}
+6 * nrow(combinations(6,3)) * 3
+```
+
+2d. The manager is concerned that customers may not want 3 sides with their meal. He is willing to increase the number of entree choices instead, but if he adds too many expensive options it could eat into profits. He wants to know how many entree choices he would have to offer in order to meet his goal.
+
+* Write a function that takes a number of entree choices and returns the number of meal combinations possible given that number of entree options, 3 drink choices, and a selection of 2 sides from 6 options.
+* Use ```sapply``` to apply the function to entree option counts ranging from 1 to 12.
+
+What is the minimum number of entree options required in order to generate more than 365 combinations?
+
+```{r}
+entree_choices <- function(x){
+  x * nrow(combinations(6,2)) * 3
+}
+
+combos <- sapply(1:12, entree_choices)
+
+data.frame(entrees = 1:12, combos = combos) %>%
+  filter(combos > 365) %>%
+  min(.$entrees)
+```
+
+2e. The manager isn't sure he can afford to put that many entree choices on the lunch menu and thinks it would be cheaper for him to expand the number of sides. He wants to know how many sides he would have to offer to meet his goal of at least 365 combinations.
+
+* Write a function that takes a number of side choices and returns the number of meal combinations possible given 6 entree choices, 3 drink choices, and a selection of 2 sides from the specified number of side choices.
+* Use ```sapply``` to apply the function to side counts ranging from 2 to 12.
+
+What is the minimum number of side options required in order to generate more than 365 combinations?
+
+```{r}
+side_choices <- function(x){
+  6 * nrow(combinations(x, 2)) * 3
+}
+
+combos <- sapply(2:12, side_choices)
+
+data.frame(sides = 2:12, combos = combos) %>%
+  filter(combos > 365) %>%
+  min(.$sides)
+```
+
+## Assessment - Esophageal cancer and alcohol/tobacco use
+
+3., 4., 5. and 6. Case-control studies help determine whether certain exposures are associated with outcomes such as developing cancer. The built-in dataset **esoph** contains data from a case-control study in France comparing people with esophageal cancer (cases, counted in **ncases**) to people without esophageal cancer (controls, counted in **ncontrols**) that are carefully matched on a variety of demographic and medical characteristics. The study compares alcohol intake in grams per day (**alcgp**) and tobacco intake in grams per day (**tobgp**) across cases and controls grouped by age range (**agegp**).
+
+The dataset is available in base R and can be called with the variable name **esoph**:
+
+```{r}
+head(esoph)
+```
+
+You will be using this dataset to answer the following four multi-part questions (Questions 3-6).
+
+You may wish to use the tidyverse package.
+
+The following three parts have you explore some basic characteristics of the dataset.
+
+Each row contains one group of the experiment. Each group has a different combination of age, alcohol consumption, and tobacco consumption. The number of cancer cases and number of controls (individuals without cancer) are reported for each group.
+
+3a. How many groups are in the study?
+
+```{r}
+nrow(esoph)
+```
+
+3b. How many cases are there?
+
+Save this value as ```all_cases`` for later problems.
+
+```{r}
+all_cases <- sum(esoph$ncases)
+all_cases
+```
+
+3c. How many controls are there?
+
+Save this value as ```all_controls``` for later problems. Remember from the instructions that controls are individuals without cancer.
+
+```{r}
+all_controls <- sum(esoph$ncontrols)
+all_controls
+```
+
+4a. What is the probability that a subject in the highest alcohol consumption group is a cancer case?
+
+Remember that the total number of individuals in the study includes people with cancer (cases) and people without cancer (controls), so you must add both values together to get the denominator for your probability.
+
+```{r}
+esoph %>%
+  filter(alcgp == "120+") %>%
+  summarize(ncases = sum(ncases), ncontrols = sum(ncontrols)) %>%
+  mutate(p_case = ncases / (ncases + ncontrols)) %>%
+  pull(p_case)
+```
+
+4b. What is the probability that a subject in the lowest alcohol consumption group is a cancer case?
+
+```{r}
+esoph %>%
+  filter(alcgp == "0-39g/day") %>%
+  summarize(ncases = sum(ncases), ncontrols = sum(ncontrols)) %>%
+  mutate(p_case = ncases / (ncases + ncontrols)) %>%
+  pull(p_case)
+```
+
+4c. Given that a person is a case, what is the probability that they smoke 10g or more a day?
+
+```{r}
+tob_cases <- esoph %>%
+  filter(tobgp != "0-9g/day") %>%
+  pull(ncases) %>%
+  sum()
+
+tob_cases/all_cases
+```
+
+4d. Given that a person is a control, what is the probability that they smoke 10g or more a day?
+
+```{r}
+tob_controls <- esoph %>%
+  filter(tobgp != "0-9g/day") %>%
+  pull(ncontrols) %>%
+  sum()
+
+tob_controls/all_controls
+```
+
+5a. For cases, what is the probability of being in the highest alcohol group?
+
+```{r}
+high_alc_cases <- esoph %>%
+  filter(alcgp == "120+") %>%
+  pull(ncases) %>%
+  sum()
+
+p_case_high_alc <- high_alc_cases/all_cases
+p_case_high_alc
+```
+
+5b. For cases, what is the probability of being in the highest tobacco group?
+
+```{r}
+high_tob_cases <- esoph %>%
+  filter(tobgp == "30+") %>%
+  pull(ncases) %>%
+  sum()
+
+p_case_high_tob <- high_tob_cases/all_cases
+p_case_high_tob
+```
+
+5c. For cases, what is the probability of being in the highest alcohol group **and** the highest tobacco group?
+
+```{r}
+high_alc_tob_cases <- esoph %>%
+  filter(alcgp == "120+" & tobgp == "30+") %>%
+  pull(ncases) %>%
+  sum()
+
+p_case_high_alc_tob <- high_alc_tob_cases/all_cases
+p_case_high_alc_tob
+```
+
+5d. For cases, what is the probability of being in the highest alcohol group **or** the highest tobacco group?
+
+```{r}
+p_case_either_highest <- p_case_high_alc + p_case_high_tob - p_case_high_alc_tob
+p_case_either_highest
+```
+
+6a. For controls, what is the probability of being in the highest alcohol group?
+
+```{r}
+high_alc_controls <- esoph %>%
+  filter(alcgp == "120+") %>%
+  pull(ncontrols) %>%
+  sum()
+
+p_control_high_alc <- high_alc_controls/all_controls
+p_control_high_alc
+```
+
+6b. How many times more likely are cases than controls to be in the highest alcohol group?
+
+```{r}
+p_case_high_alc/p_control_high_alc
+```
+
+6c. For controls, what is the probability of being in the highest tobacco group?
+
+```{r}
+high_tob_controls <- esoph %>%
+  filter(tobgp == "30+") %>%
+  pull(ncontrols) %>%
+  sum()
+
+p_control_high_tob <- high_tob_controls/all_controls
+p_control_high_tob
+```
+
+6d. For controls, what is the probability of being in the highest alcohol group **and** the highest tobacco group?
+
+```{r}
+high_alc_tob_controls <- esoph %>%
+  filter(alcgp == "120+" & tobgp == "30+") %>%
+  pull(ncontrols) %>%
+  sum()
+
+p_control_high_alc_tob <- high_alc_tob_controls/all_controls
+p_control_high_alc_tob
+```
+
+6e. For controls, what is the probability of being in the highest alcohol group **or** the highest tobacco group?
+
+```{r}
+p_control_either_highest <- p_control_high_alc + p_control_high_tob - p_control_high_alc_tob
+p_control_either_highest
+```
+
+6f. How many times more likely are cases than controls to be in the highest alcohol group or the highest tobacco group?
+
+```{r}
+p_case_either_highest/p_control_either_highest
+```
 
 ## Section 2 Overview
 
 Section 2 introduces you to Continuous Probability.
 
 After completing Section 2, you will:
-- understand the differences between calculating probabilities for discrete and continuous data.
-- be able to use cumulative distribution functions to assign probabilities to intervals when dealing with continuous data.
-- be able to use R to generate normally distributed outcomes for use in Monte Carlo simulations.
-- know some of the useful theoretical continuous distributions in addition to the normal distribution, such as the student-t, chi-squared, exponential, gamma, beta, and beta-binomial distributions.
+* understand the differences between calculating probabilities for discrete and continuous data.
+* be able to use cumulative distribution functions to assign probabilities to intervals when dealing with continuous data.
+* be able to use R to generate normally distributed outcomes for use in Monte Carlo simulations.
+* know some of the useful theoretical continuous distributions in addition to the normal distribution, such as the student-t, chi-squared, exponential, gamma, beta, and beta-binomial distributions.
+
+## Continuous Probability
 
 The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-probability)
 
-## Continuous Probability
 ```
-library(tidyverse)
+if(!require(tidyverse)) install.packages("tidyverse")
+
 library(dslabs)
 ```
 ```
