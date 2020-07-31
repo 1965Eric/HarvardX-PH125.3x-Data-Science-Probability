@@ -326,7 +326,7 @@ random.
 \begin{verbatim}
 ## events
 ## blue  red 
-## 6003 3997
+## 5955 4045
 \end{verbatim}
 
 \begin{Shaded}
@@ -338,7 +338,7 @@ random.
 \begin{verbatim}
 ## events
 ##   blue    red 
-## 0.6003 0.3997
+## 0.5955 0.4045
 \end{verbatim}
 
 \hypertarget{setting-the-random-seed}{%
@@ -798,11 +798,11 @@ The textbook for this section is available
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
-## [1,]    2    1    7    9    5    0    8
-## [2,]    4    9    5    0    8    1    2
-## [3,]    3    9    7    5    1    6    0
-## [4,]    6    8    0    2    4    3    5
-## [5,]    7    5    6    1    3    9    0
+## [1,]    9    7    1    2    6    0    5
+## [2,]    0    9    7    8    5    2    1
+## [3,]    8    9    6    4    5    7    1
+## [4,]    7    1    6    9    2    8    5
+## [5,]    8    7    3    1    2    4    0
 \end{verbatim}
 
 \begin{Shaded}
@@ -906,7 +906,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Seven Spades" "Seven Clubs"
+## [1] "Four Spades" "Ten Hearts"
 \end{verbatim}
 
 \begin{Shaded}
@@ -922,7 +922,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0464
+## [1] 0.0479
 \end{verbatim}
 
 \hypertarget{the-birthday-problem}{%
@@ -975,7 +975,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9697
+## [1] 0.9707
 \end{verbatim}
 
 \hypertarget{sapply}{%
@@ -1164,20 +1164,19 @@ stable, then we have selected a useful value of \textbf{B}.
 
 \includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-21-1.pdf}
 
-\hypertarget{assessment-2-combinations-and-permutations}{%
-\subsection{Assessment 2: Combinations and
-Permutations}\label{assessment-2-combinations-and-permutations}}
+\hypertarget{assessment---combinations-and-permutations}{%
+\subsection{Assessment - Combinations and
+Permutations}\label{assessment---combinations-and-permutations}}
 
-1.Independence
-
-Imagine you draw two balls from a box containing colored balls. You
+1.Imagine you draw two balls from a box containing colored balls. You
 either replace the first ball before you draw the second or you leave
 the first ball out of the box when you draw the second ball.
 
 Under which situation are the two draws independent of one another?
 
-Remember that two events A and B are independent if Pr(A and
-B)=Pr(A)P(B).
+Remember that two events A and B are independent if:
+
+\(Pr(A\:and\:B) = Pr(A)P(B)\)
 
 \begin{itemize}
 \tightlist
@@ -1196,24 +1195,22 @@ B)=Pr(A)P(B).
 \setcounter{enumi}{1}
 \tightlist
 \item
-  Sampling with replacement
+  Say you've drawn 5 balls from the a box that has 3 cyan balls, 5
+  magenta balls, and 7 yellow balls, with replacement, and all have been
+  yellow.
 \end{enumerate}
-
-Say you've drawn 5 balls from the a box that has 3 cyan balls, 5 magenta
-balls, and 7 yellow balls, with replacement, and all have been yellow.
 
 What is the probability that the next one is yellow?
 
-\begin{verbatim}
-cyan <- 3
-magenta <- 5
-yellow <- 7
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign the variable \textquotesingle{}p\_yellow\textquotesingle{} as the probability that a yellow ball is drawn from the box.}
+\NormalTok{p\_yellow \textless{}{-}}\StringTok{ }\NormalTok{yellow }\OperatorTok{/}\StringTok{ }\NormalTok{(cyan }\OperatorTok{+}\StringTok{ }\NormalTok{magenta }\OperatorTok{+}\StringTok{ }\NormalTok{yellow)}
 
-# Assign the variable 'p_yellow' as the probability that a yellow ball is drawn from the box.
-p_yellow <- yellow/(cyan+magenta+yellow)
-# Using the variable 'p_yellow', calculate the probability of drawing a yellow ball on the sixth draw. Print this value to the console.
-p_yellow
-\end{verbatim}
+\CommentTok{\# Using the variable \textquotesingle{}p\_yellow\textquotesingle{}, calculate the probability of drawing a yellow ball on the sixth draw. Print this value to the console.}
+\NormalTok{p\_yellow}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.4666667
@@ -1224,20 +1221,20 @@ p_yellow
 \setcounter{enumi}{2}
 \tightlist
 \item
-  Rolling a die
+  If you roll a 6-sided die once, what is the probability of not seeing
+  a 6? If you roll a 6-sided die six times, what is the probability of
+  not seeing a 6 on any roll?
 \end{enumerate}
 
-If you roll a 6-sided die once, what is the probability of not seeing a
-6? If you roll a 6-sided die six times, what is the probability of not
-seeing a 6 on any roll?
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign the variable \textquotesingle{}p\_no6\textquotesingle{} as the probability of not seeing a 6 on a single roll.}
+\NormalTok{p\_no6 \textless{}{-}}\StringTok{ }\DecValTok{5}\OperatorTok{/}\DecValTok{6}
 
-\begin{verbatim}
-# Assign the variable 'p_no6' as the probability of not seeing a 6 on a single roll.
-p_no6 <- 5/6
-
-# Calculate the probability of not seeing a 6 on six rolls using `p_no6`. Print your result to the console: do not assign it to a variable.
-p_no6^6
-\end{verbatim}
+\CommentTok{\# Calculate the probability of not seeing a 6 on six rolls using \textasciigrave{}p\_no6\textasciigrave{}. Print your result to the console: do not assign it to a variable.}
+\NormalTok{p\_no6}\OperatorTok{*}\NormalTok{p\_no6}\OperatorTok{*}\NormalTok{p\_no6}\OperatorTok{*}\NormalTok{p\_no6}\OperatorTok{*}\NormalTok{p\_no6}\OperatorTok{*}\NormalTok{p\_no6}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.334898
@@ -1248,34 +1245,24 @@ p_no6^6
 \setcounter{enumi}{3}
 \tightlist
 \item
-  Probability the Celtics win a game
+  Two teams, say the Celtics and the Cavs, are playing a seven game
+  series. The Cavs are a better team and have a 60\% chance of winning
+  each game.
 \end{enumerate}
-
-Two teams, say the Celtics and the Cavs, are playing a seven game
-series. The Cavs are a better team and have a 60\% chance of winning
-each game.
 
 What is the probability that the Celtics win at least one game? Remember
 that the Celtics must win one of the first four games, or the series
 will be over!
 
-\begin{itemize}
-\tightlist
-\item
-  Calculate the probability that the Cavs will win the first four games
-  of the series.
-\item
-  Calculate the probability that the Celtics win at least one game in
-  the first four games of the series.
-\end{itemize}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign the variable \textasciigrave{}p\_cavs\_win4\textasciigrave{} as the probability that the Cavs will win the first four games of the series.}
+\NormalTok{p\_cavs\_win4 \textless{}{-}}\StringTok{ }\NormalTok{(}\DecValTok{3}\OperatorTok{/}\DecValTok{5}\NormalTok{)}\OperatorTok{*}\NormalTok{(}\DecValTok{3}\OperatorTok{/}\DecValTok{5}\NormalTok{)}\OperatorTok{*}\NormalTok{(}\DecValTok{3}\OperatorTok{/}\DecValTok{5}\NormalTok{)}\OperatorTok{*}\NormalTok{(}\DecValTok{3}\OperatorTok{/}\DecValTok{5}\NormalTok{)}
 
-\begin{verbatim}
-# Assign the variable `p_cavs_win4` as the probability that the Cavs will win the first four games of the series.
-p_cavs_win4 <- 0.6^4
-
-# Using the variable `p_cavs_win4`, calculate the probability that the Celtics win at least one game in the first four games of the series.
-(1-p_cavs_win4)
-\end{verbatim}
+\CommentTok{\# Using the variable \textasciigrave{}p\_cavs\_win4\textasciigrave{}, calculate the probability that the Celtics win at least one game in the first four games of the series.}
+\DecValTok{1}\OperatorTok{{-}}\NormalTok{p\_cavs\_win4}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.8704
@@ -1286,127 +1273,150 @@ p_cavs_win4 <- 0.6^4
 \setcounter{enumi}{4}
 \tightlist
 \item
-  Monte Carlo simulation for Celtics winning a game
+  Create a Monte Carlo simulation to confirm your answer to the previous
+  problem by estimating how frequently the Celtics win at least 1 of 4
+  games. Use \texttt{B\ \textless{}-\ 10000} simulations.
 \end{enumerate}
 
-Create a Monte Carlo simulation to confirm your answer to the previous
-problem by estimating how frequently the Celtics win at least 1 of 4
-games. Use B \textless- 10000 simulations.
-
 The provided sample code simulates a single series of four random games,
-simulated\_games - Use the replicate function for B \textless- 10000
-simulations of a four game series. - Within each simulation, replicate
-the sample code to simulate a four-game series named simulated\_games. -
-Then, use the any function to indicate whether the four-game series
-contains at least one win for the Celtics. - Use the mean function to
-find the proportion of simulations that contain at least one win for the
-Celtics out of four games.
+\texttt{simulated\_games}
 
-\begin{verbatim}
-# This line of example code simulates four independent random games where the Celtics either lose or win. Copy this example code to use within the `replicate` function.
-simulated_games <- sample(c("lose","win"), 4, replace = TRUE, prob = c(0.6, 0.4))
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# This line of example code simulates four independent random games where the Celtics either lose or win. Copy this example code to use within the \textasciigrave{}replicate\textasciigrave{} function.}
+\NormalTok{simulated\_games \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"lose"}\NormalTok{,}\StringTok{"win"}\NormalTok{), }\DecValTok{4}\NormalTok{, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.4}\NormalTok{))}
 
-# The variable 'B' specifies the number of times we want the simulation to run. Let's run the Monte Carlo simulation 10,000 times.
-B <- 10000
+\CommentTok{\# The variable \textquotesingle{}B\textquotesingle{} specifies the number of times we want the simulation to run. Let\textquotesingle{}s run the Monte Carlo simulation 10,000 times.}
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
 
-# Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
-set.seed(1)
+\CommentTok{\# Use the \textasciigrave{}set.seed\textasciigrave{} function to make sure your answer matches the expected result after random sampling.}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
 
-# Create an object called `celtic_wins` that replicates two steps for B iterations: (1) generating a random four-game series `simulated_games` using the example code, then (2) determining whether the simulated series contains at least one win for the Celtics.
-celtic_wins <- replicate(B, {
-  simulated_games <- sample(c("lose","win"), 4, replace = TRUE, prob = c(0.6, 0.4))
-  any(simulated_games=="win")
-})
+\CommentTok{\# Create an object called \textasciigrave{}celtic\_wins\textasciigrave{} that replicates two steps for B iterations: (1) generating a random four{-}game series \textasciigrave{}simulated\_games\textasciigrave{} using the example code, then (2) determining whether the simulated series contains at least one win for the Celtics.}
+\NormalTok{celtic\_wins \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{ }
+\NormalTok{  simulated\_games \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"lose"}\NormalTok{,}\StringTok{"win"}\NormalTok{), }\DecValTok{4}\NormalTok{, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(}\FloatTok{0.6}\NormalTok{, }\FloatTok{0.4}\NormalTok{))}
+  \KeywordTok{any}\NormalTok{(simulated\_games}\OperatorTok{==}\StringTok{"win"}\NormalTok{)\}}
+\NormalTok{)}
 
-# Calculate the frequency out of B iterations that the Celtics won at least one game. Print your answer to the console.
-mean(celtic_wins)
-\end{verbatim}
+\CommentTok{\# Calculate the frequency out of B iterations that the Celtics won at least one game. Print your answer to the console.}
+\KeywordTok{mean}\NormalTok{(celtic\_wins)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.8757
 \end{verbatim}
 
-\hypertarget{addition-rule}{%
-\subsection{1.3 Addition rule}\label{addition-rule}}
+\hypertarget{the-addition-rule}{%
+\subsection{The Addition rule}\label{the-addition-rule}}
 
-The addition rule tells us that:
+Here is a link to the textbook section on the
+\href{https://rafalab.github.io/dsbook/probability.html\#addition-rule}{addition
+rule}.
 
-Pr(A or B) = Pr(A) + Pr(B) - Pr(A and B)
+\textbf{Key points}
 
-This rule is intuitive: think of a Venn diagram. If we simply add the
-probabilities, we count the intersection twice so we need to substract
-one instance.
+\begin{itemize}
+\tightlist
+\item
+  The addition rule states that the probability of event \(A\) or event
+  \(B\) happening is the probability of event \(A\) plus the probability
+  of event \(B\) minus the probability of both events \(A\) and \(B\)
+  happening together.
+\end{itemize}
+
+\(Pr(A\:or\:B)=Pr(A) + Pr(B) − Pr(A\:and\:B)\)
+
+Note that \((A\:or\:B)\) is equivalent to \((A \mid B)\).
+
+\emph{Example: The addition rule for a natural 21 in blackjack}
+
+We apply the addition rule where \(A\) = drawing an ace then a facecard
+and \(B\) = drawing a facecard then an ace. Note that in this case, both
+events A and B cannot happen at the same time, so \(Pr(A\:and\:B) = 0\).
+
+\(Pr(ace\:then\:facecard) = \frac{4}{52}\:X\: \frac{16}{51}\)
+
+\(Pr(facecard\:then\:ace) = \frac{16}{52}\:X\: \frac{4}{51}\)
+
+\(Pr(ace\:then\:facecard \mid facecard\:then\:ace) = \frac{4}{52}\:X\: \frac{16}{51}\:+\:\frac{16}{52}\:X\: \frac{4}{51} = 0.0483\)
 
 \hypertarget{the-monty-hall-problem}{%
 \subsection{The Monty Hall Problem}\label{the-monty-hall-problem}}
 
-In the 1970s, there was a game show called ``Let's Make a Deal'' and
-Monty Hall was the host. At some point in the game, contestants were
-asked to pick one of three doors. Behind one door there was a prize. The
-other doors had a goat behind them to show the contestant they had lost.
-After the contestant picked a door, before revealing whether the chosen
-door contained a prize, Monty Hall would open one of the two remaining
-doors and show the contestant there was no prize behind that door. Then
-he would ask ``Do you want to switch doors?'' What would you do?
+Here is the textbook section on the
+\href{https://rafalab.github.io/dsbook/probability.html\#monty-hall-problem}{Monty
+Hall Problem}.
 
-We can use probability to show that if you stick with the original door
-choice, your chances of winning a prize remain 1 in 3. However, if you
-switch to the other door, your chances of winning double to 2 in 3! This
-seems counterintuitive. Many people incorrectly think both chances are 1
-in 2 since you are choosing between 2 options. You can watch a detailed
-mathematical explanation of why this is here or read one here. Below we
-use a Monte Carlo simulation to see which strategy is better. Note that
-this code is written longer than it should be for pedagogical purposes.
+\emph{Key points}
 
-Let's start with the stick strategy:
+\begin{itemize}
+\tightlist
+\item
+  Monte Carlo simulations can be used to simulate random outcomes, which
+  makes them useful when exploring ambiguous or less intuitive problems
+  like the Monty Hall problem.
+\item
+  In the Monty Hall problem, contestants choose one of three doors that
+  may contain a prize. Then, one of the doors that was not chosen by the
+  contestant and does not contain a prize is revealed. The contestant
+  can then choose whether to stick with the original choice or switch to
+  the remaining unopened door.
+\item
+  Although it may seem intuitively like the contestant has a 1 in 2
+  chance of winning regardless of whether they stick or switch, Monte
+  Carlo simulations demonstrate that the actual probability of winning
+  is 1 in 3 with the stick strategy and 2 in 3 with the switch strategy.
+\item
+  For more on the Monty Hall problem, you can
+  \href{https://www.khanacademy.org/math/precalculus/prob-comb/dependent-events-precalc/v/monty-hall-problem}{watch
+  a detailed explanation here} or
+  \href{https://en.wikipedia.org/wiki/Monty_Hall_problem}{read an
+  explanation here}.
+\end{itemize}
 
-\begin{verbatim}
-B <- 10000
-stick <- replicate(B, {
-  doors <- as.character(1:3)
-  prize <- sample(c("car", "goat", "goat"))
-  prize_door <- doors[prize == "car"]
-  my_pick  <- sample(doors, 1)
-  show <- sample(doors[!doors %in% c(my_pick, prize_door)],1)
-  stick <- my_pick
-  stick == prize_door
-})
-mean(stick)
-\end{verbatim}
+\emph{Code: Monte Carlo simulation of stick strategy}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+\NormalTok{stick \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{  doors \textless{}{-}}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{)}
+\NormalTok{  prize \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"car"}\NormalTok{,}\StringTok{"goat"}\NormalTok{,}\StringTok{"goat"}\NormalTok{))    }\CommentTok{\# puts prizes in random order}
+\NormalTok{  prize\_door \textless{}{-}}\StringTok{ }\NormalTok{doors[prize }\OperatorTok{==}\StringTok{ "car"}\NormalTok{]    }\CommentTok{\# note which door has prize}
+\NormalTok{  my\_pick  \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(doors, }\DecValTok{1}\NormalTok{)    }\CommentTok{\# note which door is chosen}
+\NormalTok{  show \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(doors[}\OperatorTok{!}\NormalTok{doors }\OperatorTok{\%in\%}\StringTok{ }\KeywordTok{c}\NormalTok{(my\_pick, prize\_door)],}\DecValTok{1}\NormalTok{)    }\CommentTok{\# open door with no prize that isn\textquotesingle{}t chosen}
+\NormalTok{  stick \textless{}{-}}\StringTok{ }\NormalTok{my\_pick    }\CommentTok{\# stick with original door}
+\NormalTok{  stick }\OperatorTok{==}\StringTok{ }\NormalTok{prize\_door    }\CommentTok{\# test whether the original door has the prize}
+\NormalTok{\})}
+\KeywordTok{mean}\NormalTok{(stick)    }\CommentTok{\# probability of choosing prize door when sticking}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.3388
 \end{verbatim}
 
-As we write the code, we note that the lines starting with my\_pick and
-show have no influence on the last logical operation since we stick to
-our original choice anyway. From this we should realize that the chance
-is 1 in 3, what we began with.
+\emph{Code: Monte Carlo simulation of switch strategy}
 
-Now let's repeat the exercise, but consider the switch strategy:
-
-\begin{verbatim}
-switch <- replicate(B, {
-  doors <- as.character(1:3)
-  prize <- sample(c("car", "goat", "goat"))
-  prize_door <- doors[prize == "car"]
-  my_pick  <- sample(doors, 1)
-  show <- sample(doors[!doors %in% c(my_pick, prize_door)], 1)
-  stick <- my_pick
-  switch <- doors[!doors%in%c(my_pick, show)]
-  switch == prize_door
-})
-mean(switch)
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{switch}\NormalTok{ \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{  doors \textless{}{-}}\StringTok{ }\KeywordTok{as.character}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{)}
+\NormalTok{  prize \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\StringTok{"car"}\NormalTok{,}\StringTok{"goat"}\NormalTok{,}\StringTok{"goat"}\NormalTok{))    }\CommentTok{\# puts prizes in random order}
+\NormalTok{  prize\_door \textless{}{-}}\StringTok{ }\NormalTok{doors[prize }\OperatorTok{==}\StringTok{ "car"}\NormalTok{]    }\CommentTok{\# note which door has prize}
+\NormalTok{  my\_pick  \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(doors, }\DecValTok{1}\NormalTok{)    }\CommentTok{\# note which door is chosen first}
+\NormalTok{  show \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(doors[}\OperatorTok{!}\NormalTok{doors }\OperatorTok{\%in\%}\StringTok{ }\KeywordTok{c}\NormalTok{(my\_pick, prize\_door)], }\DecValTok{1}\NormalTok{)    }\CommentTok{\# open door with no prize that isn\textquotesingle{}t chosen}
+  \ControlFlowTok{switch}\NormalTok{ \textless{}{-}}\StringTok{ }\NormalTok{doors[}\OperatorTok{!}\NormalTok{doors}\OperatorTok{\%in\%}\KeywordTok{c}\NormalTok{(my\_pick, show)]    }\CommentTok{\# switch to the door that wasn\textquotesingle{}t chosen first or opened}
+  \ControlFlowTok{switch} \OperatorTok{==}\StringTok{ }\NormalTok{prize\_door    }\CommentTok{\# test whether the switched door has the prize}
+\NormalTok{\})}
+\KeywordTok{mean}\NormalTok{(}\ControlFlowTok{switch}\NormalTok{)    }\CommentTok{\# probability of choosing prize door when switching}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.6708
 \end{verbatim}
-
-The Monte Carlo estimate confirms the 2/3 calculation. This helps us
-gain some insight by showing that we are removing a door, show, that is
-definitely not a winner from our choices. We also see that unless we get
-it right when we first pick, you win: 1 - 1/3 = 2/3.
 
 \hypertarget{assessment-3-the-addition-rule-and-monty-hall}{%
 \subsection{Assessment 3: The Addition Rule and Monty

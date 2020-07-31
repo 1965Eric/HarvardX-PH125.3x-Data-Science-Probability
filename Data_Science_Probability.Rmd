@@ -503,7 +503,7 @@ plot(log10(B), prob, type = "l")    # plot a line graph of estimates
 
 Under which situation are the two draws independent of one another?
 
-Remember that two events A and B are independent if 
+Remember that two events A and B are independent if: 
 
 $Pr(A\:and\:B) = Pr(A)P(B)$
 
