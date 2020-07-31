@@ -497,80 +497,60 @@ prob <- sapply(B, compute_prob)    # apply compute_prob to many values of B
 plot(log10(B), prob, type = "l")    # plot a line graph of estimates
 ```
 
-## Assessment 2: Combinations and Permutations
+## Assessment - Combinations and Permutations
 
-1.Independence
-
-Imagine you draw two balls from a box containing colored balls. You either replace the first ball before you draw the second or you leave the first ball out of the box when you draw the second ball.
+1.Imagine you draw two balls from a box containing colored balls. You either replace the first ball before you draw the second or you leave the first ball out of the box when you draw the second ball.
 
 Under which situation are the two draws independent of one another?
 
-Remember that two events A and B are independent if Pr(A and B)=Pr(A)P(B).
+Remember that two events A and B are independent if 
+
+$Pr(A\:and\:B) = Pr(A)P(B)$
 
 - [ ] A. You don’t replace the first ball before drawing the next.
 - [X] B. You do replace the first ball before drawing the next.
 - [ ] C. Neither situation describes independent events.
 - [ ] D. Both situations describe independent events.
 
-2. Sampling with replacement
-
-Say you’ve drawn 5 balls from the a box that has 3 cyan balls, 5 magenta balls, and 7 yellow balls, with replacement, and all have been yellow.
+2. Say you’ve drawn 5 balls from the a box that has 3 cyan balls, 5 magenta balls, and 7 yellow balls, with replacement, and all have been yellow.
 
 What is the probability that the next one is yellow?
-```
-cyan <- 3
-magenta <- 5
-yellow <- 7
 
+```{r}
 # Assign the variable 'p_yellow' as the probability that a yellow ball is drawn from the box.
-p_yellow <- yellow/(cyan+magenta+yellow)
+p_yellow <- yellow / (cyan + magenta + yellow)
+
 # Using the variable 'p_yellow', calculate the probability of drawing a yellow ball on the sixth draw. Print this value to the console.
 p_yellow
 ```
-```
-## [1] 0.4666667
-```
-3. Rolling a die
 
-If you roll a 6-sided die once, what is the probability of not seeing a 6? If you roll a 6-sided die six times, what is the probability of not seeing a 6 on any roll?
-```
+3. If you roll a 6-sided die once, what is the probability of not seeing a 6? If you roll a 6-sided die six times, what is the probability of not seeing a 6 on any roll?
+
+```{r}
 # Assign the variable 'p_no6' as the probability of not seeing a 6 on a single roll.
 p_no6 <- 5/6
 
 # Calculate the probability of not seeing a 6 on six rolls using `p_no6`. Print your result to the console: do not assign it to a variable.
-p_no6^6
+p_no6*p_no6*p_no6*p_no6*p_no6*p_no6
 ```
-```
-## [1] 0.334898
-```
-4. Probability the Celtics win a game
 
-Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game.
+4. Two teams, say the Celtics and the Cavs, are playing a seven game series. The Cavs are a better team and have a 60% chance of winning each game.
 
 What is the probability that the Celtics win at least one game? Remember that the Celtics must win one of the first four games, or the series will be over!
 
-- Calculate the probability that the Cavs will win the first four games of the series.
-- Calculate the probability that the Celtics win at least one game in the first four games of the series.
-```
+```{r}
 # Assign the variable `p_cavs_win4` as the probability that the Cavs will win the first four games of the series.
-p_cavs_win4 <- 0.6^4
+p_cavs_win4 <- (3/5)*(3/5)*(3/5)*(3/5)
 
 # Using the variable `p_cavs_win4`, calculate the probability that the Celtics win at least one game in the first four games of the series.
-(1-p_cavs_win4)
+1-p_cavs_win4
 ```
-```
-## [1] 0.8704
-```
-5. Monte Carlo simulation for Celtics winning a game
 
-Create a Monte Carlo simulation to confirm your answer to the previous problem by estimating how frequently the Celtics win at least 1 of 4 games. Use B <- 10000 simulations.
+5. Create a Monte Carlo simulation to confirm your answer to the previous problem by estimating how frequently the Celtics win at least 1 of 4 games. Use ```B <- 10000``` simulations.
 
-The provided sample code simulates a single series of four random games, simulated_games
-- Use the replicate function for B <- 10000 simulations of a four game series.
-- Within each simulation, replicate the sample code to simulate a four-game series named simulated_games.
-- Then, use the any function to indicate whether the four-game series contains at least one win for the Celtics.
-- Use the mean function to find the proportion of simulations that contain at least one win for the Celtics out of four games.
-```
+The provided sample code simulates a single series of four random games, ```simulated_games```
+
+```{r}
 # This line of example code simulates four independent random games where the Celtics either lose or win. Copy this example code to use within the `replicate` function.
 simulated_games <- sample(c("lose","win"), 4, replace = TRUE, prob = c(0.6, 0.4))
 
@@ -581,68 +561,78 @@ B <- 10000
 set.seed(1)
 
 # Create an object called `celtic_wins` that replicates two steps for B iterations: (1) generating a random four-game series `simulated_games` using the example code, then (2) determining whether the simulated series contains at least one win for the Celtics.
-celtic_wins <- replicate(B, {
+celtic_wins <- replicate(B, { 
   simulated_games <- sample(c("lose","win"), 4, replace = TRUE, prob = c(0.6, 0.4))
-  any(simulated_games=="win")
-})
+  any(simulated_games=="win")}
+)
 
 # Calculate the frequency out of B iterations that the Celtics won at least one game. Print your answer to the console.
 mean(celtic_wins)
 ```
-```
-## [1] 0.8757
-```
-## 1.3 Addition rule
 
-The addition rule tells us that:
+## The Addition rule
 
-Pr(A or B) = Pr(A) + Pr(B) - Pr(A and B)
+Here is a link to the textbook section on the [addition rule](https://rafalab.github.io/dsbook/probability.html#addition-rule).
 
-This rule is intuitive: think of a Venn diagram. If we simply add the probabilities, we count the intersection twice so we need to substract one instance.
+**Key points**
+
+* The addition rule states that the probability of event $A$ or event $B$ happening is the probability of event $A$ plus the probability of event $B$ minus the probability of both events $A$ and $B$ happening together.
+
+$Pr(A\:or\:B)=Pr(A) + Pr(B) − Pr(A\:and\:B)$
+
+Note that $(A\:or\:B)$ is equivalent to $(A \mid B)$.
+
+*Example: The addition rule for a natural 21 in blackjack*
+
+We apply the addition rule where $A$ = drawing an ace then a facecard and $B$ = drawing a facecard then an ace. Note that in this case, both events A and B cannot happen at the same time, so $Pr(A\:and\:B) = 0$.
+
+$Pr(ace\:then\:facecard) = \frac{4}{52}\:X\: \frac{16}{51}$ 
+
+$Pr(facecard\:then\:ace) = \frac{16}{52}\:X\: \frac{4}{51}$
+
+$Pr(ace\:then\:facecard \mid facecard\:then\:ace) = \frac{4}{52}\:X\: \frac{16}{51}\:+\:\frac{16}{52}\:X\: \frac{4}{51} = 0.0483$  
 
 ## The Monty Hall Problem
 
-In the 1970s, there was a game show called “Let’s Make a Deal” and Monty Hall was the host. At some point in the game, contestants were asked to pick one of three doors. Behind one door there was a prize. The other doors had a goat behind them to show the contestant they had lost. After the contestant picked a door, before revealing whether the chosen door contained a prize, Monty Hall would open one of the two remaining doors and show the contestant there was no prize behind that door. Then he would ask “Do you want to switch doors?” What would you do?
+Here is the textbook section on the [Monty Hall Problem](https://rafalab.github.io/dsbook/probability.html#monty-hall-problem).
 
-We can use probability to show that if you stick with the original door choice, your chances of winning a prize remain 1 in 3. However, if you switch to the other door, your chances of winning double to 2 in 3! This seems counterintuitive. Many people incorrectly think both chances are 1 in 2 since you are choosing between 2 options. You can watch a detailed mathematical explanation of why this is here or read one here. Below we use a Monte Carlo simulation to see which strategy is better. Note that this code is written longer than it should be for pedagogical purposes.
+*Key points*
 
-Let’s start with the stick strategy:
-```
+* Monte Carlo simulations can be used to simulate random outcomes, which makes them useful when exploring ambiguous or less intuitive problems like the Monty Hall problem.
+* In the Monty Hall problem, contestants choose one of three doors that may contain a prize. Then, one of the doors that was not chosen by the contestant and does not contain a prize is revealed. The contestant can then choose whether to stick with the original choice or switch to the remaining unopened door.
+* Although it may seem intuitively like the contestant has a 1 in 2 chance of winning regardless of whether they stick or switch, Monte Carlo simulations demonstrate that the actual probability of winning is 1 in 3 with the stick strategy and 2 in 3 with the switch strategy.
+* For more on the Monty Hall problem, you can [watch a detailed explanation here](https://www.khanacademy.org/math/precalculus/prob-comb/dependent-events-precalc/v/monty-hall-problem) or [read an explanation here](https://en.wikipedia.org/wiki/Monty_Hall_problem).
+
+*Code: Monte Carlo simulation of stick strategy*
+
+```{r}
 B <- 10000
 stick <- replicate(B, {
   doors <- as.character(1:3)
-  prize <- sample(c("car", "goat", "goat"))
-  prize_door <- doors[prize == "car"]
-  my_pick  <- sample(doors, 1)
-  show <- sample(doors[!doors %in% c(my_pick, prize_door)],1)
-  stick <- my_pick
-  stick == prize_door
+  prize <- sample(c("car","goat","goat"))    # puts prizes in random order
+  prize_door <- doors[prize == "car"]    # note which door has prize
+  my_pick  <- sample(doors, 1)    # note which door is chosen
+  show <- sample(doors[!doors %in% c(my_pick, prize_door)],1)    # open door with no prize that isn't chosen
+  stick <- my_pick    # stick with original door
+  stick == prize_door    # test whether the original door has the prize
 })
-mean(stick)
+mean(stick)    # probability of choosing prize door when sticking
 ```
-```
-## [1] 0.3388
-```
-As we write the code, we note that the lines starting with my_pick and show have no influence on the last logical operation since we stick to our original choice anyway. From this we should realize that the chance is 1 in 3, what we began with.
 
-Now let’s repeat the exercise, but consider the switch strategy:
-```
+*Code: Monte Carlo simulation of switch strategy*
+
+```{r}
 switch <- replicate(B, {
   doors <- as.character(1:3)
-  prize <- sample(c("car", "goat", "goat"))
-  prize_door <- doors[prize == "car"]
-  my_pick  <- sample(doors, 1)
-  show <- sample(doors[!doors %in% c(my_pick, prize_door)], 1)
-  stick <- my_pick
-  switch <- doors[!doors%in%c(my_pick, show)]
-  switch == prize_door
+  prize <- sample(c("car","goat","goat"))    # puts prizes in random order
+  prize_door <- doors[prize == "car"]    # note which door has prize
+  my_pick  <- sample(doors, 1)    # note which door is chosen first
+  show <- sample(doors[!doors %in% c(my_pick, prize_door)], 1)    # open door with no prize that isn't chosen
+  switch <- doors[!doors%in%c(my_pick, show)]    # switch to the door that wasn't chosen first or opened
+  switch == prize_door    # test whether the switched door has the prize
 })
-mean(switch)
+mean(switch)    # probability of choosing prize door when switching
 ```
-```
-## [1] 0.6708
-```
-The Monte Carlo estimate confirms the 2/3 calculation. This helps us gain some insight by showing that we are removing a door, show, that is definitely not a winner from our choices. We also see that unless we get it right when we first pick, you win: 1 - 1/3 = 2/3.
 
 ## Assessment 3: The Addition Rule and Monty Hall
 
