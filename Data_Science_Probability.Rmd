@@ -412,11 +412,11 @@ The textbook discussion of **sapply** for the birthday problem can be found with
 * The function **sapply(x, f)** allows any other function **f** to be applied element-wise to the vector **x**.
 * The probability of an event happening is 1 minus the probability of that event not happening:
 
-$Pr(event) = 1 - Pr(no\:event)
+$Pr(event) = 1 - Pr(no\:event)$
 
 * We can compute the probability of shared birthdays mathematically:
 
-$Pr(shared:\birthdays) = 1 − Pr(no\:shared\:birthdays) = 1 − (1:\X \frac{364}{365}\:X \frac{363}{365}\:X...X\: \frac{365−n+1+}{365})$ 
+$Pr(shared\:birthdays) = 1 − Pr(no\:shared\:birthdays) = 1 − (1\:X\: \frac{364}{365}\:X \:\frac{363}{365}\:X...X\: \frac{365−n+1}{365})$ 
 
 *Code: Function for calculating birthday problem Monte Carlo simulations for any value of n*
 
