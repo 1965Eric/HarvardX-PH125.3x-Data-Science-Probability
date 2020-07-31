@@ -306,7 +306,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "blue"
+## [1] "red"
 \end{verbatim}
 
 \emph{Code: Monte Carlo simulation}
@@ -326,7 +326,7 @@ random.
 \begin{verbatim}
 ## events
 ## blue  red 
-## 5955 4045
+## 5923 4077
 \end{verbatim}
 
 \begin{Shaded}
@@ -338,7 +338,7 @@ random.
 \begin{verbatim}
 ## events
 ##   blue    red 
-## 0.5955 0.4045
+## 0.5923 0.4077
 \end{verbatim}
 
 \hypertarget{setting-the-random-seed}{%
@@ -798,11 +798,11 @@ The textbook for this section is available
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
-## [1,]    9    7    1    2    6    0    5
-## [2,]    0    9    7    8    5    2    1
-## [3,]    8    9    6    4    5    7    1
-## [4,]    7    1    6    9    2    8    5
-## [5,]    8    7    3    1    2    4    0
+## [1,]    1    9    3    6    4    2    8
+## [2,]    6    8    2    7    4    1    0
+## [3,]    6    7    4    5    3    1    9
+## [4,]    9    1    5    0    4    6    8
+## [5,]    0    9    4    5    8    1    7
 \end{verbatim}
 
 \begin{Shaded}
@@ -906,7 +906,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Four Spades" "Ten Hearts"
+## [1] "Jack Hearts"   "Jack Diamonds"
 \end{verbatim}
 
 \begin{Shaded}
@@ -922,7 +922,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0479
+## [1] 0.0454
 \end{verbatim}
 
 \hypertarget{the-birthday-problem}{%
@@ -975,7 +975,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9707
+## [1] 0.9712
 \end{verbatim}
 
 \hypertarget{sapply}{%
@@ -1426,33 +1426,36 @@ Hall}\label{assessment-3-the-addition-rule-and-monty-hall}}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  The Cavs and the Warriors
+  Two teams, say the Cavs and the Warriors, are playing a seven game
+  championship series. The first to win four games wins the series. The
+  teams are equally good, so they each have a 50-50 chance of winning
+  each game.
 \end{enumerate}
-
-Two teams, say the Cavs and the Warriors, are playing a seven game
-championship series. The first to win four games wins the series. The
-teams are equally good, so they each have a 50-50 chance of winning each
-game.
 
 If the Cavs lose the first game, what is the probability that they win
 the series?
 
-\begin{verbatim}
-# Assign a variable 'n' as the number of remaining games.
-n <-6
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}n\textquotesingle{} as the number of remaining games.}
+\NormalTok{n \textless{}{-}}\DecValTok{6}
 
-# Assign a variable `l` to a list of all possible outcomes in all remaining games. Use the `rep` function on `list(outcomes)` to create list of length `n`.
-l <- list(0:1)
+\CommentTok{\# Assign a variable \textasciigrave{}outcomes\textasciigrave{} as a vector of possible game outcomes, where 0 indicates a loss and 1 indicates a win for the Cavs.}
+\NormalTok{outcomes \textless{}{-}}\StringTok{ }\NormalTok{(}\DecValTok{0}\OperatorTok{:}\DecValTok{1}\NormalTok{)}
 
-# Create a data frame named 'possibilities' that contains all combinations of possible outcomes for the remaining games.
-possibilities <- expand.grid(rep(l, n))
+\CommentTok{\# Assign a variable \textasciigrave{}l\textasciigrave{} to a list of all possible outcomes in all remaining games. Use the \textasciigrave{}rep\textasciigrave{} function on \textasciigrave{}list(outcomes)\textasciigrave{} to create list of length \textasciigrave{}n\textasciigrave{}.}
+\NormalTok{l \textless{}{-}}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\KeywordTok{list}\NormalTok{(outcomes), n)}
 
-# Create a vector named 'results' that indicates whether each row in the data frame 'possibilities' contains enough wins for the Cavs to win the series.
-results <- rowSums(possibilities)>=4
+\CommentTok{\# Create a data frame named \textquotesingle{}possibilities\textquotesingle{} that contains all combinations of possible outcomes for the remaining games.}
+\NormalTok{possibilities \textless{}{-}}\StringTok{ }\KeywordTok{expand.grid}\NormalTok{(l)}
 
-# Calculate the proportion of 'results' in which the Cavs win the series. Print the outcome to the console.
-mean(results)
-\end{verbatim}
+\CommentTok{\# Create a vector named \textquotesingle{}results\textquotesingle{} that indicates whether each row in the data frame \textquotesingle{}possibilities\textquotesingle{} contains enough wins for the Cavs to win the series.}
+\NormalTok{results \textless{}{-}}\StringTok{ }\KeywordTok{rowSums}\NormalTok{(possibilities)}\OperatorTok{\textgreater{}=}\DecValTok{4}
+
+\CommentTok{\# Calculate the proportion of \textquotesingle{}results\textquotesingle{} in which the Cavs win the series. Print the outcome to the console.}
+\KeywordTok{mean}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.34375
@@ -1460,32 +1463,32 @@ mean(results)
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
-\setcounter{enumi}{2}
+\setcounter{enumi}{1}
 \tightlist
 \item
-  The Cavs and the Warriors - Monte Carlo
+  Confirm the results of the previous question with a Monte Carlo
+  simulation to estimate the probability of the Cavs winning the series
+  after losing the first game.
 \end{enumerate}
 
-Confirm the results of the previous question with a Monte Carlo
-simulation to estimate the probability of the Cavs winning the series
-after losing the first game.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The variable \textasciigrave{}B\textasciigrave{} specifies the number of times we want the simulation to run. Let\textquotesingle{}s run the Monte Carlo simulation 10,000 times.}
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
 
-\begin{verbatim}
-# The variable `B` specifies the number of times we want the simulation to run. Let's run the Monte Carlo simulation 10,000 times.
-B <- 10000
+\CommentTok{\# Use the \textasciigrave{}set.seed\textasciigrave{} function to make sure your answer matches the expected result after random sampling.}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
 
-# Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
-set.seed(1)
+\CommentTok{\# Create an object called \textasciigrave{}results\textasciigrave{} that replicates for \textasciigrave{}B\textasciigrave{} iterations a simulated series and determines whether that series contains at least four wins for the Cavs.}
+\NormalTok{results \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{ }
+\NormalTok{  cavs\_wins \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{0}\NormalTok{,}\DecValTok{1}\NormalTok{), }\DecValTok{6}\NormalTok{, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{)}
+  \KeywordTok{sum}\NormalTok{(cavs\_wins)}\OperatorTok{\textgreater{}=}\DecValTok{4}\NormalTok{ \}}
+\NormalTok{)}
 
-# Create an object called `results` that replicates for `B` iterations a simulated series and determines whether that series contains at least four wins for the Cavs.
-results <- replicate(B, {
-   cavs_wins <- sample(c(0,1), 6, replace = TRUE)
-   sum(cavs_wins)>=4
-})
-
-# Calculate the frequency out of `B` iterations that the Cavs won at least four games in the remainder of the series. Print your answer to the console.
-mean(results)
-\end{verbatim}
+\CommentTok{\# Calculate the frequency out of \textasciigrave{}B\textasciigrave{} iterations that the Cavs won at least four games in the remainder of the series. Print your answer to the console.}
+\KeywordTok{mean}\NormalTok{(results)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.3371
@@ -1496,103 +1499,703 @@ mean(results)
 \setcounter{enumi}{2}
 \tightlist
 \item
-  A and B play a series - part 1
+  Two teams, \(A\) and \(B\), are playing a seven series game series.
+  Team \(A\) is better than team \(B\) and has a
+  \texttt{p\ \textgreater{}\ 0.5} chance of winning each game.
 \end{enumerate}
 
-Two teams, A and B, are playing a seven series game series. Team A is
-better than team B and has a p \textgreater{} 0.5 chance of winning each
-game.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Let\textquotesingle{}s assign the variable \textquotesingle{}p\textquotesingle{} as the vector of probabilities that team A will win.}
+\NormalTok{p \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{0.5}\NormalTok{, }\FloatTok{0.95}\NormalTok{, }\FloatTok{0.025}\NormalTok{)}
 
-\begin{verbatim}
-# Let's assign the variable 'p' as the vector of probabilities that team A will win.
-p <- seq(0.5, 0.95, 0.025)
+\CommentTok{\# Given a value \textquotesingle{}p\textquotesingle{}, the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:}
+\NormalTok{prob\_win \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(p)\{}
+\NormalTok{  B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+\NormalTok{  result \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{    b\_win \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{), }\DecValTok{7}\NormalTok{, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p, p))}
+    \KeywordTok{sum}\NormalTok{(b\_win)}\OperatorTok{\textgreater{}=}\DecValTok{4}
+\NormalTok{    \})}
+  \KeywordTok{mean}\NormalTok{(result)}
+\NormalTok{\}}
 
-# Given a value 'p', the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:
-prob_win <- function(p){
-  B <- 10000
-  result <- replicate(B, {
-    b_win <- sample(c(1,0), 7, replace = TRUE, prob = c(1-p, p))
-    sum(b_win)>=4
-    })
-  mean(result)
-}
+\CommentTok{\# Apply the \textquotesingle{}prob\_win\textquotesingle{} function across the vector of probabilities that team A will win to determine the probability that team B will win. Call this object \textquotesingle{}Pr\textquotesingle{}.}
+\NormalTok{Pr \textless{}{-}}\StringTok{ }\KeywordTok{sapply}\NormalTok{(p, prob\_win)}
 
-# Apply the 'prob_win' function across the vector of probabilities that team A will win to determine the probability that team B will win. Call this object 'Pr'.
-Pr <- sapply(p, prob_win)
+\CommentTok{\# Plot the probability \textquotesingle{}p\textquotesingle{} on the x{-}axis and \textquotesingle{}Pr\textquotesingle{} on the y{-}axis.}
+\KeywordTok{plot}\NormalTok{(p,Pr)}
+\end{Highlighting}
+\end{Shaded}
 
-# Plot the probability 'p' on the x-axis and 'Pr' on the y-axis.
-plot(p, Pr)
-\end{verbatim}
-
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77336492-dd2baa80-6d27-11ea-815a-4e08a271be1a.png}
-\caption{Unknown}
-\end{figure}
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-30-1.pdf}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \setcounter{enumi}{3}
 \tightlist
 \item
-  A and B play a series - part 2
+  Repeat the previous exercise, but now keep the probability that team
+  \(A\) wins fixed at \texttt{p\ \textless{}-\ 0.75} and compute the
+  probability for different series lengths.
 \end{enumerate}
 
-Repeat the previous exercise, but now keep the probability that team A
-wins fixed at p \textless- 0.75 and compute the probability for
-different series lengths. For example, wins in best of 1 game, 3 games,
-5 games, and so on through a series that lasts 25 games.
+For example, wins in best of 1 game, 3 games, 5 games, and so on through
+a series that lasts 25 games.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Given a value \textquotesingle{}p\textquotesingle{}, the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:}
+\NormalTok{prob\_win \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(N, }\DataTypeTok{p=}\FloatTok{0.75}\NormalTok{)\{}
+\NormalTok{      B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+\NormalTok{      result \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{        b\_win \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{,}\DecValTok{0}\NormalTok{), N, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p, p))}
+        \KeywordTok{sum}\NormalTok{(b\_win)}\OperatorTok{\textgreater{}=}\NormalTok{(N}\OperatorTok{+}\DecValTok{1}\NormalTok{)}\OperatorTok{/}\DecValTok{2}
+\NormalTok{        \})}
+      \KeywordTok{mean}\NormalTok{(result)}
+\NormalTok{    \}}
+
+\CommentTok{\# Assign the variable \textquotesingle{}N\textquotesingle{} as the vector of series lengths. Use only odd numbers ranging from 1 to 25 games.}
+\NormalTok{N \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\DecValTok{1}\NormalTok{, }\DecValTok{25}\NormalTok{, }\DecValTok{2}\NormalTok{)}
+
+\CommentTok{\# Apply the \textquotesingle{}prob\_win\textquotesingle{} function across the vector of series lengths to determine the probability that team B will win. Call this object \textasciigrave{}Pr\textasciigrave{}.}
+\NormalTok{Pr \textless{}{-}}\StringTok{ }\KeywordTok{sapply}\NormalTok{(N, prob\_win)}
+
+\CommentTok{\# Plot the number of games in the series \textquotesingle{}N\textquotesingle{} on the x{-}axis and \textquotesingle{}Pr\textquotesingle{} on the y{-}axis.}
+\KeywordTok{plot}\NormalTok{(N,Pr)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-31-1.pdf}
+
+\hypertarget{assessment---olympic-running}{%
+\subsection{Assessment - Olympic
+Running}\label{assessment---olympic-running}}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ControlFlowTok{if}\NormalTok{(}\OperatorTok{!}\KeywordTok{require}\NormalTok{(tidyverse)) }\KeywordTok{install.packages}\NormalTok{(}\StringTok{"tidyverse"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Given a value 'p', the probability of winning the series for the underdog team B can be computed with the following function based on a Monte Carlo simulation:
-prob_win <- function(N, p=0.75){
-      B <- 10000
-      result <- replicate(B, {
-        b_win <- sample(c(1,0), N, replace = TRUE, prob = c(1-p, p))
-        sum(b_win)>=(N+1)/2
-        })
-      mean(result)
-    }
-
-# Assign the variable 'N' as the vector of series lengths. Use only odd numbers ranging from 1 to 25 games.
-N <- seq(1, 25, 2)
-
-# Apply the 'prob_win' function across the vector of series lengths to determine the probability that team B will win. Call this object `Pr`.
-Pr<- sapply(N, prob_win)
-
-# Plot the number of games in the series 'N' on the x-axis and 'Pr' on the y-axis.
-plot(N, Pr)
+## Loading required package: tidyverse
 \end{verbatim}
 
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77336634-18c67480-6d28-11ea-9a5b-73bab56b5e6a.png}
-\caption{Unknown}
-\end{figure}
+\begin{verbatim}
+## -- Attaching packages --------------------------------------------------------------------------------------------------------------------------------------------- tidyverse 1.3.0 --
+\end{verbatim}
+
+\begin{verbatim}
+## v ggplot2 3.3.2     v purrr   0.3.4
+## v tibble  3.0.3     v dplyr   1.0.1
+## v tidyr   1.1.1     v stringr 1.4.0
+## v readr   1.3.1     v forcats 0.5.0
+\end{verbatim}
+
+\begin{verbatim}
+## -- Conflicts ------------------------------------------------------------------------------------------------------------------------------------------------ tidyverse_conflicts() --
+## x dplyr::filter() masks stats::filter()
+## x dplyr::lag()    masks stats::lag()
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{options}\NormalTok{(}\DataTypeTok{digits =} \DecValTok{3}\NormalTok{)    }\CommentTok{\# report 3 significant digits}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  In the 200m dash finals in the Olympics, 8 runners compete for 3
+  medals (order matters). In the 2012 Olympics, 3 of the 8 runners were
+  from Jamaica and the other 5 were from different countries. The three
+  medals were all won by Jamaica (Usain Bolt, Yohan Blake, and Warren
+  Weir).
+\end{enumerate}
+
+Use the information above to help you answer the following four
+questions.
+
+1a. How many different ways can the 3 medals be distributed across 8
+runners?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{medals \textless{}{-}}\StringTok{ }\KeywordTok{permutations}\NormalTok{(}\DecValTok{8}\NormalTok{,}\DecValTok{3}\NormalTok{)}
+\KeywordTok{nrow}\NormalTok{(medals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 336
+\end{verbatim}
+
+1b. How many different ways can the three medals be distributed among
+the 3 runners from Jamaica?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{jamaica \textless{}{-}}\StringTok{ }\KeywordTok{permutations}\NormalTok{(}\DecValTok{3}\NormalTok{,}\DecValTok{3}\NormalTok{)}
+\KeywordTok{nrow}\NormalTok{(jamaica)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 6
+\end{verbatim}
+
+1c. What is the probability that all 3 medals are won by Jamaica?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{nrow}\NormalTok{(jamaica)}\OperatorTok{/}\KeywordTok{nrow}\NormalTok{(medals)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0179
+\end{verbatim}
+
+1d. Run a Monte Carlo simulation on this vector representing the
+countries of the 8 runners in this race:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{runners \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"USA"}\NormalTok{, }\StringTok{"Ecuador"}\NormalTok{, }\StringTok{"Netherlands"}\NormalTok{, }\StringTok{"France"}\NormalTok{, }\StringTok{"South Africa"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+For each iteration of the Monte Carlo simulation, within a
+\texttt{replicate} loop, select 3 runners representing the 3 medalists
+and check whether they are all from Jamaica. Repeat this simulation
+10,000 times. Set the seed to 1 before running the loop.
+
+Calculate the probability that all the runners are from Jamaica.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+\NormalTok{runners \textless{}{-}}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"Jamaica"}\NormalTok{, }\StringTok{"USA"}\NormalTok{, }\StringTok{"Ecuador"}\NormalTok{, }\StringTok{"Netherlands"}\NormalTok{, }\StringTok{"France"}\NormalTok{, }\StringTok{"South Africa"}\NormalTok{)}
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+\NormalTok{all\_jamaica \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{  results \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(runners, }\DecValTok{3}\NormalTok{)}
+  \KeywordTok{all}\NormalTok{(results }\OperatorTok{==}\StringTok{ "Jamaica"}\NormalTok{)}
+\NormalTok{\})}
+\KeywordTok{mean}\NormalTok{(all\_jamaica)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0174
+\end{verbatim}
+
+\hypertarget{assessment---restaurant-management}{%
+\subsection{Assessment - Restaurant
+Management}\label{assessment---restaurant-management}}
+
+2: Use the information below to answer the following five questions.
+
+A restaurant manager wants to advertise that his lunch special offers
+enough choices to eat different meals every day of the year. He doesn't
+think his current special actually allows that number of choices, but
+wants to change his special if needed to allow at least 365 choices.
+
+A meal at the restaurant includes 1 entree, 2 sides, and 1 drink. He
+currently offers a choice of 1 entree from a list of 6 options, a choice
+of 2 different sides from a list of 6 options, and a choice of 1 drink
+from a list of 2 options.
+
+2a. How many meal combinations are possible with the current menu?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{6} \OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{combinations}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\DecValTok{2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 180
+\end{verbatim}
+
+2b. The manager has one additional drink he could add to the special.
+
+How many combinations are possible if he expands his original special to
+3 drink options?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{6} \OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{combinations}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\DecValTok{3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 270
+\end{verbatim}
+
+2c. The manager decides to add the third drink but needs to expand the
+number of options. The manager would prefer not to change his menu
+further and wants to know if he can meet his goal by letting customers
+choose more sides.
+
+How many meal combinations are there if customers can choose from 6
+entrees, 3 drinks, and select 3 sides from the current 6 options?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{6} \OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{combinations}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{3}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\DecValTok{3}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 360
+\end{verbatim}
+
+2d. The manager is concerned that customers may not want 3 sides with
+their meal. He is willing to increase the number of entree choices
+instead, but if he adds too many expensive options it could eat into
+profits. He wants to know how many entree choices he would have to offer
+in order to meet his goal.
+
+\begin{itemize}
+\tightlist
+\item
+  Write a function that takes a number of entree choices and returns the
+  number of meal combinations possible given that number of entree
+  options, 3 drink choices, and a selection of 2 sides from 6 options.
+\item
+  Use \texttt{sapply} to apply the function to entree option counts
+  ranging from 1 to 12.
+\end{itemize}
+
+What is the minimum number of entree options required in order to
+generate more than 365 combinations?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{entree\_choices \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  x }\OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{combinations}\NormalTok{(}\DecValTok{6}\NormalTok{,}\DecValTok{2}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\DecValTok{3}
+\NormalTok{\}}
+
+\NormalTok{combos \textless{}{-}}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{12}\NormalTok{, entree\_choices)}
+
+\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{entrees =} \DecValTok{1}\OperatorTok{:}\DecValTok{12}\NormalTok{, }\DataTypeTok{combos =}\NormalTok{ combos) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(combos }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{365}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{min}\NormalTok{(.}\OperatorTok{$}\NormalTok{entrees)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 9
+\end{verbatim}
+
+2e. The manager isn't sure he can afford to put that many entree choices
+on the lunch menu and thinks it would be cheaper for him to expand the
+number of sides. He wants to know how many sides he would have to offer
+to meet his goal of at least 365 combinations.
+
+\begin{itemize}
+\tightlist
+\item
+  Write a function that takes a number of side choices and returns the
+  number of meal combinations possible given 6 entree choices, 3 drink
+  choices, and a selection of 2 sides from the specified number of side
+  choices.
+\item
+  Use \texttt{sapply} to apply the function to side counts ranging from
+  2 to 12.
+\end{itemize}
+
+What is the minimum number of side options required in order to generate
+more than 365 combinations?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{side\_choices \textless{}{-}}\StringTok{ }\ControlFlowTok{function}\NormalTok{(x)\{}
+  \DecValTok{6} \OperatorTok{*}\StringTok{ }\KeywordTok{nrow}\NormalTok{(}\KeywordTok{combinations}\NormalTok{(x, }\DecValTok{2}\NormalTok{)) }\OperatorTok{*}\StringTok{ }\DecValTok{3}
+\NormalTok{\}}
+
+\NormalTok{combos \textless{}{-}}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DecValTok{2}\OperatorTok{:}\DecValTok{12}\NormalTok{, side\_choices)}
+
+\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{sides =} \DecValTok{2}\OperatorTok{:}\DecValTok{12}\NormalTok{, }\DataTypeTok{combos =}\NormalTok{ combos) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(combos }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{365}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{min}\NormalTok{(.}\OperatorTok{$}\NormalTok{sides)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 7
+\end{verbatim}
+
+\hypertarget{assessment---esophageal-cancer-and-alcoholtobacco-use}{%
+\subsection{Assessment - Esophageal cancer and alcohol/tobacco
+use}\label{assessment---esophageal-cancer-and-alcoholtobacco-use}}
+
+3., 4., 5. and 6. Case-control studies help determine whether certain
+exposures are associated with outcomes such as developing cancer. The
+built-in dataset \textbf{esoph} contains data from a case-control study
+in France comparing people with esophageal cancer (cases, counted in
+\textbf{ncases}) to people without esophageal cancer (controls, counted
+in \textbf{ncontrols}) that are carefully matched on a variety of
+demographic and medical characteristics. The study compares alcohol
+intake in grams per day (\textbf{alcgp}) and tobacco intake in grams per
+day (\textbf{tobgp}) across cases and controls grouped by age range
+(\textbf{agegp}).
+
+The dataset is available in base R and can be called with the variable
+name \textbf{esoph}:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{head}\NormalTok{(esoph)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   agegp     alcgp    tobgp ncases ncontrols
+## 1 25-34 0-39g/day 0-9g/day      0        40
+## 2 25-34 0-39g/day    10-19      0        10
+## 3 25-34 0-39g/day    20-29      0         6
+## 4 25-34 0-39g/day      30+      0         5
+## 5 25-34     40-79 0-9g/day      0        27
+## 6 25-34     40-79    10-19      0         7
+\end{verbatim}
+
+You will be using this dataset to answer the following four multi-part
+questions (Questions 3-6).
+
+You may wish to use the tidyverse package.
+
+The following three parts have you explore some basic characteristics of
+the dataset.
+
+Each row contains one group of the experiment. Each group has a
+different combination of age, alcohol consumption, and tobacco
+consumption. The number of cancer cases and number of controls
+(individuals without cancer) are reported for each group.
+
+3a. How many groups are in the study?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{nrow}\NormalTok{(esoph)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 88
+\end{verbatim}
+
+3b. How many cases are there?
+
+Save this value as \texttt{all\_cases} for later problems.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_cases \textless{}{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(esoph}\OperatorTok{$}\NormalTok{ncases)}
+\NormalTok{all\_cases}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 200
+\end{verbatim}
+
+3c. How many controls are there?
+
+Save this value as \texttt{all\_controls} for later problems. Remember
+from the instructions that controls are individuals without cancer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{all\_controls \textless{}{-}}\StringTok{ }\KeywordTok{sum}\NormalTok{(esoph}\OperatorTok{$}\NormalTok{ncontrols)}
+\NormalTok{all\_controls}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 975
+\end{verbatim}
+
+4a. What is the probability that a subject in the highest alcohol
+consumption group is a cancer case?
+
+Remember that the total number of individuals in the study includes
+people with cancer (cases) and people without cancer (controls), so you
+must add both values together to get the denominator for your
+probability.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(alcgp }\OperatorTok{==}\StringTok{ "120+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{ncases =} \KeywordTok{sum}\NormalTok{(ncases), }\DataTypeTok{ncontrols =} \KeywordTok{sum}\NormalTok{(ncontrols)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{p\_case =}\NormalTok{ ncases }\OperatorTok{/}\StringTok{ }\NormalTok{(ncases }\OperatorTok{+}\StringTok{ }\NormalTok{ncontrols)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(p\_case)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.402
+\end{verbatim}
+
+4b. What is the probability that a subject in the lowest alcohol
+consumption group is a cancer case?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(alcgp }\OperatorTok{==}\StringTok{ "0{-}39g/day"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{summarize}\NormalTok{(}\DataTypeTok{ncases =} \KeywordTok{sum}\NormalTok{(ncases), }\DataTypeTok{ncontrols =} \KeywordTok{sum}\NormalTok{(ncontrols)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{mutate}\NormalTok{(}\DataTypeTok{p\_case =}\NormalTok{ ncases }\OperatorTok{/}\StringTok{ }\NormalTok{(ncases }\OperatorTok{+}\StringTok{ }\NormalTok{ncontrols)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(p\_case)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0653
+\end{verbatim}
+
+4c. Given that a person is a case, what is the probability that they
+smoke 10g or more a day?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tob\_cases \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(tobgp }\OperatorTok{!=}\StringTok{ "0{-}9g/day"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncases) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{tob\_cases}\OperatorTok{/}\NormalTok{all\_cases}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.61
+\end{verbatim}
+
+4d. Given that a person is a control, what is the probability that they
+smoke 10g or more a day?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tob\_controls \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(tobgp }\OperatorTok{!=}\StringTok{ "0{-}9g/day"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncontrols) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{tob\_controls}\OperatorTok{/}\NormalTok{all\_controls}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.462
+\end{verbatim}
+
+5a. For cases, what is the probability of being in the highest alcohol
+group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_alc\_cases \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(alcgp }\OperatorTok{==}\StringTok{ "120+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncases) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{p\_case\_high\_alc \textless{}{-}}\StringTok{ }\NormalTok{high\_alc\_cases}\OperatorTok{/}\NormalTok{all\_cases}
+\NormalTok{p\_case\_high\_alc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.225
+\end{verbatim}
+
+5b. For cases, what is the probability of being in the highest tobacco
+group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_tob\_cases \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(tobgp }\OperatorTok{==}\StringTok{ "30+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncases) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{p\_case\_high\_tob \textless{}{-}}\StringTok{ }\NormalTok{high\_tob\_cases}\OperatorTok{/}\NormalTok{all\_cases}
+\NormalTok{p\_case\_high\_tob}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.155
+\end{verbatim}
+
+5c. For cases, what is the probability of being in the highest alcohol
+group \textbf{and} the highest tobacco group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_alc\_tob\_cases \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(alcgp }\OperatorTok{==}\StringTok{ "120+"} \OperatorTok{\&}\StringTok{ }\NormalTok{tobgp }\OperatorTok{==}\StringTok{ "30+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncases) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{p\_case\_high\_alc\_tob \textless{}{-}}\StringTok{ }\NormalTok{high\_alc\_tob\_cases}\OperatorTok{/}\NormalTok{all\_cases}
+\NormalTok{p\_case\_high\_alc\_tob}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.05
+\end{verbatim}
+
+5d. For cases, what is the probability of being in the highest alcohol
+group \textbf{or} the highest tobacco group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_case\_either\_highest \textless{}{-}}\StringTok{ }\NormalTok{p\_case\_high\_alc }\OperatorTok{+}\StringTok{ }\NormalTok{p\_case\_high\_tob }\OperatorTok{{-}}\StringTok{ }\NormalTok{p\_case\_high\_alc\_tob}
+\NormalTok{p\_case\_either\_highest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.33
+\end{verbatim}
+
+6a. For controls, what is the probability of being in the highest
+alcohol group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_alc\_controls \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(alcgp }\OperatorTok{==}\StringTok{ "120+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncontrols) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{p\_control\_high\_alc \textless{}{-}}\StringTok{ }\NormalTok{high\_alc\_controls}\OperatorTok{/}\NormalTok{all\_controls}
+\NormalTok{p\_control\_high\_alc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0687
+\end{verbatim}
+
+6b. How many times more likely are cases than controls to be in the
+highest alcohol group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_case\_high\_alc}\OperatorTok{/}\NormalTok{p\_control\_high\_alc}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.27
+\end{verbatim}
+
+6c. For controls, what is the probability of being in the highest
+tobacco group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_tob\_controls \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(tobgp }\OperatorTok{==}\StringTok{ "30+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncontrols) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{p\_control\_high\_tob \textless{}{-}}\StringTok{ }\NormalTok{high\_tob\_controls}\OperatorTok{/}\NormalTok{all\_controls}
+\NormalTok{p\_control\_high\_tob}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0841
+\end{verbatim}
+
+6d. For controls, what is the probability of being in the highest
+alcohol group \textbf{and} the highest tobacco group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{high\_alc\_tob\_controls \textless{}{-}}\StringTok{ }\NormalTok{esoph }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{filter}\NormalTok{(alcgp }\OperatorTok{==}\StringTok{ "120+"} \OperatorTok{\&}\StringTok{ }\NormalTok{tobgp }\OperatorTok{==}\StringTok{ "30+"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{pull}\NormalTok{(ncontrols) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{sum}\NormalTok{()}
+
+\NormalTok{p\_control\_high\_alc\_tob \textless{}{-}}\StringTok{ }\NormalTok{high\_alc\_tob\_controls}\OperatorTok{/}\NormalTok{all\_controls}
+\NormalTok{p\_control\_high\_alc\_tob}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0133
+\end{verbatim}
+
+6e. For controls, what is the probability of being in the highest
+alcohol group \textbf{or} the highest tobacco group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_control\_either\_highest \textless{}{-}}\StringTok{ }\NormalTok{p\_control\_high\_alc }\OperatorTok{+}\StringTok{ }\NormalTok{p\_control\_high\_tob }\OperatorTok{{-}}\StringTok{ }\NormalTok{p\_control\_high\_alc\_tob}
+\NormalTok{p\_control\_either\_highest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.139
+\end{verbatim}
+
+6f. How many times more likely are cases than controls to be in the
+highest alcohol group or the highest tobacco group?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p\_case\_either\_highest}\OperatorTok{/}\NormalTok{p\_control\_either\_highest}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.37
+\end{verbatim}
 
 \hypertarget{section-2-overview}{%
 \subsection{Section 2 Overview}\label{section-2-overview}}
 
 Section 2 introduces you to Continuous Probability.
 
-After completing Section 2, you will: - understand the differences
-between calculating probabilities for discrete and continuous data. - be
-able to use cumulative distribution functions to assign probabilities to
-intervals when dealing with continuous data. - be able to use R to
-generate normally distributed outcomes for use in Monte Carlo
-simulations. - know some of the useful theoretical continuous
-distributions in addition to the normal distribution, such as the
-student-t, chi-squared, exponential, gamma, beta, and beta-binomial
-distributions.
+After completing Section 2, you will:
 
-The textbook for this section is available
-\href{https://rafalab.github.io/dsbook/probability.html\#continuous-probability}{here}
+\begin{itemize}
+\tightlist
+\item
+  understand the differences between calculating probabilities for
+  discrete and continuous data.
+\item
+  be able to use cumulative distribution functions to assign
+  probabilities to intervals when dealing with continuous data.
+\item
+  be able to use R to generate normally distributed outcomes for use in
+  Monte Carlo simulations.
+\item
+  know some of the useful theoretical continuous distributions in
+  addition to the normal distribution, such as the student-t,
+  chi-squared, exponential, gamma, beta, and beta-binomial
+  distributions.
+\end{itemize}
 
 \hypertarget{continuous-probability}{%
 \subsection{Continuous Probability}\label{continuous-probability}}
 
+The textbook for this section is available
+\href{https://rafalab.github.io/dsbook/probability.html\#continuous-probability}{here}
+
 \begin{verbatim}
-library(tidyverse)
+if(!require(tidyverse)) install.packages("tidyverse")
+
 library(dslabs)
 \end{verbatim}
 

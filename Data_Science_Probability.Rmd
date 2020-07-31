@@ -660,7 +660,7 @@ results <- rowSums(possibilities)>=4
 mean(results)
 ```
 
-3. Confirm the results of the previous question with a Monte Carlo simulation to estimate the probability of the Cavs winning the series after losing the first game.
+2. Confirm the results of the previous question with a Monte Carlo simulation to estimate the probability of the Cavs winning the series after losing the first game.
 
 ```{r}
 # The variable `B` specifies the number of times we want the simulation to run. Let's run the Monte Carlo simulation 10,000 times.
@@ -750,7 +750,7 @@ nrow(medals)
 1b. How many different ways can the three medals be distributed among the 3 runners from Jamaica?
 
 ```{r}
-jamaica < permutations(3,3)
+jamaica <- permutations(3,3)
 nrow(jamaica)
 ```
 
@@ -875,7 +875,7 @@ nrow(esoph)
 
 3b. How many cases are there?
 
-Save this value as ```all_cases`` for later problems.
+Save this value as ```all_cases``` for later problems.
 
 ```{r}
 all_cases <- sum(esoph$ncases)
@@ -1038,6 +1038,7 @@ p_case_either_highest/p_control_either_highest
 Section 2 introduces you to Continuous Probability.
 
 After completing Section 2, you will:
+
 * understand the differences between calculating probabilities for discrete and continuous data.
 * be able to use cumulative distribution functions to assign probabilities to intervals when dealing with continuous data.
 * be able to use R to generate normally distributed outcomes for use in Monte Carlo simulations.
