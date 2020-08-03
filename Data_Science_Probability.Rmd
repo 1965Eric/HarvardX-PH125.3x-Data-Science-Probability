@@ -1861,16 +1861,16 @@ You can read more about the Poisson distribution at [this link](https://en.wikip
 
 ## Assessment 6: The Central Limit Theorem
 
-1. American Roulette probability of winning money
+1. The exercises in the previous chapter explored winnings in American roulette. 
 
-The exercises in the previous chapter explored winnings in American roulette. In this chapter of exercises, we will continue with the roulette example and add in the Central Limit Theorem.
+In this chapter of exercises, we will continue with the roulette example and add in the Central Limit Theorem.
 
-In the previous chapter of exercises, you created a random variable S that is the sum of your winnings after betting on green a number of times in American Roulette.
+In the previous chapter of exercises, you created a random variable $S$
+ that is the sum of your winnings after betting on green a number of times in American Roulette.
 
 What is the probability that you end up winning money if you bet on green 100 times?
-- Execute the sample code to determine the expected value avg and standard error se as you have done in previous exercises.
-- Use the pnorm function to determine the probability of winning money.
-```
+
+```{r}
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
 p_green <- 2 / 38
 
@@ -1889,19 +1889,12 @@ se <- sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
 # Using the expected value 'avg' and standard error 'se', compute the probability that you win money betting on green 100 times.
 1-pnorm(0,avg,se)
 ```
-```
-## [1] 0.4479091
-```
-2. American Roulette Monte Carlo simulation
 
-Create a Monte Carlo simulation that generates 10,000 outcomes of S, the sum of 100 bets.
+2. Create a Monte Carlo simulation that generates 10,000 outcomes of $S$, the sum of 100 bets.
 
-Compute the average and standard deviation of the resulting list and compare them to the expected value (-5.263158) and standard error (40.19344) for S that you calculated previously.
-- Use the replicate function to replicate the sample code for B <- 10000 simulations.
-- Within replicate, use the sample function to simulate n <- 100 outcomes of either a win (17)oraloss(-1) for the bet. Use the order c(17, -1) and corresponding probabilities. Then, use the sum function to add up the winnings over all iterations of the model. Make sure to include sum or DataCamp may crash with a “Session Expired” error.
-- Use the mean function to compute the average winnings.
-- Use the sd function to compute the standard deviation of the winnings.
-```
+Compute the average and standard deviation of the resulting list and compare them to the expected value (-5.263158) and standard error (40.19344) for $S$ that you calculated previously.
+
+```{r}
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
 p_green <- 2 / 38
 
@@ -1925,47 +1918,30 @@ S <- replicate(B,{
 
 # Compute the average value for 'S'
 mean(S)
-```
-```
-## [1] -5.9086
-```
-```
+
 # Calculate the standard deviation of 'S'
 sd(S)
 ```
-```
-## [1] 40.30608
-```
-3. American Roulette Monte Carlo vs CLT
 
-In this chapter, you calculated the probability of winning money in American roulette using the CLT.
+3. In this chapter, you calculated the probability of winning money in American roulette using the CLT.
 
-Now, calculate the probability of winning money from the Monte Carlo simulation. The Monte Carlo simulation from the previous exercise has already been pre-run for you, resulting in the variable S that contains a list of 10,000 simulated outcomes.
-- Use the mean function to calculate the probability of winning money from the Monte Carlo simulation, S.
-```
+Now, calculate the probability of winning money from the Monte Carlo simulation. The Monte Carlo simulation from the previous exercise has already been pre-run for you, resulting in the variable $S$ that contains a list of 10,000 simulated outcomes.
+
+```{r}
 # Calculate the proportion of outcomes in the vector `S` that exceed $0
-mean(S>0)
+mean(S > 0)
 ```
-```
-## [1] 0.4232
-```
-4. American Roulette Monte Carlo vs CLT comparison
 
-The Monte Carlo result and the CLT approximation for the probability of losing money after 100 bets are close, but not that close. What could account for this?
+4. The Monte Carlo result and the CLT approximation for the probability of losing money after 100 bets are close, but not that close. What could account for this?
 
 - [ ] A. 10,000 simulations is not enough. If we do more, the estimates will match.
 - [X] B. The CLT does not work as well when the probability of success is small.
 - [ ] C. The difference is within rounding error.
 - [ ] D. The CLT only works for the averages.
 
-5. American Roulette average winnings per bet
+5. Now create a random variable $Y$ that contains your average winnings per bet after betting on green 10,000 times.
 
-Now create a random variable Y that contains your average winnings per bet after betting on green 10,000 times.
-- Run a single Monte Carlo simulation of 10,000 bets using the following steps. (You do not need to replicate the sample code.)
-- Specify n as the number of times you want to sample from the possible outcomes.
-- Use the sample function to return n values from a vector of possible values: winning $17 or losing $1. Be sure to assign a probability to each outcome and indicate that you are sampling with replacement.
-- Calculate the average result per bet placed using the mean function.
-```
+```{r}
 # Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
 set.seed(1)
 
@@ -1979,21 +1955,16 @@ p_green <- 2 / 38
 p_not_green <- 1 - p_green
 
 # Create a vector called `X` that contains the outcomes of `n` bets
-X <- sample(c(17,-1), size = n, replace = TRUE, prob = c(p_green, p_not_green))
+X <- sample(c(-1,17), n, replace = TRUE, prob = c(p_not_green, p_green))
 
 # Define a variable `Y` that contains the mean outcome per bet. Print this mean to the console.
 Y <- mean(X)
 Y
 ```
-```
-## [1] 0.008
-```
-6. American Roulette per bet expected value
 
-What is the expected value of Y, the average outcome per bet after betting on green 10,000 times?
-- Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket.
-- Print this value to the console (do not assign it to a variable).
-```
+6. What is the expected value of $Y$, the average outcome per bet after betting on green 10,000 times?
+
+```{r}
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
 p_green <- 2 / 38
 
@@ -2001,17 +1972,13 @@ p_green <- 2 / 38
 p_not_green <- 1 - p_green
 
 # Calculate the expected outcome of `Y`, the mean outcome per bet in 10,000 bets
-Y <- p_green * 17 + p_not_green * (-1)
+Y <- p_green * 17 + p_not_green * -1
 Y
 ```
-```
-## [1] -0.05263158
-```
-7. American Roulette per bet standard error
 
-What is the standard error of Y, the average result of 10,000 spins?
-- Compute the standard error of Y, the average result of 10,000 independent spins.
-```
+7. What is the standard error of $Y$, the average result of 10,000 spins?
+
+```{r}
 # Define the number of bets using the variable 'n'
 n <- 10000
 
@@ -2022,17 +1989,13 @@ p_green <- 2 / 38
 p_not_green <- 1 - p_green
 
 # Compute the standard error of 'Y', the mean outcome per bet from 10,000 bets.
-abs((17 - (-1))*sqrt(p_green*p_not_green) / sqrt(n))
+Y <- abs((17 - -1))*sqrt(p_green*p_not_green) / sqrt(n)
+Y
 ```
-```
-## [1] 0.04019344
-```
-8. American Roulette winnings per game are positive
 
-What is the probability that your winnings are positive after betting on green 10,000 times?
-- Execute the code that we wrote in previous exercises to determine the average and standard error.
-- Use the pnorm function to determine the probability of winning more than $0.
-```
+8. What is the probability that your winnings are positive after betting on green 10,000 times?
+
+```{r}
 # We defined the average using the following code
 avg <- 17*p_green + -1*p_not_green
 
@@ -2040,21 +2003,16 @@ avg <- 17*p_green + -1*p_not_green
 se <- 1/sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
 
 # Given this average and standard error, determine the probability of winning more than $0. Print the result to the console.
-1 - pnorm(0, avg, se)
+1-pnorm(0,avg,se)
 ```
-```
-## [1] 0.0951898
-```
-9. American Roulette Monte Carlo again
 
-Create a Monte Carlo simulation that generates 10,000 outcomes of S, the average outcome from 10,000 bets on green.
+9. Create a Monte Carlo simulation that generates 10,000 outcomes of $S$, the average outcome from 10,000 bets on green.
 
 Compute the average and standard deviation of the resulting list to confirm the results from previous exercises using the Central Limit Theorem.
-- Use the replicate function to model 10,000 iterations of a series of 10,000 bets.
-- Each iteration inside replicate should simulate 10,000 bets and determine the average outcome of those 10,000 bets. If you forget to take the mean, DataCamp will crash with a “Session Expired” error.
-- Find the average of the 10,000 average outcomes.
-- Compute the standard deviation of the 10,000 simulations.
-```
+
+```{r}
+## Make sure you fully follow instructions, including printing values to the console and correctly running the `replicate` loop. If not, you may encounter "Session Expired" errors.
+
 # The variable `n` specifies the number of independent bets on green
 n <- 10000
 
@@ -2072,39 +2030,189 @@ S <- replicate(B,{
 
 # Compute the average of `S`
 mean(S)
-```
-```
-## [1] -0.05223142
-```
-```
+
 # Compute the standard deviation of `S`
 sd(S)
 ```
-```
-## [1] 0.03996168
-```
-10. American Roulette comparison
 
-In a previous exercise, you found the probability of winning more than $0 after betting on green 10,000 times using the Central Limit Theorem. Then, you used a Monte Carlo simulation to model the average result of betting on green 10,000 times over 10,000 simulated series of bets.
+10. In a previous exercise, you found the probability of winning more than $0 after betting on green 10,000 times using the Central Limit Theorem. 
 
-What is the probability of winning more than $0 as estimated by your Monte Carlo simulation? The code to generate the vector S that contains the the average outcomes of 10,000 bets modeled 10,000 times has already been run for you.
-- Calculate the probability of winning more than $0 in the Monte Carlo simulation from the previous exercise.
-- You do not need to run another simulation: the results of the simulation are in your workspace as the vector S.
-```
+Then, you used a Monte Carlo simulation to model the average result of betting on green 10,000 times over 10,000 simulated series of bets.
+
+What is the probability of winning more than $0 as estimated by your Monte Carlo simulation? The code to generate the vector $S$ that contains the the average outcomes of 10,000 bets modeled 10,000 times has already been run for you.
+
+```{r}
 # Compute the proportion of outcomes in the vector 'S' where you won more than $0
 mean(S>0)
 ```
-```
-## [1] 0.0977
-```
-11. American Roulette comparison analysis
 
-The Monte Carlo result and the CLT approximation are now much closer than when we calculated the probability of winning for 100 bets on green. What could account for this difference?
+11. The Monte Carlo result and the CLT approximation are now much closer than when we calculated the probability of winning for 100 bets on green. What could account for this difference?
 
 - [ ] A. We are now computing averages instead of sums.
 - [ ] B. 10,000 Monte Carlo simulations was not enough to provide a good estimate.
 - [X] C. The CLT works better when the sample size is larger.
 - [ ] D. It is not closer. The difference is within rounding error.
+
+## Assessment - SAT Testing
+
+1. and 2. The SAT is a standardized college admissions test used in the United States. The following two multi-part questions will ask you some questions about SAT testing.
+
+This is a 6-part question asking you to determine some probabilities of what happens when a student guessed for all of their answers on the SAT. Use the information below to inform your answers for the following questions.
+
+An old version of the SAT college entrance exam had a -0.25 point penalty for every incorrect answer and awarded 1 point for a correct answer. The quantitative test consisted of 44 multiple-choice questions each with 5 answer choices. Suppose a student chooses answers by guessing for all questions on the test.
+
+1a. What is the probability of guessing correctly for one question?
+
+```{r}
+p <- 1/5 # one correct choice of 5 options
+p
+```
+
+1b. What is the expected value of points for guessing on one question?
+
+```{r}
+a <- 1
+b <- -0.25
+mu <- a*p + b*(1-p)
+mu
+```
+
+1c. What is the expected score of guessing on all 44 questions?
+
+```{r}
+n <- 44
+n*mu
+```
+
+1d. What is the standard error of guessing on all 44 questions?
+
+```{r}
+sigma <- sqrt(n) * abs(b-a) * sqrt(p*(1-p))
+sigma
+```
+
+1e. Use the Central Limit Theorem to determine the probability that a guessing student scores 8 points or higher on the test.
+
+```{r}
+1-pnorm(8, mu, sigma)
+```
+
+1f. Set the seed to 21, then run a Monte Carlo simulation of 10,000 students guessing on the test.
+
+(IMPORTANT! If you use R 3.6 or later, you will need to use the command ```set.seed(x, sample.kind = "Rounding")``` instead of ```set.seed(x)```. Your R version will be printed at the top of the Console window when you start RStudio.)
+
+What is the probability that a guessing student scores 8 points or higher?
+
+```{r}
+set.seed(21, sample.kind = "Rounding")
+B <- 10000
+n <- 44
+p <- 0.2
+tests <- replicate(B, {
+  X <- sample(c(1, -0.25), n, replace = TRUE, prob = c(p, 1-p))
+  sum(X)
+})
+mean(tests >= 8)
+```
+
+The SAT was recently changed to reduce the number of multiple choice options from 5 to 4 and also to eliminate the penalty for guessing.
+
+In this three-part question, you'll explore how that affected the expected values for the test.
+
+2a. Suppose that the number of multiple choice options is 4 and that there is no penalty for guessing - that is, an incorrect question gives a score of 0.
+
+What is the expected value of the score when guessing on this new test?
+
+```{r}
+p <- 1/4
+a <- 1
+b <- 0
+n <- 44
+mu <- n * a*p + b*(1-p)
+mu
+```
+
+2b. Using the normal approximation, what is the estimated probability of scoring over 30 when guessing?
+
+Report your answer using scientific notation with 3 significant digits in the format ```x.xx*10^y```. Do not round the values passed to ```pnorm``` or you will lose precision and have an incorrect answer.
+
+```{r}
+sigma <- sqrt(n) * abs(b-a) * sqrt(p*(1-p))
+1-pnorm(30, mu, sigma)
+```
+
+2c. Consider a range of correct answer probabilities ```p <- seq(0.25, 0.95, 0.05)``` representing a range of student skills.
+
+What is the lowest ```p``` such that the probability of scoring over 35 exceeds 80%?
+
+```{r}
+p <- seq(0.25, 0.95, 0.05)
+exp_val <- sapply(p, function(x){
+  mu <- n * a*x + b*(1-x)
+  sigma <- sqrt(n) * abs(b-a) * sqrt(x*(1-x))
+  1-pnorm(35, mu, sigma)
+})
+
+min(p[which(exp_val > 0.8)])
+```
+
+## Assessment - Betting on Roulette
+
+3. A casino offers a House Special bet on roulette, which is a bet on five pockets (00, 0, 1, 2, 3) out of 38 total pockets. The bet pays out 6 to 1. In other words, a losing bet yields -$1 and a successful bet yields $6. A gambler wants to know the chance of losing money if he places 500 bets on the roulette House Special.
+
+The following 7-part question asks you to do some calculations related to this scenario.
+
+3a. What is the expected value of the payout for one bet?
+
+```{r}
+p <- 5/38
+a <- 6
+b <- -1
+mu <- a*p + b*(1-p)
+mu
+```
+
+3b. What is the standard error of the payout for one bet?
+
+```{r}
+sigma <- abs(b-a) * sqrt(p*(1-p))
+sigma
+```
+
+3c. What is the expected value of the average payout over 500 bets?
+ 
+Remember there is a difference between expected value of the average and expected value of the sum.
+
+```{r}
+mu
+```
+
+3d. What is the standard error of the average payout over 500 bets?
+
+Remember there is a difference between the standard error of the average and standard error of the sum.
+
+```{r}
+n <- 500
+sigma/sqrt(n)
+```
+
+3e. What is the expected value of the sum of 500 bets?
+
+```{r}
+n*mu
+```
+
+3f. What is the standard error of the sum of 500 bets?
+
+```{r}
+sqrt(n) * sigma
+```
+
+3g. Use ```pnorm``` with the expected value of the sum and standard error of the sum to calculate the probability of losing money over 500 bets, $Pr(X \le 0)$.
+
+```{r}
+pnorm(0, n*mu, sqrt(n)*sigma)
+```
 
 ## Section 4 Overview
 
