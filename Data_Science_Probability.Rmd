@@ -634,7 +634,7 @@ switch <- replicate(B, {
 mean(switch)    # probability of choosing prize door when switching
 ```
 
-## Assessment 3: The Addition Rule and Monty Hall
+## Assessment - The Addition Rule and Monty Hall
 
 1. Two teams, say the Cavs and the Warriors, are playing a seven game championship series. The first to win four games wins the series. The teams are equally good, so they each have a 50-50 chance of winning each game.
 
@@ -1139,7 +1139,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 * The quantity with the most similar interpretation to the probability of a single value is the probability density function $f(x)$.
 * The probability density $f(x)$ is defined such that the integral of $f(x)$ over a range gives the CDF of that range.
 
-$F(a) = Pr(X \le a) = \int_{-infty}{a} f(x)dx$
+$F(a) = Pr(X \le a) = \int_{-\infty}^{a} f(x)dx$
 
 * In R, the probability density function for the normal distribution is given by **dnorm**. We will see uses of **dnorm** in the future.
 * Note that **dnorm** gives the density function and **pnorm** gives the distribution function, which is the integral of the density function.
@@ -1207,7 +1207,7 @@ data.frame(x, f = dnorm(x)) %>%
     geom_line()
 ```
 
-## Assessment 4: Continuous Probability
+## Assessment - Continuous Probability
 
 1. Assume the distribution of female heights is approximated by a normal distribution with a mean of 64 inches and a standard deviation of 3 inches. 
 
@@ -1387,6 +1387,7 @@ Which of the following plots is correct?
 - [X] B.
 
 ![Plot x against f_x](images/x_f_x_imageB.png)
+\newpage
 
 ## Assessment - ACT scores, part 2
 
@@ -1468,6 +1469,7 @@ Which of the following graphs is correct?
 - [X] D.
 
 ![Sample quantiles versus Theoretical quantiles](images/sample_theoretical_imageD.png)
+\newpage
 
 ## Section 3 Overview
 

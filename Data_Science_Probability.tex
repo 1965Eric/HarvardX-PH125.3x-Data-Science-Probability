@@ -306,7 +306,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "red"
+## [1] "blue"
 \end{verbatim}
 
 \emph{Code: Monte Carlo simulation}
@@ -326,7 +326,7 @@ random.
 \begin{verbatim}
 ## events
 ## blue  red 
-## 6000 4000
+## 5983 4017
 \end{verbatim}
 
 \begin{Shaded}
@@ -337,8 +337,8 @@ random.
 
 \begin{verbatim}
 ## events
-## blue  red 
-##  0.6  0.4
+##   blue    red 
+## 0.5983 0.4017
 \end{verbatim}
 
 \hypertarget{setting-the-random-seed}{%
@@ -798,11 +798,11 @@ The textbook for this section is available
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
-## [1,]    7    3    4    9    8    1    5
-## [2,]    9    0    4    2    6    8    5
-## [3,]    3    4    9    2    7    6    8
-## [4,]    8    5    0    9    3    2    4
-## [5,]    4    2    6    9    0    8    1
+## [1,]    4    2    6    3    8    7    5
+## [2,]    0    3    4    2    7    6    9
+## [3,]    1    9    6    2    3    5    7
+## [4,]    4    8    5    7    6    0    1
+## [5,]    9    1    7    4    8    2    0
 \end{verbatim}
 
 \begin{Shaded}
@@ -906,7 +906,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Six Diamonds" "Five Hearts"
+## [1] "Six Diamonds"  "Nine Diamonds"
 \end{verbatim}
 
 \begin{Shaded}
@@ -922,7 +922,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0498
+## [1] 0.046
 \end{verbatim}
 
 \hypertarget{the-birthday-problem}{%
@@ -959,7 +959,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] TRUE
+## [1] FALSE
 \end{verbatim}
 
 \begin{Shaded}
@@ -975,7 +975,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9701
+## [1] 0.9692
 \end{verbatim}
 
 \hypertarget{sapply}{%
@@ -1418,9 +1418,9 @@ Hall Problem}.
 ## [1] 0.6708
 \end{verbatim}
 
-\hypertarget{assessment-3-the-addition-rule-and-monty-hall}{%
-\subsection{Assessment 3: The Addition Rule and Monty
-Hall}\label{assessment-3-the-addition-rule-and-monty-hall}}
+\hypertarget{assessment---the-addition-rule-and-monty-hall}{%
+\subsection{Assessment - The Addition Rule and Monty
+Hall}\label{assessment---the-addition-rule-and-monty-hall}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -2418,158 +2418,176 @@ using:
 \hypertarget{probability-density}{%
 \subsection{Probability Density}\label{probability-density}}
 
-The probability density at x is defined as the function, we're going to
-call it little f of x, such that the probability distribution big F of
-a, which is the probability of x being less than or equal to a, is the
-integral of all values up to a of little f of x dx.
+The textbook for this section is available
+\href{https://rafalab.github.io/dsbook/probability.html\#the-probability-density}{here}
 
-dnorm() is the probability density function for the normal distribution:
+\textbf{Key points}
+
+\begin{itemize}
+\tightlist
+\item
+  The probability of a single value is not defined for a continuous
+  distribution.
+\item
+  The quantity with the most similar interpretation to the probability
+  of a single value is the probability density function \(f(x)\).
+\item
+  The probability density \(f(x)\) is defined such that the integral of
+  \(f(x)\) over a range gives the CDF of that range.
+\end{itemize}
+
+\(F(a) = Pr(X \le a) = \int_{-\infty}^{a} f(x)dx\)
+
+\begin{itemize}
+\tightlist
+\item
+  In R, the probability density function for the normal distribution is
+  given by \textbf{dnorm}. We will see uses of \textbf{dnorm} in the
+  future.
+\item
+  Note that \textbf{dnorm} gives the density function and \textbf{pnorm}
+  gives the distribution function, which is the integral of the density
+  function.
+\end{itemize}
+
+\hypertarget{monte-carlo-simulations-1}{%
+\subsection{Monte Carlo simulations}\label{monte-carlo-simulations-1}}
+
+The textbook for this section is available
+\href{https://rafalab.github.io/dsbook/probability.html\#monte-carlo-simulations-for-continuous-variables}{here}
+
+\textbf{Key points}
+
+\begin{itemize}
+\tightlist
+\item
+  \textbf{rnorm(n, avg, s)} generates \textbf{n} random numbers from the
+  normal distribution with average \textbf{avg} and standard deviation
+  \textbf{s}.
+\item
+  By generating random numbers from the normal distribution, we can
+  simulate height data with similar properties to our dataset. Here we
+  generate simulated height data using the normal distribution.
+\end{itemize}
+
+\emph{Code: Generating normally distributed random numbers for Monte
+Carlo simulations}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# define x as male heights from dslabs data}
+\KeywordTok{library}\NormalTok{(tidyverse)}
+\KeywordTok{library}\NormalTok{(dslabs)}
+\KeywordTok{data}\NormalTok{(heights)}
+\NormalTok{x \textless{}{-}}\StringTok{ }\NormalTok{heights }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{filter}\NormalTok{(sex}\OperatorTok{==}\StringTok{"Male"}\NormalTok{) }\OperatorTok{\%\textgreater{}\%}\StringTok{ }\KeywordTok{pull}\NormalTok{(height)}
+
+\CommentTok{\# generate simulated height data using normal distribution {-} both datasets should have n observations}
+\NormalTok{n \textless{}{-}}\StringTok{ }\KeywordTok{length}\NormalTok{(x)}
+\NormalTok{avg \textless{}{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(x)}
+\NormalTok{s \textless{}{-}}\StringTok{ }\KeywordTok{sd}\NormalTok{(x)}
+\NormalTok{simulated\_heights \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(n, avg, s)}
+
+\CommentTok{\# plot distribution of simulated\_heights}
+\KeywordTok{data.frame}\NormalTok{(}\DataTypeTok{simulated\_heights =}\NormalTok{ simulated\_heights) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{    }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(simulated\_heights)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom\_histogram}\NormalTok{(}\DataTypeTok{color=}\StringTok{"black"}\NormalTok{, }\DataTypeTok{binwidth =} \DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-66-1.pdf}
+
+\emph{Code: Monte Carlo simulation of probability of tallest person
+being over 7 feet}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+\NormalTok{tallest \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{    simulated\_data \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{800}\NormalTok{, avg, s)    }\CommentTok{\# generate 800 normally distributed random heights}
+    \KeywordTok{max}\NormalTok{(simulated\_data)    }\CommentTok{\# determine the tallest height }
+\NormalTok{\})}
+\KeywordTok{mean}\NormalTok{(tallest }\OperatorTok{\textgreater{}=}\StringTok{ }\DecValTok{7}\OperatorTok{*}\DecValTok{12}\NormalTok{)    }\CommentTok{\# proportion of times that tallest person exceeded 7 feet (84 inches)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# the probability that a person is higher than 76 inch
-avg <- mean(x)
-s <- sd(x)
-1 - pnorm(76, avg, s)
+## [1] 0.0209
 \end{verbatim}
-
-\begin{verbatim}
-## [1] 0.03206008
-\end{verbatim}
-
-\begin{verbatim}
-dnorm(76, mean(x), sd(x))
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.01990735
-\end{verbatim}
-
-\hypertarget{monte-carlo-simulations-for-continuous-variables}{%
-\subsection{Monte Carlo simulations for continuous
-variables}\label{monte-carlo-simulations-for-continuous-variables}}
-
-R provides functions to generate normally distributed outcomes.
-Specifically, the rnorm function takes three arguments: size, average
-(defaults to 0), and standard deviation (defaults to 1) and produces
-random numbers. Here is an example of how we could generate data that
-looks like our reported heights:
-
-\begin{verbatim}
-x <- heights %>% filter(sex=="Male") %>% .$height
-n <- length(x)
-m <- mean(x)
-s <- sd(x)
-simulated_heights <- rnorm(n, m, s)
-
-ds_theme_set()
-data.frame(simulated_heights) %>% ggplot(aes(simulated_heights)) + geom_histogram(color='black', fill='#595959', binwidth=2)
-\end{verbatim}
-
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77337596-62638f00-6d29-11ea-9af4-0e6976cb6874.png}
-\caption{Unknown}
-\end{figure}
-
-This is one of the most useful functions in R as it will permit us to
-generate data that mimics natural events and answers questions related
-to what could happen by chance by running Monte Carlo simulations.
-
-If, for example, we pick 800 males at random, what is the distribution
-of the tallest person? How rare is a seven footer in a group of 800
-males? The following Monte Carlo simulation helps us answer that
-question:
-
-\begin{verbatim}
-B <- 10000
-tallest <- replicate(B, {
-  simulated_data <- rnorm(800, m, s)
-  max(simulated_data)
-})
-
-#Having a seven footer is quite rare:
-
-mean(tallest >= 7*12)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.0214
-\end{verbatim}
-
-\begin{verbatim}
-#Here is the resulting distribution, note that it does not look normal.
-ds_theme_set()
-data.frame(tallest) %>% ggplot(aes(tallest)) + geom_histogram(color='black', fill='#595959', binwidth=1)
-\end{verbatim}
-
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77337896-da31b980-6d29-11ea-9729-bab8b0a0c9e2.png}
-\caption{Unknown}
-\end{figure}
 
 \hypertarget{other-continuous-distributions}{%
 \subsection{Other Continuous
 Distributions}\label{other-continuous-distributions}}
 
-Other continuous distributions that we may encounter are the student-t,
-chi-squared, exponential, gamma, beta, and beta-binomial. R provides
-functions to compute the density, the quantiles, the cumulative
-distribution functions and to generate Monte Carlo simulations. R uses a
-convention that lets us remember the names, namely using the letters d,
-q, p and r in front of a shorthand for the distribution. We have already
-seen the functions dnorm, pnorm and rnorm for the normal distribution.
-The functions qnorm gives us the quantiles. We can therefore draw a
-distribution like this:
+The textbook for this section is available
+\href{https://rafalab.github.io/dsbook/probability.html\#continuous-distributions}{here}
 
-\begin{verbatim}
-x <- seq(-4, 4, length.out = 100)
-data.frame(x, f = dnorm(x)) %>% 
-  ggplot(aes(x, f)) + 
-  geom_line()
-\end{verbatim}
+\textbf{Key points}
 
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77338046-0f3e0c00-6d2a-11ea-91b8-03f846fa295e.png}
-\caption{Unknown}
-\end{figure}
+\begin{itemize}
+\tightlist
+\item
+  You may encounter other continuous distributions (Student t,
+  chi-squared, exponential, gamma, beta, etc.).
+\item
+  R provides functions for density (\textbf{d}), quantile (\textbf{q}),
+  probability distribution (\textbf{p}) and random number generation
+  (\textbf{r}) for many of these distributions.
+\item
+  Each distribution has a matching abbreviation (for example,
+  \textbf{norm} or \textbf{t}) that is paired with the related function
+  abbreviations (\textbf{d, p, q, r}) to create appropriate functions.
+\item
+  For example, use \textbf{rt} to generate random numbers for a Monte
+  Carlo simulation using the Student t distribution.
+\end{itemize}
 
-For example, for the student-t, described later in Section 17.10, the
-shorthand t is used so the functions are dt for the density, qt for the
-quantiles, pt for the cumulative distribution function, and rt for Monte
-Carlo simulation.
+\emph{Code: Plotting the normal distribution with dnorm}
 
-\hypertarget{assessment-4-continuous-probability}{%
-\subsection{Assessment 4: Continuous
-Probability}\label{assessment-4-continuous-probability}}
+Use d to plot the density function of a continuous distribution. Here is
+the density function for the normal distribution (abbreviation norm):
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\OperatorTok{{-}}\DecValTok{4}\NormalTok{, }\DecValTok{4}\NormalTok{, }\DataTypeTok{length.out =} \DecValTok{100}\NormalTok{)}
+\KeywordTok{data.frame}\NormalTok{(x, }\DataTypeTok{f =} \KeywordTok{dnorm}\NormalTok{(x)) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{    }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(x,f)) }\OperatorTok{+}
+\StringTok{    }\KeywordTok{geom\_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-68-1.pdf}
+
+\hypertarget{assessment---continuous-probability}{%
+\subsection{Assessment - Continuous
+Probability}\label{assessment---continuous-probability}}
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  Distribution of female heights - 1
+  Assume the distribution of female heights is approximated by a normal
+  distribution with a mean of 64 inches and a standard deviation of 3
+  inches.
 \end{enumerate}
 
-Assume the distribution of female heights is approximated by a normal
-distribution with a mean of 64 inches and a standard deviation of 3
-inches. If we pick a female at random, what is the probability that she
-is 5 feet or shorter? - Use pnorm to define the probability that a
-height will take a value less than 5 feet given the stated distribution.
+If we pick a female at random, what is the probability that she is 5
+feet or shorter?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}female\_avg\textquotesingle{} as the average female height.}
+\NormalTok{female\_avg \textless{}{-}}\StringTok{ }\DecValTok{64}
+
+\CommentTok{\# Assign a variable \textquotesingle{}female\_sd\textquotesingle{} as the standard deviation for female heights.}
+\NormalTok{female\_sd \textless{}{-}}\StringTok{ }\DecValTok{3}
+
+\CommentTok{\# Using variables \textquotesingle{}female\_avg\textquotesingle{} and \textquotesingle{}female\_sd\textquotesingle{}, calculate the probability that a randomly selected female is shorter than 5 feet. Print this value to the console.}
+\KeywordTok{pnorm}\NormalTok{((}\DecValTok{5}\OperatorTok{*}\DecValTok{12}\NormalTok{), female\_avg, female\_sd)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable 'female_avg' as the average female height.
-female_avg <- 64
-
-# Assign a variable 'female_sd' as the standard deviation for female heights.
-female_sd <- 3
-
-# Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is shorter than 5 feet. Print this value to the console.
-pnorm(5*12, female_avg,female_sd)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.09121122
+## [1] 0.0912
 \end{verbatim}
 
 \begin{enumerate}
@@ -2577,28 +2595,29 @@ pnorm(5*12, female_avg,female_sd)
 \setcounter{enumi}{1}
 \tightlist
 \item
-  Distribution of female heights - 2
+  Assume the distribution of female heights is approximated by a normal
+  distribution with a mean of 64 inches and a standard deviation of 3
+  inches.
 \end{enumerate}
 
-Assume the distribution of female heights is approximated by a normal
-distribution with a mean of 64 inches and a standard deviation of 3
-inches. If we pick a female at random, what is the probability that she
-is 6 feet or taller? - Use pnorm to define the probability that a height
-will take a value of 6 feet or taller.
+If we pick a female at random, what is the probability that she is 6
+feet or taller?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}female\_avg\textquotesingle{} as the average female height.}
+\NormalTok{female\_avg \textless{}{-}}\StringTok{ }\DecValTok{64}
+
+\CommentTok{\# Assign a variable \textquotesingle{}female\_sd\textquotesingle{} as the standard deviation for female heights.}
+\NormalTok{female\_sd \textless{}{-}}\StringTok{ }\DecValTok{3}
+
+\CommentTok{\# Using variables \textquotesingle{}female\_avg\textquotesingle{} and \textquotesingle{}female\_sd\textquotesingle{}, calculate the probability that a randomly selected female is 6 feet or taller. Print this value to the console.}
+\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{((}\DecValTok{6}\OperatorTok{*}\DecValTok{12}\NormalTok{), female\_avg, female\_sd)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable 'female_avg' as the average female height.
-female_avg <- 64
-
-# Assign a variable 'female_sd' as the standard deviation for female heights.
-female_sd <- 3
-
-# Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is 6 feet or taller. Print this value to the console.
-1-pnorm(6*12, female_avg,female_sd)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.003830381
+## [1] 0.00383
 \end{verbatim}
 
 \begin{enumerate}
@@ -2606,58 +2625,57 @@ female_sd <- 3
 \setcounter{enumi}{2}
 \tightlist
 \item
-  Distribution of female heights - 3
+  Assume the distribution of female heights is approximated by a normal
+  distribution with a mean of 64 inches and a standard deviation of 3
+  inches.
 \end{enumerate}
 
-Assume the distribution of female heights is approximated by a normal
-distribution with a mean of 64 inches and a standard deviation of 3
-inches. If we pick a female at random, what is the probability that she
-is between 61 and 67 inches? - Use pnorm to define the probability that
-a randomly chosen woman will be shorter than 67 inches. - Subtract the
-probability that a randomly chosen will be shorter than 61 inches.
+If we pick a female at random, what is the probability that she is
+between 61 and 67 inches?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}female\_avg\textquotesingle{} as the average female height.}
+\NormalTok{female\_avg \textless{}{-}}\StringTok{ }\DecValTok{64}
+
+\CommentTok{\# Assign a variable \textquotesingle{}female\_sd\textquotesingle{} as the standard deviation for female heights.}
+\NormalTok{female\_sd \textless{}{-}}\StringTok{ }\DecValTok{3}
+
+\CommentTok{\# Using variables \textquotesingle{}female\_avg\textquotesingle{} and \textquotesingle{}female\_sd\textquotesingle{}, calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.}
+\KeywordTok{pnorm}\NormalTok{(}\DecValTok{67}\NormalTok{, female\_avg, female\_sd) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(}\DecValTok{61}\NormalTok{, female\_avg, female\_sd)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable 'female_avg' as the average female height.
-female_avg <- 64
-
-# Assign a variable 'female_sd' as the standard deviation for female heights.
-female_sd <- 3
-
-# Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.
-pnorm(67, female_avg,female_sd) - pnorm(61, female_avg,female_sd)
+## [1] 0.683
 \end{verbatim}
 
-\begin{verbatim}
-## [1] 0.6826895
-\end{verbatim}
-
-\begin{itemize}
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
 \tightlist
 \item
-  Distribution of female heights - 4
-\end{itemize}
+  Repeat the previous exercise, but convert everything to centimeters.
+\end{enumerate}
 
-Repeat the previous exercise, but convert everything to centimeters.
 That is, multiply every height, including the standard deviation, by
-2.54. What is the answer now? - Convert the average height and standard
-deviation to centimeters by multiplying each value by 2.54. - Repeat the
-previous calculation using pnorm to define the probability that a
-randomly chosen woman will have a height between 61 and 67 inches,
-converted to centimeters by multiplying each value by 2.54.
+2.54. What is the answer now?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}female\_avg\textquotesingle{} as the average female height. Convert this value to centimeters.}
+\NormalTok{female\_avg \textless{}{-}}\StringTok{ }\DecValTok{64}\OperatorTok{*}\FloatTok{2.54}
+
+\CommentTok{\# Assign a variable \textquotesingle{}female\_sd\textquotesingle{} as the standard deviation for female heights. Convert this value to centimeters.}
+\NormalTok{female\_sd \textless{}{-}}\StringTok{ }\DecValTok{3}\OperatorTok{*}\FloatTok{2.54}
+
+\CommentTok{\# Using variables \textquotesingle{}female\_avg\textquotesingle{} and \textquotesingle{}female\_sd\textquotesingle{}, calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.}
+\KeywordTok{pnorm}\NormalTok{((}\DecValTok{67}\OperatorTok{*}\FloatTok{2.54}\NormalTok{), female\_avg, female\_sd) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{((}\DecValTok{61}\OperatorTok{*}\FloatTok{2.54}\NormalTok{), female\_avg, female\_sd)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable 'female_avg' as the average female height. Convert this value to centimeters.
-female_avg <- 64*2.54
-
-# Assign a variable 'female_sd' as the standard deviation for female heights. Convert this value to centimeters.
-female_sd <- 3*2.54
-
-# Using variables 'female_avg' and 'female_sd', calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.
-pnorm(67*2.54, female_avg,female_sd) - pnorm(61*2.54, female_avg,female_sd)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.6826895
+## [1] 0.683
 \end{verbatim}
 
 \begin{enumerate}
@@ -2665,34 +2683,31 @@ pnorm(67*2.54, female_avg,female_sd) - pnorm(61*2.54, female_avg,female_sd)
 \setcounter{enumi}{4}
 \tightlist
 \item
-  Probability of 1 SD from average
+  Compute the probability that the height of a randomly chosen female is
+  within 1 SD from the average height.
 \end{enumerate}
 
-Compute the probability that the height of a randomly chosen female is
-within 1 SD from the average height. - Calculate the values for heights
-one standard deviation taller and shorter than the average. - Calculate
-the probability that a randomly chosen woman will be within 1 SD from
-the average height.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}female\_avg\textquotesingle{} as the average female height.}
+\NormalTok{female\_avg \textless{}{-}}\StringTok{ }\DecValTok{64}
+
+\CommentTok{\# Assign a variable \textquotesingle{}female\_sd\textquotesingle{} as the standard deviation for female heights.}
+\NormalTok{female\_sd \textless{}{-}}\StringTok{ }\DecValTok{3}
+
+\CommentTok{\# To a variable named \textquotesingle{}taller\textquotesingle{}, assign the value of a height that is one SD taller than average.}
+\NormalTok{taller \textless{}{-}}\StringTok{ }\NormalTok{female\_avg }\OperatorTok{+}\StringTok{ }\NormalTok{female\_sd}
+
+\CommentTok{\# To a variable named \textquotesingle{}shorter\textquotesingle{}, assign the value of a height that is one SD shorter than average.}
+\NormalTok{shorter \textless{}{-}}\StringTok{ }\NormalTok{female\_avg }\OperatorTok{{-}}\StringTok{ }\NormalTok{female\_sd}
+
+\CommentTok{\# Calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.}
+\KeywordTok{pnorm}\NormalTok{(taller, female\_avg, female\_sd) }\OperatorTok{{-}}\StringTok{ }\KeywordTok{pnorm}\NormalTok{(shorter, female\_avg, female\_sd) }
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable 'female_avg' as the average female height.
-female_avg <- 64
-
-# Assign a variable 'female_sd' as the standard deviation for female heights.
-female_sd <- 3
-
-# To a variable named 'taller', assign the value of a height that is one SD taller than average.
-taller <- female_avg + female_sd
-
-# To a variable named 'shorter', assign the value of a height that is one SD shorter than average.
-shorter <- female_avg - female_sd
-
-# Calculate the probability that a randomly selected female is between the desired height range. Print this value to the console.
-pnorm(taller, female_avg,female_sd) - pnorm(shorter, female_avg,female_sd)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.6826895
+## [1] 0.683
 \end{verbatim}
 
 \begin{enumerate}
@@ -2700,28 +2715,27 @@ pnorm(taller, female_avg,female_sd) - pnorm(shorter, female_avg,female_sd)
 \setcounter{enumi}{5}
 \tightlist
 \item
-  Distribution of male heights
+  Imagine the distribution of male adults is approximately normal with
+  an expected value of 69 inches and a standard deviation of 3 inches.
 \end{enumerate}
 
-Imagine the distribution of male adults is approximately normal with an
-expected value of 69 inches and a standard deviation of 3 inches. How
-tall is a male in the 99th percentile? - Determine the height of a man
-in the 99th percentile, given an average height of 69 inches and a
-standard deviation of 3 inches.
+How tall is a male in the 99th percentile?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textquotesingle{}male\_avg\textquotesingle{} as the average male height.}
+\NormalTok{male\_avg \textless{}{-}}\StringTok{ }\DecValTok{69}
+
+\CommentTok{\# Assign a variable \textquotesingle{}male\_sd\textquotesingle{} as the standard deviation for male heights.}
+\NormalTok{male\_sd \textless{}{-}}\StringTok{ }\DecValTok{3}
+
+\CommentTok{\# Determine the height of a man in the 99th percentile of the distribution.}
+\KeywordTok{qnorm}\NormalTok{(}\FloatTok{0.99}\NormalTok{, male\_avg, male\_sd)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable 'male_avg' as the average male height.
-male_avg <- 69
-
-# Assign a variable 'male_sd' as the standard deviation for male heights.
-male_sd <- 3
-
-# Determine the height of a man in the 99th percentile of the distribution.
-qnorm(0.99, male_avg, male_sd)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 75.97904
+## [1] 76
 \end{verbatim}
 
 \begin{enumerate}
@@ -2729,44 +2743,349 @@ qnorm(0.99, male_avg, male_sd)
 \setcounter{enumi}{6}
 \tightlist
 \item
-  Distribution of IQ scores
+  The distribution of IQ scores is approximately normally distributed.
 \end{enumerate}
 
-The distribution of IQ scores is approximately normally distributed. The
-expected value is 100 and the standard deviation is 15. Suppose you want
-to know the distribution of the person with the highest IQ in your
-school district, where 10,000 people are born each year.
+The average is 100 and the standard deviation is 15. Suppose you want to
+know the distribution of the person with the highest IQ in your school
+district, where 10,000 people are born each year.
 
 Generate 10,000 IQ scores 1,000 times using a Monte Carlo simulation.
-Make a histogram of the highest IQ scores. - Use the function rnorm to
-generate a random distribution of 10,000 values with a given average and
-standard deviation. - Use the function max to return the largest value
-from a supplied vector. - Repeat the previous steps a total of 1,000
-times. Store the vector of the top 1,000 IQ scores as highestIQ. - Plot
-the histogram of values using the function hist.
+Make a histogram of the highest IQ scores.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The variable \textasciigrave{}B\textasciigrave{} specifies the number of times we want the simulation to run.}
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{1000}
+
+\CommentTok{\# Use the \textasciigrave{}set.seed\textasciigrave{} function to make sure your answer matches the expected result after random number generation.}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Create an object called \textasciigrave{}highestIQ\textasciigrave{} that contains the highest IQ score from each random distribution of 10,000 people.}
+\NormalTok{highestIQ \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{    IQ \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\DecValTok{100}\NormalTok{, }\DecValTok{15}\NormalTok{)}
+    \KeywordTok{max}\NormalTok{(IQ) }
+\NormalTok{\})}
+
+\CommentTok{\# Make a histogram of the highest IQ scores.}
+\KeywordTok{hist}\NormalTok{(highestIQ)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-75-1.pdf}
+
+\hypertarget{assessment---act-scores-part-1}{%
+\subsection{Assessment - ACT scores, part
+1}\label{assessment---act-scores-part-1}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  and 2. The ACT is a standardized college admissions test used in the
+  United States. The four multi-part questions in this assessment all
+  involve simulating some ACT test scores and answering probability
+  questions about them.
+\end{enumerate}
+
+For the three year period 2016-2018,
+\href{http://www.act.org/content/act/en/products-and-services/the-act/scores/national-ranks.html}{ACT
+standardized test scores} were approximately normally distributed with a
+mean of 20.9 and standard deviation of 5.7. (Real ACT scores are
+integers between 1 and 36, but we will ignore this detail and use
+continuous values instead.)
+
+First we'll simulate an ACT test score dataset and answer some questions
+about it.
+
+Set the seed to 16, then use \textbf{rnorm} to generate a normal
+distribution of 10000 tests with a mean of 20.9 and standard deviation
+of 5.7. Save these values as \textbf{act\_scores}. You'll be using this
+dataset throughout these four multi-part questions.
+
+\textbf{(IMPORTANT NOTE! If you use R 3.6 or later, you will need to use
+the command set.seed(x, sample.kind = ``Rounding'') instead of
+set.seed(x). Your R version will be printed at the top of the Console
+window when you start RStudio.)}
+
+1a. What is the mean of \texttt{act\_scores}?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{16}\NormalTok{, }\DataTypeTok{sample.kind =} \StringTok{"Rounding"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# The variable `B` specifies the number of times we want the simulation to run.
-B <- 1000
-
-# Use the `set.seed` function to make sure your answer matches the expected result after random number generation.
-set.seed(1)
-
-# Create an object called `highestIQ` that contains the highest IQ score from each random distribution of 10,000 people.
-highestIQ <- replicate(B, {
-    r <- rnorm(10000,100,15)
-    max(r)
-})
-
-# Make a histogram of the highest IQ scores.
-hist(highestIQ)
+## Warning in set.seed(16, sample.kind = "Rounding"): non-uniform 'Rounding'
+## sampler used
 \end{verbatim}
 
-\begin{figure}
-\centering
-\includegraphics{https://user-images.githubusercontent.com/17474099/77339487-2251db80-6d2c-11ea-9b13-909b3a56498d.png}
-\caption{Unknown}
-\end{figure}
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{act\_scores \textless{}{-}}\StringTok{ }\KeywordTok{rnorm}\NormalTok{(}\DecValTok{10000}\NormalTok{, }\FloatTok{20.9}\NormalTok{, }\FloatTok{5.7}\NormalTok{)}
+\KeywordTok{mean}\NormalTok{(act\_scores)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 20.8
+\end{verbatim}
+
+1b. What is the standard deviation of \texttt{act\_scores}?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sd}\NormalTok{(act\_scores)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 5.68
+\end{verbatim}
+
+1c. A perfect score is 36 or greater (the maximum reported score is 36).
+
+In \texttt{act\_scores}, how many perfect scores are there out of 10,000
+simulated tests?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sum}\NormalTok{(act\_scores }\OperatorTok{\textgreater{}=}\StringTok{ }\DecValTok{36}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 41
+\end{verbatim}
+
+1d. In \texttt{act\_scores}, what is the probability of an ACT score
+greater than 30?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(act\_scores }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{30}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0527
+\end{verbatim}
+
+1e. In \texttt{act\_scores}, what is the probability of an ACT score
+less than or equal to 10?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{mean}\NormalTok{(act\_scores }\OperatorTok{\textless{}=}\StringTok{ }\DecValTok{10}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0282
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{1}
+\tightlist
+\item
+  Set \texttt{x} equal to the sequence of integers 1 to 36. Use
+  \texttt{dnorm} to determine the value of the probability density
+  function over \texttt{x} given a mean of 20.9 and standard deviation
+  of 5.7; save the result as \texttt{f\_x}. Plot \texttt{x} against
+  \texttt{f\_x}.
+\end{enumerate}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{x \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{:}\DecValTok{36}
+\NormalTok{f\_x \textless{}{-}}\StringTok{ }\KeywordTok{dnorm}\NormalTok{(x, }\FloatTok{20.9}\NormalTok{, }\FloatTok{5.7}\NormalTok{)}
+\KeywordTok{data.frame}\NormalTok{(x, f\_x) }\OperatorTok{\%\textgreater{}\%}
+\StringTok{  }\KeywordTok{ggplot}\NormalTok{(}\KeywordTok{aes}\NormalTok{(x, f\_x)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom\_line}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-81-1.pdf}
+
+Which of the following plots is correct?
+
+\begin{itemize}
+\tightlist
+\item[$\boxtimes$]
+  B.
+\end{itemize}
+
+\includegraphics{images/x_f_x_imageB.png} \newpage
+
+\hypertarget{assessment---act-scores-part-2}{%
+\subsection{Assessment - ACT scores, part
+2}\label{assessment---act-scores-part-2}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  In this 3-part question, you will convert raw ACT scores to Z-scores
+  and answer some questions about them.
+\end{enumerate}
+
+Convert \textbf{act\_scores} to Z-scores. Recall from
+\href{https://www.edx.org/course/data-science-visualization}{Data
+Visualization} (the second course in this series) that to standardize
+values (convert values into Z-scores, that is, values distributed with a
+mean of 0 and standard deviation of 1), you must subtract the mean and
+then divide by the standard deviation. Use the mean and standard
+deviation of \textbf{act\_scores}, not the original values used to
+generate random test scores.
+
+3a. What is the probability of a Z-score greater than 2 (2 standard
+deviations above the mean)?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{z\_scores \textless{}{-}}\StringTok{ }\NormalTok{(act\_scores }\OperatorTok{{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(act\_scores))}\OperatorTok{/}\KeywordTok{sd}\NormalTok{(act\_scores)}
+\KeywordTok{mean}\NormalTok{(z\_scores }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{2}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.0233
+\end{verbatim}
+
+3b. What ACT score value corresponds to 2 standard deviations above the
+mean (Z = 2)?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{2}\OperatorTok{*}\KeywordTok{sd}\NormalTok{(act\_scores) }\OperatorTok{+}\StringTok{ }\KeywordTok{mean}\NormalTok{(act\_scores)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32.2
+\end{verbatim}
+
+3c. A Z-score of 2 corresponds roughly to the 97.5th percentile.
+
+Use \texttt{qnorm} to determine the 97.5th percentile of normally
+distributed data with the mean and standard deviation observed in
+\texttt{act\_scores}.
+
+What is the 97.5th percentile of \texttt{act\_scores}?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qnorm}\NormalTok{(.}\DecValTok{975}\NormalTok{, }\KeywordTok{mean}\NormalTok{(act\_scores), }\KeywordTok{sd}\NormalTok{(act\_scores))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 32
+\end{verbatim}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{3}
+\tightlist
+\item
+  In this 4-part question, you will write a function to create a CDF for
+  ACT scores.
+\end{enumerate}
+
+Write a function that takes a value and produces the probability of an
+ACT score less than or equal to that value (the CDF). Apply this
+function to the range 1 to 36.
+
+4a. What is the minimum integer score such that the probability of that
+score or lower is at least .95?
+
+Your answer should be an integer 1-36.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cdf \textless{}{-}}\StringTok{ }\KeywordTok{sapply}\NormalTok{(}\DecValTok{1}\OperatorTok{:}\DecValTok{36}\NormalTok{, }\ControlFlowTok{function}\NormalTok{ (x)\{}
+  \KeywordTok{mean}\NormalTok{(act\_scores }\OperatorTok{\textless{}=}\StringTok{ }\NormalTok{x)}
+\NormalTok{\})}
+\KeywordTok{min}\NormalTok{(}\KeywordTok{which}\NormalTok{(cdf }\OperatorTok{\textgreater{}=}\StringTok{ }\FloatTok{.95}\NormalTok{))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 31
+\end{verbatim}
+
+4b. Use qnorm to determine the expected 95th percentile, the value for
+which the probability of receiving that score or lower is 0.95, given a
+mean score of 20.9 and standard deviation of 5.7.
+
+What is the expected 95th percentile of ACT scores?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{qnorm}\NormalTok{(.}\DecValTok{95}\NormalTok{, }\FloatTok{20.9}\NormalTok{, }\FloatTok{5.7}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 30.3
+\end{verbatim}
+
+4c. As discussed in the Data Visualization course, we can use
+\texttt{quantile} to determine sample quantiles from the data.
+
+Make a vector containing the quantiles for
+\texttt{p\ \textless{}-\ seq(0.01,\ 0.99,\ 0.01)}, the 1st through 99th
+percentiles of the \texttt{act\_scores} data. Save these as
+\texttt{sample\_quantiles}.
+
+In what percentile is a score of 26?
+
+Note that a score between the 98th and 99th percentile should be
+considered the 98th percentile, for example, and that quantile numbers
+are used as names for the vector \texttt{sample\_quantiles}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.99}\NormalTok{, }\FloatTok{0.01}\NormalTok{)}
+\NormalTok{sample\_quantiles \textless{}{-}}\StringTok{ }\KeywordTok{quantile}\NormalTok{(act\_scores, p)}
+\KeywordTok{names}\NormalTok{(sample\_quantiles[}\KeywordTok{max}\NormalTok{(}\KeywordTok{which}\NormalTok{(sample\_quantiles }\OperatorTok{\textless{}}\StringTok{ }\DecValTok{26}\NormalTok{))])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "82%"
+\end{verbatim}
+
+4d. Make a corresponding set of theoretical quantiles using
+\texttt{qnorm} over the interval
+\texttt{p\ \textless{}-\ seq(0.01,\ 0.99,\ 0.01)} with mean 20.9 and
+standard deviation 5.7. Save these as \texttt{theoretical\_quantiles}.
+Make a QQ-plot graphing \texttt{sample\_quantiles} on the y-axis versus
+\texttt{theoretical\_quantiles} on the x-axis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{0.01}\NormalTok{, }\FloatTok{0.99}\NormalTok{, }\FloatTok{0.01}\NormalTok{)}
+\NormalTok{sample\_quantiles \textless{}{-}}\StringTok{ }\KeywordTok{quantile}\NormalTok{(act\_scores, p)}
+\NormalTok{theoretical\_quantiles \textless{}{-}}\StringTok{ }\KeywordTok{qnorm}\NormalTok{(p, }\FloatTok{20.9}\NormalTok{, }\FloatTok{5.7}\NormalTok{)}
+\KeywordTok{qplot}\NormalTok{(theoretical\_quantiles, sample\_quantiles) }\OperatorTok{+}\StringTok{ }\KeywordTok{geom\_abline}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{Data_Science_Probability_files/figure-latex/unnamed-chunk-88-1.pdf}
+
+Which of the following graphs is correct?
+
+\begin{itemize}
+\tightlist
+\item[$\boxtimes$]
+  D.
+\end{itemize}
+
+\includegraphics{images/sample_theoretical_imageD.png} \newpage
 
 \hypertarget{section-3-overview}{%
 \subsection{Section 3 Overview}\label{section-3-overview}}
