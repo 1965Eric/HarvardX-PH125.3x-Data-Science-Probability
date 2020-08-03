@@ -1,9 +1,9 @@
 ---
 title: "Data Science Probability"
 output:
-  html_document: default
   pdf_document:
     latex_engine: xelatex
+  html_document: default
   word_document: default
 urlcolor: blue
 ---
@@ -2298,11 +2298,11 @@ $\sigma_S = |x-l|\sqrt{np(1-p)}$
 
 Because we know the definition of a Z-score is $Z = \frac{x-\mu}{\sigma}$, we know that $Pr(S < 0) = Pr(Z < - \frac{\mu}{\sigma})$. Thus, $Pr(S < 0) = 0.01$ equals:
 
-$Pr(Z < \frac{-(lp + x(1-p))n}{(x-l)\sqrt{np(1-p)}}) = 0.01$
+$Pr(Z < \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}) = 0.01$
 
 We know that ```z<-qnorm(0.01)``` gives us the value of $z$ for which $Pr(Z \le z) = 0.01$, meaning:
 
-$z = \frac{-(lp + x(1-p))n}{(x-l)\sqrt{np(1-p)}}$
+$z = \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}$
 
 Solving for $x$ gives:
 
@@ -2363,15 +2363,15 @@ $Pr(S < 0) = Pr(Z < - \frac{E \left [S \right]}{SE \left [S \right]}) = Pr(Z < z
 
 If $\mu$ is the expected value of the urn (one loan) and $\sigma$ is the standard deviation of the urn (one loan), then $E \left [S \right] = n \mu$ and $SE \left [S \right] = \sqrt{n \sigma}$.
 
-As in the previous video, we define the probability of losing money $z = 0.01$. In the first equation, we can see that:
+We define the probability of losing money $z = 0.01$. In the first equation, we can see that:
 
 $z = - \frac{E \left [S \right]}{SE \left [S \right]}$
 
 It follows that:
 
-$z = - \frac{n \mu}{\sqrt{n \sigma}) = - \frac {\sqrt{n \mu}{\sigma}$
+$z = - \frac {n \mu}{\sqrt{n \sigma}} = - \frac {\sqrt{n \mu}}{\sigma}$
 
-To find the value of $n$ for which $z$ is less than or equal to our desired value, we take $z \le - \frac{n \mu}{\sqrt{n \sigma}) = - \frac {\sqrt{n \mu}{\sigma}$ and solve for $n$:
+To find the value of $n$ for which $z$ is less than or equal to our desired value, we take $z \le - \frac {\sqrt{n \mu}}{\sigma}$ and solve for $n$:
 
 $n \ge \frac {z^2 \sigma^2}{\mu^2}$
 
@@ -2403,7 +2403,7 @@ profit <- replicate(B, {
 mean(profit)
 ```
 
-8Code: Monte Carlo simulation with unknown default probability*
+*Code: Monte Carlo simulation with unknown default probability*
 
 This Monte Carlo simulation estimates the expected profit given an unknown probability of default $0.03 \le p \le 0.05$, modeling the situation where an event changes the probability of default for all borrowers simultaneously. Note that your results will differ from the video because the seed is not set.
 
@@ -2486,8 +2486,6 @@ S <- replicate(B, {
 hist(S)
 ```
 
-![Unknown](https://user-images.githubusercontent.com/17474099/77343596-36004080-6d32-11ea-916e-500cff29c72f.png)
-
 3. Bank earnings expected value
 
 What is the expected value of S, the sum of losses over 10,000 loans? For now, assume a bank makes no money if the loan is paid.
@@ -2558,8 +2556,6 @@ With the interest rate calculated in the last example, we still lose money 50% o
 In math notation, what should the interest rate be so that Pr(S<0)=0.05?
 
 Remember that we can add a constant to both sides of the equation to get:
-
-<img width="414" alt="Schermafbeelding 2020-03-23 om 18 19 16" src="https://user-images.githubusercontent.com/17474099/77344079-f423ca00-6d32-11ea-84c4-857de7bc700e.png">
 
 - Use the qnorm function to compute a continuous variable at given quantile of the distribution to solve for z.
 - In this equation, l, p, and n are known values. Once you’ve solved for z, solve for x.
