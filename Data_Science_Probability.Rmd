@@ -2219,94 +2219,112 @@ pnorm(0, n*mu, sqrt(n)*sigma)
 Section 4 introduces you to the Big Short.
 
 After completing Section 4, you will:
-- understand the relationship between sampling models and interest rates as determined by banks.
-- understand how interest rates can be set to minimize the chances of the bank losing money.
-- understand how inappropriate assumptions of independence contributed to the financial meltdown of 2007.
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#case-study-the-big-short)
+* understand the relationship between sampling models and interest rates as determined by banks.
+* understand how interest rates can be set to minimize the chances of the bank losing money.
+* understand how inappropriate assumptions of independence contributed to the financial meltdown of 2007.
 
 ## Interest Rates Explained
 
-Suppose your bank will give out 1,000 loans for 180,000 this year. Also suppose that your bank loses, after adding up all the costs, $200,000 per foreclosure.For simplicity, we assume that that includes all operational costs. A sampling model for this scenario is coded like this.
-```
-#Code: Interest rate sampling model
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#case-study-the-big-short)
+
+**Key points**
+
+* Interest rates for loans are set using the probability of loan defaults to calculate a rate that minimizes the probability of losing money.
+* We can define the outcome of loans as a random variable. We can also define the sum of outcomes of many loans as a random variable.
+* The Central Limit Theorem can be applied to fit a normal distribution to the sum of profits over many loans. We can use properties of the normal distribution to calculate the interest rate needed to ensure a certain probability of losing money for a given probability of default.
+
+*Code: Interest rate sampling model*
+
+```{r}
 n <- 1000
 loss_per_foreclosure <- -200000
 p <- 0.02
 defaults <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE)
 sum(defaults * loss_per_foreclosure)
 ```
-```
-## [1] -5e+06
-```
-We either default and lose money, or not default and not lose money. If we run the simulation we see that we lose $2.8 millions. Note that the total loss defined by the final sum is a random variable. Every time you run the code you get a different answer. This is because it’s a probability of defaulting. It’s not going to happen for sure. We can easily construct a Monte Carlo simulation to get an idea of the distribution of this random variable. Here’s the distribution.
-```
-#Code: Interest rate Monte Carlo simulation
+
+*Code: Interest rate Monte Carlo simulation*
+
+```{r}
 B <- 10000
 losses <- replicate(B, {
     defaults <- sample( c(0,1), n, prob=c(1-p, p), replace = TRUE) 
   sum(defaults * loss_per_foreclosure)
 })
 ```
-```
-#Code: Plotting expected losses
-library(tidyverse)
-```
-```
+
+*Code: Plotting expected losses*
+
+```{r}
 data.frame(losses_in_millions = losses/10^6) %>%
   ggplot(aes(losses_in_millions)) +
   geom_histogram(binwidth = 0.6, col = "black")
 ```
 
-![Unknown](https://user-images.githubusercontent.com/17474099/77342879-26ccc300-6d31-11ea-849a-5aac6e6f407d.png)
+*Code: Expected value and standard error of the sum of 1,000 loans*
 
-We don’t really need a Monte Carlo simulation though. Using what we’ve learned, the CLT tells us that because our losses are a sum of independent draws, its distribution is approximately normal with expected value and standard deviation given by the following formula.
+```{r}
+n*(p*loss_per_foreclosure + (1-p)*0)    # expected value 
+sqrt(n)*abs(loss_per_foreclosure)*sqrt(p*(1-p))    # standard error
 ```
-#Expected value and standard error of the sum of 1,000 loans
-n*(p*loss_per_foreclosure + (1-p)*0) # expected value   
-```
-```
-## [1] -4e+06
-```
-```
-sqrt(n)*abs(loss_per_foreclosure)*sqrt(p*(1-p)) # standard error 
-```
-```
-## [1] 885437.7
-```
-```
-#Code: Calculating interest rate for 1% probability of losing money
 
+*Code: Calculating interest rates for expected value of 0*
+
+We can calculate the amount $x$ to add to each loan so that the expected value is 0 using the equation $lp + x(1-p) = 0$. Note that this equation is the definition of expected value given a loss per foreclosure $l$ with foreclosure probability $p$ and profit $x$ if there is no foreclosure (probability $1-p$).
+
+We solve for $x = - \frac {lp}{1-p}$ and calculate $x$:
+
+```{r}
+x = - loss_per_foreclosure*p/(1-p)
+x
+```
+
+On a $180,000 loan, this equals an interest rate of:
+
+```{r}
+x/180000
+```
+
+*Equations: Calculating interest rate for 1% probability of losing money*
+
+We want to calculate the value of $x$ for which $Pr(S < 0) = 0.01$. The expected value E \left[ S \right] of the sum of $n = 1000$ loans given our definitions of $x$, $l$ and $p$ is:
+
+$\mu_S = (lp + x(1-p))*n$
+
+And the standard error of the sum of $n$ loans, $SE \left [ S \right]$, is:
+
+$\sigma_S = |x-l|\sqrt{np(1-p)}$
+
+Because we know the definition of a Z-score is $Z = \fraq{x-\mu}{sigma}$, we know that $Pr(S < 0) = Pr(Z < - \frac{\mu}{\sigma}$. Thus, $Pr(S < 0) = 0.01$ equals:
+
+$Pr(Z < \frac{-{lp + x(1-p)}n}{(x-l)\sqrt{np(1-p)}) = 0.01$
+
+We know that ```z<-qnorm(0.01)``` gives us the value of $z$ for which $Pr(Z \le z) = 0.01$, meaning:
+
+$z = \frac{-{lp + x(1-p)}n}{(x-l)\sqrt{np(1-p)}$
+
+Solving for $x$ gives:
+
+$x = -l \frac {np - z \sqrt{np(1-p}}{n(1-p) + z \sqrt{np(1-p}}$
+
+*Code: Calculating interest rate for 1% probability of losing money*
+
+```{r}
 l <- loss_per_foreclosure
 z <- qnorm(0.01)
 x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
 x    # required profit when loan is not a foreclosure
-```
-```
-## [1] 6249.181
-```
-```
 x/180000    # interest rate
-```
-```
-## [1] 0.03471767
-```
-```
 loss_per_foreclosure*p + x*(1-p)    # expected value of the profit per loan
-```
-```
-## [1] 2124.198
-```
-```
 n*(loss_per_foreclosure*p + x*(1-p)) # expected value of the profit over n loans
 ```
-```
-## [1] 2124198
-```
-We get that the x has to be about 6,249, which is an interest rate of about 3%, which is still pretty good. Note also that by choosing this interest rate, we now have an expected profit per loan of about $2,124, which is a total expected profit of about $2 million. We can run a Monte Carlo simulation and check our theoretical approximation. We do that, and we indeed get that value again. And again, the probability of profit being less than zero according to the Monte Carlo simulation is about 1%.
-```
-#Code: Monte Carlo simulation for 1% probability of losing money
 
+*Code: Monte Carlo simulation for 1% probability of losing money*
+
+Note that your results will vary from the video because the seed is not set.
+
+```{r}
 B <- 100000
 profit <- replicate(B, {
     draws <- sample( c(x, loss_per_foreclosure), n, 
@@ -2314,16 +2332,9 @@ profit <- replicate(B, {
     sum(draws)
 })
 mean(profit)    # expected value of the profit over n loans
-```
-```
-## [1] 2122535
-```
-```
 mean(profit<0)    # probability of losing money
 ```
-```
-## [1] 0.01237
-```
+
 ## The Big Short
 
 One of our employees points out that since the bank is making about $2,000 per loan, that you should give out more loans. Why just n? You explain that finding those n clients was hard. You need a group that is predictable, and that keeps the chances of defaults low. He then points out that even if the probability of default is higher, as long as your expected value is positive, you can minimize your chances of losing money by increasing n, the number of loans, and relying on the law of large numbers. He claims that even if the default rate is twice as high, say 4%, if we set the rate just a bit higher so that this happens, you will get a positive expected value. So if we set the interest rate at 5%, we are guaranteed a positive expected value of $640 per loan. And we can minimize our chances of losing money by simply increasing the number of loans, since the probability of S being less than 0 is equal to the probability of Z being less than negative expected value of S divided by standard error S, with Z a standard normal random variable, as we saw earlier. And if we do the math, we will see that we can pick an n so that this probability is 1 in 100.
