@@ -2337,43 +2337,61 @@ mean(profit<0)    # probability of losing money
 
 ## The Big Short
 
-One of our employees points out that since the bank is making about $2,000 per loan, that you should give out more loans. Why just n? You explain that finding those n clients was hard. You need a group that is predictable, and that keeps the chances of defaults low. He then points out that even if the probability of default is higher, as long as your expected value is positive, you can minimize your chances of losing money by increasing n, the number of loans, and relying on the law of large numbers. He claims that even if the default rate is twice as high, say 4%, if we set the rate just a bit higher so that this happens, you will get a positive expected value. So if we set the interest rate at 5%, we are guaranteed a positive expected value of $640 per loan. And we can minimize our chances of losing money by simply increasing the number of loans, since the probability of S being less than 0 is equal to the probability of Z being less than negative expected value of S divided by standard error S, with Z a standard normal random variable, as we saw earlier. And if we do the math, we will see that we can pick an n so that this probability is 1 in 100.
-```
-#Code: Expected value with higher default rate and interest rate
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#the-big-short)
 
+**Key points**
+
+* The Central Limit Theorem states that the sum of independent draws of a random variable follows a normal distribution. However, when the draws are not independent, this assumption does not hold.
+* If an event changes the probability of default for all borrowers, then the probability of the bank losing money changes.
+* Monte Carlo simulations can be used to model the effects of unknown changes in the probability of default.
+
+*Code: Expected value with higher default rate and interest rate*
+
+```{r}
 p <- .04
 loss_per_foreclosure <- -200000
 r <- 0.05
 x <- r*180000
 loss_per_foreclosure*p + x*(1-p)
 ```
-```
-## [1] 640
-```
-```
-#Code: Calculating number of loans for desired probability of losing money
 
-#The number of loans required is:
+*Equations: Probability of losing money*
 
+We can define our desired probability of losing money, $z$, as:
+
+$Pr(S < 0) = Pr(Z < - \frac{E \left [S \right]}{SE \left [S \right]}) = Pr(Z < z)$
+
+If $\mu$ is the expected value of the urn (one loan) and $\sigma$ is the standard deviation of the urn (one loan), then $E \left [S \right] = n \mu$ and $SE \left [S \right] = \sqrt{n \sigma}$.
+
+As in the previous video, we define the probability of losing money $z = 0.01$. In the first equation, we can see that:
+
+$z = - \frac{E \left [S \right]}{SE \left [S \right]}$
+
+It follows that:
+
+$z = - \frac{n \mu}{\sqrt{n \sigma}) = - \frac {\sqrt{n \mu}{\sigma}$
+
+To find the value of $n$ for which $z$ is less than or equal to our desired value, we take $z \le - \frac{n \mu}{\sqrt{n \sigma}) = - \frac {\sqrt{n \mu}{\sigma}$ and solve for $n$:
+
+$n \ge \frac {z^2 \sigma^2}{\mu^2}$
+
+*Code: Calculating number of loans for desired probability of losing money*
+
+The number of loans required is:
+
+```{r}
 z <- qnorm(0.01)
 l <- loss_per_foreclosure
 n <- ceiling((z^2*(x-l)^2*p*(1-p))/(l*p + x*(1-p))^2)
 n    # number of loans required
-```
-```
-## [1] 22163
-```
-```
 n*(loss_per_foreclosure*p + x * (1-p))    # expected profit over n loans
 ```
-```
-## [1] 14184320
-```
-```
-#Code: Monte Carlo simulation with known default probability
 
-#This Monte Carlo simulation estimates the expected profit given a known probability of default . Note that your results will differ from the video because the seed is not set.
+Code: Monte Carlo simulation with known default probability
 
+This Monte Carlo simulation estimates the expected profit given a known probability of default $p = 0.04$. Note that your results will differ from the video because the seed is not set.
+
+```{r}
 B <- 10000
 p <- 0.04
 x <- 0.05 * 180000
@@ -2384,14 +2402,12 @@ profit <- replicate(B, {
 })
 mean(profit)
 ```
-```
-## [1] 14090646
-```
-```
-#Code: Monte Carlo simulation with unknown default probability
 
-#This Monte Carlo simulation estimates the expected profit given an unknown probability of default , modeling the situation where an event changes the probability of default for all borrowers simultaneously. Note that your results will differ from the video because the seed is not set.
+8Code: Monte Carlo simulation with unknown default probability*
 
+This Monte Carlo simulation estimates the expected profit given an unknown probability of default $0.03 \le p \le 0.05$, modeling the situation where an event changes the probability of default for all borrowers simultaneously. Note that your results will differ from the video because the seed is not set.
+
+```{r}
 p <- 0.04
 x <- 0.05*180000
 profit <- replicate(B, {
@@ -2401,25 +2417,10 @@ profit <- replicate(B, {
     sum(draws)
 })
 mean(profit)    # expected profit
-```
-```
-## [1] 14109853
-```
-```
 mean(profit < 0)    # probability of losing money
-```
-```
-## [1] 0.3479
-```
-```
 mean(profit < -10000000)    # probability of losing over $10 million
 ```
-```
-## [1] 0.2422
-```
-```
-#The Central Limit Theorem states that the sum of independent draws of a random variable follows a normal distribution. However, when the draws are not independent, this assumption does not hold.
-```
+
 ## Assessment 7: The Big Short
 
 1. Bank earnings
