@@ -1586,7 +1586,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 **Key points**
 
 * Capital letters denote random variables ($X$) and lowercase letters denote observed values ($x$).
-* In the notation $Pr(X = x), we are asking how frequently the random variable $X$ is equal to the value $x$. For example, if $x = 6$, this statement becomes $Pr(X = 6)$.
+* In the notation $Pr(X = x)$, we are asking how frequently the random variable $X$ is equal to the value $x$. For example, if $x = 6$, this statement becomes $Pr(X = 6)$.
 
 ## Central Limit Theorem (CLT)
 
@@ -1595,7 +1595,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 **Key points**
 
 * The Central Limit Theorem (CLT) says that the distribution of the sum of a random variable is approximated by a normal distribution.
-* The expected value of a random variable, E \left [ X \right] = \mu$, is the average of the values in the urn. This represents the expectation of one draw. 
+* The expected value of a random variable, $E \left [ X \right] = \mu$, is the average of the values in the urn. This represents the expectation of one draw. 
 * The standard error of one draw of a random variable is the standard deviation of the values in the urn.
 * The expected value of the sum of draws is the number of draws times the expected value of the random variable. 
 * The standard error of the sum of independent draws of a random variable is the square root of the number of draws times the standard deviation of the urn. 
@@ -1606,19 +1606,19 @@ These equations apply to the case where there are only two outcomes, $a$ and $b$
 
 Expected value of a random variable:
 
-$ap\:+\:b(1-p)$
+$ap\:+\:b(1-p))$
 
 Expected value of the sum of n draws of a random variable: 
 
-$n\:X\:(ap + b(1-p)$
+$n$ x $(ap + b(1-p))$
 
 Standard deviation of an urn with two values: 
 
-$|b-a|\sqrt{p(1-p}
+$|b-a|\sqrt{p(1-p)}$
 
 Standard error of the sum of n draws of a random variable:
 
-\sqrt n\:X\:|b-a|\sqrt{p(1-p}
+$\sqrt n$ x $|b-a|\sqrt{p(1-p)}$
 
 ## Assessment - Random Variables and Sampling Models
 
@@ -1830,7 +1830,7 @@ $E \left [X_1 + X_2 + ... + X_n \right ] = \mu_1 + \mu_2 + ... + \mu_n$
 
 The *standard error of the sum of different random variables* is the square root of the sum of squares of the individual standard errors:
 
-$SE \left [X_1 + X_2 + ... + X_n \right ] = \sqrt{\sigma_1 + \sigma_2 + ... + \sigma_n}$
+$SE \left [X_1 + X_2 + ... + X_n \right ] = \sqrt{\sigma_1^2 + \sigma_2^2 + ... + \sigma_n^2}$
 
 * Transformation of random variables
 
