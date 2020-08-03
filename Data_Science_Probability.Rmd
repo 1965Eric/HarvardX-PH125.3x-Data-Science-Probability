@@ -1622,35 +1622,32 @@ Standard error of the sum of n draws of a random variable:
 
 ## Assessment - Random Variables and Sampling Models
 
-1.American Roulette probabilities
+1. An American roulette wheel has 18 red, 18 black, and 2 green pockets. 
 
-An American roulette wheel has 18 red, 18 black, and 2 green pockets. Each red and black pocket is associated with a number from 1 to 36. The two remaining green slots feature “0” and “00”. Players place bets on which pocket they think a ball will land in after the wheel is spun. Players can bet on a specific number (0, 00, 1-36) or color (red, black, or green).
+Each red and black pocket is associated with a number from 1 to 36. The two remaining green slots feature "0" and "00". Players place bets on which pocket they think a ball will land in after the wheel is spun. Players can bet on a specific number (0, 00, 1-36) or color (red, black, or green).
 
 What are the chances that the ball lands in a green pocket?
-```
+
+```{r}
 # The variables `green`, `black`, and `red` contain the number of pockets for each color
 green <- 2
 black <- 18
 red <- 18
 
 # Assign a variable `p_green` as the probability of the ball landing in a green pocket
-p_green <- green/(green+black+red)
+p_green <- 2/(2+18+18)
 
 # Print the variable `p_green` to the console
 p_green
 ```
-```
-## [1] 0.05263158
-```
-2. American Roulette payout
 
-In American roulette, the payout for winning on green is $17. This means that if you bet $1 and it lands on green, you get $17 as a prize.
+2. In American roulette, the payout for winning on green is $17. 
+
+This means that if you bet $1 and it lands on green, you get $17 as a prize.
 
 Create a model to predict your winnings from betting on green one time.
-- Use the sample function return a random value from a specified range of values.
-- Use the prob = argument in the sample function to specify a vector of probabilities for returning each of the values contained in the vector of values being sampled.
-- Take a single sample (n = 1).
-```
+
+```{r}
 # Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
 set.seed(1)
 
@@ -1663,24 +1660,23 @@ red <- 18
 p_green <- green / (green+black+red)
 
 # Assign a variable `p_not_green` as the probability of the ball not landing in a green pocket
-p_not_green <- 1-p_green
+p_not_green = 1 - p_green
+
 
 # Create a model to predict the random variable `X`, your winnings from betting on green. Sample one time.
-x <- sample(c(17,-1), 1, replace = TRUE, prob=c(p_green, p_not_green))
+X <- sample(c(-1,17), 1, replace = TRUE, prob = c(p_not_green, p_green))
 
 # Print the value of `X` to the console
-x
+X
 ```
-```
-## [1] -1
-```
-3. American Roulette expected value
 
-In American roulette, the payout for winning on green is $17. This means that if you bet $1 and it lands on green, you get $17 as a prize.In the previous exercise, you created a model to predict your winnings from betting on green.
+3. In American roulette, the payout for winning on green is $17. 
 
-Now, compute the expected value of X, the random variable you generated previously.
-- Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket.
-```
+This means that if you bet $1 and it lands on green, you get $17 as a prize. In the previous exercise, you created a model to predict your winnings from betting on green.
+
+Now, compute the expected value of $X$, the random variable you generated previously.
+
+```{r}
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1693,19 +1689,14 @@ p_green <- green / (green+black+red)
 p_not_green <- 1-p_green
 
 # Calculate the expected outcome if you win $17 if the ball lands on green and you lose $1 if the ball doesn't land on green
-p_green * 17 + p_not_green * (-1)
+17 * p_green + (-1 * p_not_green)
 ```
-```
-## [1] -0.05263158
-```
-4. American Roulette standard error
 
-The standard error of a random variable X tells us the difference between a random variable and its expected value. You calculated a random variable X in exercise 2 and the expected value of that random variable in exercise 3.
+4. The standard error of a random variable $X$ tells us the difference between a random variable and its expected value. You calculated a random variable $X$ in exercise 2 and the expected value of that random variable in exercise 3.
 
 Now, compute the standard error of that random variable, which represents a single outcome after one spin of the roulette wheel.
-- Compute the standard error of the random variable you generated in exercise 2, or the outcome of any one spin of the roulette wheel.
-- Recall that the payout for winning on green is $17 for a $1 bet.
-```
+
+```{r}
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1720,19 +1711,12 @@ p_not_green <- 1-p_green
 # Compute the standard error of the random variable
 abs((17 - -1))*sqrt(p_green*p_not_green)
 ```
-```
-## [1] 4.019344
-```
-5. American Roulette sum of winnings
 
-You modeled the outcome of a single spin of the roulette wheel, X, in exercise 2.
+5. You modeled the outcome of a single spin of the roulette wheel, $X$, in exercise 2.
 
-Now create a random variable S that sums your winnings after betting on green 1,000 times.
-- Use set.seed to make sure the result of your random operation matches the expected answer for this problem.
-- Specify the number of times you want to sample from the possible outcomes.
-- Use the sample function to return a random value from a vector of possible values.
-- Be sure to assign a probability to each outcome and to indicate that you are sampling with replacement.
-```
+Now create a random variable $S$ that sums your winnings after betting on green 1,000 times.
+
+```{r}
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1751,7 +1735,7 @@ set.seed(1)
 n <- 1000
 
 # Create a vector called 'X' that contains the outcomes of 1000 samples
-X <- sample(c(17,-1), size = n, replace=TRUE, prob=c(p_green, p_not_green))
+X <- sample(c(-1,17), n, replace = TRUE, prob = c(p_not_green, p_green)) 
 
 # Assign the sum of all 1000 outcomes to the variable 'S'
 S <- sum(X)
@@ -1759,16 +1743,12 @@ S <- sum(X)
 # Print the value of 'S' to the console
 S
 ```
-```
-## [1] -10
-```
-6. American Roulette winnings expected value
 
-In the previous exercise, you generated a vector of random outcomes, S, after betting on green 1,000 times.
+6. In the previous exercise, you generated a vector of random outcomes, $S$, after betting on green 1,000 times.
 
-What is the expected value of S?
-- Using the chances of winning $17 (p_green) and the chances of losing $1 (p_not_green), calculate the expected outcome of a bet that the ball will land in a green pocket over 1,000 bets.
-```
+What is the expected value of $S$?
+
+```{r}
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1784,18 +1764,14 @@ p_not_green <- 1-p_green
 n <- 1000
 
 # Calculate the expected outcome of 1,000 spins if you win $17 when the ball lands on green and you lose $1 when the ball doesn't land on green
-n * (p_green * 17 + p_not_green * (-1))
+n * (17 * p_green + (-1 * p_not_green))
 ```
-```
-## [1] -52.63158
-```
-7. American Roulette winnings expected value
 
-You generated the expected value of S, the outcomes of 1,000 bets that the ball lands in the green pocket, in the previous exercise.
+7. You generated the expected value of $S$, the outcomes of 1,000 bets that the ball lands in the green pocket, in the previous exercise.
 
-What is the standard error of S?
-- Compute the standard error of the random variable you generated in exercise 5, or the outcomes of 1,000 spins of the roulette wheel.
-```
+What is the standard error of $S$?
+
+```{r}
 # The variables 'green', 'black', and 'red' contain the number of pockets for each color
 green <- 2
 black <- 18
@@ -1811,36 +1787,77 @@ p_not_green <- 1-p_green
 n <- 1000
 
 # Compute the standard error of the sum of 1,000 outcomes
-sqrt(n) * abs((17 + 1))*sqrt(p_green*p_not_green)
+sqrt(n) * abs((17 - -1))*sqrt(p_green*p_not_green)
 ```
-```
-## [1] 127.1028
-```
-## The Central Limit Theorem Continued
 
-### Property 1: 
+## Averages and Proportions
 
-The first, is that the expected value of a sum of random variables is the sum of the expected values of the individual random variables.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#statistical-properties-of-averages)
 
-### Property 2: 
+**Key points**
 
-The second, is that the expected value of random variables times a non-random constant is the expected value times that non-random constant.
+* Random variable times a constant
 
-### Property 3: 
+The *expected value of a random variable multiplied by a constant* is that constant times its original expected value:
 
-The third, is that the square of the standard error of the sum of independent random variables is the sum of the square of the standard error of each random variable.
+$E \left [aX \right ] = a \mu$
 
-### Property 4: 
+The *standard error of a random variable multiplied by a constant* is that constant times its original standard error:
 
-The fourth, is that the standard error of random variables times a non-random constant is the standard error times a non-random constant.
+$SE \left [aX \right ] = a \sigma$
+
+* Average of multiple draws of a random variable
+
+The *expected value of average of multiple draws* from an urn is the expected value of the urn ($\mu$).
+
+The *standard deviation of the average of multiple draws* from an urn is the standard deviation of the urn divided by the square root of the number of draws ($\sigma / \sqrt{n}$).
+
+* The sum of multiple draws of a random variable
+
+The *expected value of the sum of $n$ draws of random variable* is $n$ times its original expected value:
+
+$E \left [nX \right ] = n \mu$
+
+The *standard error of the sum of $n$ draws of random variable* is $\sqrt{n}$ times its original standard error:
+
+$SE \left [nX \right ] =  \sqrt{n \sigma}$
+
+* The sum of multiple different random variables
+
+The *expected value of the sum of different random variables* is the sum of the individual expected values for each random variable:
+
+$E \left [X_1 + X_2 + ... + X_n \right ] = \mu_1 + \mu_2 + ... + \mu_n$
+
+The *standard error of the sum of different random variables* is the square root of the sum of squares of the individual standard errors:
+
+$SE \left [X_1 + X_2 + ... + X_n \right ] = \sqrt{\sigma_1 + \sigma_2 + ... + \sigma_n}$
+
+* Transformation of random variables
+
+If $X$ is a normally distributed random variable and $a$ and $b$ are non-random constants, then $aX + b$ is also a normally distributed random variable.
 
 ## Law of Large Numbers
 
-An important implication of the final result is that the standard error of the average becomes smaller and smaller as n grows larger. When n is very large, then the standard error is practically 0 and the average of the draws converges to the average of the urn. This is known in statistical textbooks as the law of large numbers or the law of averages.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#law-of-large-numbers)
+
+**Key points**
+
+* The law of large numbers states that as $n$ increases, the standard error of the average of a random variable decreases. In other words, when $n$ is large, the average of the draws converges to the average of the urn.
+* The law of large numbers is also known as the law of averages.
+* The law of averages only applies when $n$ is very large and events are independent. It is often misused to make predictions about an event being "due" because it has happened less frequently than expected in a small sample size.
 
 ## How Large is Large in CLT?
 
-In the lottery, the chance of winning are less than 1 in a million. Thousands of people play, so the number of draws is very large. So the central limit should work. Yet, the number of winners, the sum of the draws, range between 0, and in very extreme cases, four. This sum is certainly not well approximated by the normal distribution. So the central limit theorem doesn’t apply, even with a very large sample size. This is generally true when the probability of success is very low. In these cases, the Poisson distribution is more appropriate.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#how-large-is-large-in-the-central-limit-theorem)
+
+You can read more about the Poisson distribution at [this link](https://en.wikipedia.org/wiki/Poisson_distribution).
+
+**Key points**
+
+* The sample size required for the Central Limit Theorem and Law of Large Numbers to apply differs based on the probability of success.
+    * If the probability of success is high, then relatively few observations are needed.
+    * As the probability of success decreases, more observations are needed.
+* If the probability of success is extremely low, such as winning a lottery, then the Central Limit Theorem may not apply even with extremely large sample sizes. The normal distribution is not a good approximation in these cases, and other distributions such as the Poisson distribution (not discussed in these courses) may be more appropriate.
 
 ## Assessment 6: The Central Limit Theorem
 
