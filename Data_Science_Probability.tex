@@ -326,7 +326,7 @@ random.
 \begin{verbatim}
 ## events
 ## blue  red 
-## 6016 3984
+## 6093 3907
 \end{verbatim}
 
 \begin{Shaded}
@@ -338,7 +338,7 @@ random.
 \begin{verbatim}
 ## events
 ##   blue    red 
-## 0.6016 0.3984
+## 0.6093 0.3907
 \end{verbatim}
 
 \hypertarget{setting-the-random-seed}{%
@@ -798,11 +798,11 @@ The textbook for this section is available
 
 \begin{verbatim}
 ##      [,1] [,2] [,3] [,4] [,5] [,6] [,7]
-## [1,]    3    4    6    9    8    1    5
-## [2,]    9    1    0    2    7    3    8
-## [3,]    6    9    7    8    2    3    1
-## [4,]    4    8    2    0    9    5    1
-## [5,]    9    2    4    3    5    7    1
+## [1,]    8    0    5    1    7    4    9
+## [2,]    4    6    0    7    2    5    8
+## [3,]    0    2    9    6    4    7    5
+## [4,]    0    6    2    9    1    3    5
+## [5,]    2    7    1    4    6    9    0
 \end{verbatim}
 
 \begin{Shaded}
@@ -906,7 +906,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] "Queen Spades" "Six Clubs"
+## [1] "King Spades"   "King Diamonds"
 \end{verbatim}
 
 \begin{Shaded}
@@ -922,7 +922,7 @@ and the seed is not set.
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.0447
+## [1] 0.0456
 \end{verbatim}
 
 \hypertarget{the-birthday-problem}{%
@@ -975,7 +975,7 @@ The textbook for this section is available
 \end{Shaded}
 
 \begin{verbatim}
-## [1] 0.9699
+## [1] 0.9684
 \end{verbatim}
 
 \hypertarget{sapply}{%
@@ -3813,44 +3813,44 @@ Theorem}\label{assessment-6-the-central-limit-theorem}}
 \def\labelenumi{\arabic{enumi}.}
 \tightlist
 \item
-  American Roulette probability of winning money
+  The exercises in the previous chapter explored winnings in American
+  roulette.
 \end{enumerate}
 
-The exercises in the previous chapter explored winnings in American
-roulette. In this chapter of exercises, we will continue with the
-roulette example and add in the Central Limit Theorem.
+In this chapter of exercises, we will continue with the roulette example
+and add in the Central Limit Theorem.
 
-In the previous chapter of exercises, you created a random variable S
-that is the sum of your winnings after betting on green a number of
-times in American Roulette.
+In the previous chapter of exercises, you created a random variable
+\(S\) that is the sum of your winnings after betting on green a number
+of times in American Roulette.
 
 What is the probability that you end up winning money if you bet on
-green 100 times? - Execute the sample code to determine the expected
-value avg and standard error se as you have done in previous exercises.
-- Use the pnorm function to determine the probability of winning money.
+green 100 times?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textasciigrave{}p\_green\textasciigrave{} as the probability of the ball landing in a green pocket}
+\NormalTok{p\_green \textless{}{-}}\StringTok{ }\DecValTok{2} \OperatorTok{/}\StringTok{ }\DecValTok{38}
+
+\CommentTok{\# Assign a variable \textasciigrave{}p\_not\_green\textasciigrave{} as the probability of the ball not landing in a green pocket}
+\NormalTok{p\_not\_green \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{{-}}\NormalTok{p\_green}
+
+\CommentTok{\# Define the number of bets using the variable \textquotesingle{}n\textquotesingle{}}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{100}
+
+\CommentTok{\# Calculate \textquotesingle{}avg\textquotesingle{}, the expected outcome of 100 spins if you win $17 when the ball lands on green and you lose $1 when the ball doesn\textquotesingle{}t land on green}
+\NormalTok{avg \textless{}{-}}\StringTok{ }\NormalTok{n }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{17}\OperatorTok{*}\NormalTok{p\_green }\OperatorTok{+}\StringTok{ }\DecValTok{{-}1}\OperatorTok{*}\NormalTok{p\_not\_green)}
+
+\CommentTok{\# Compute \textquotesingle{}se\textquotesingle{}, the standard error of the sum of 100 outcomes}
+\NormalTok{se \textless{}{-}}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{17} \OperatorTok{{-}}\StringTok{ }\DecValTok{{-}1}\NormalTok{)}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(p\_green}\OperatorTok{*}\NormalTok{p\_not\_green)}
+
+\CommentTok{\# Using the expected value \textquotesingle{}avg\textquotesingle{} and standard error \textquotesingle{}se\textquotesingle{}, compute the probability that you win money betting on green 100 times.}
+\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\DecValTok{0}\NormalTok{,avg,se)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable `p_green` as the probability of the ball landing in a green pocket
-p_green <- 2 / 38
-
-# Assign a variable `p_not_green` as the probability of the ball not landing in a green pocket
-p_not_green <- 1-p_green
-
-# Define the number of bets using the variable 'n'
-n <- 100
-
-# Calculate 'avg', the expected outcome of 100 spins if you win $17 when the ball lands on green and you lose $1 when the ball doesn't land on green
-avg <- n * (17*p_green + -1*p_not_green)
-
-# Compute 'se', the standard error of the sum of 100 outcomes
-se <- sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
-
-# Using the expected value 'avg' and standard error 'se', compute the probability that you win money betting on green 100 times.
-1-pnorm(0,avg,se)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.4479091
+## [1] 0.448
 \end{verbatim}
 
 \begin{enumerate}
@@ -3858,61 +3858,55 @@ se <- sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
 \setcounter{enumi}{1}
 \tightlist
 \item
-  American Roulette Monte Carlo simulation
+  Create a Monte Carlo simulation that generates 10,000 outcomes of
+  \(S\), the sum of 100 bets.
 \end{enumerate}
-
-Create a Monte Carlo simulation that generates 10,000 outcomes of S, the
-sum of 100 bets.
 
 Compute the average and standard deviation of the resulting list and
 compare them to the expected value (-5.263158) and standard error
-(40.19344) for S that you calculated previously. - Use the replicate
-function to replicate the sample code for B \textless- 10000
-simulations. - Within replicate, use the sample function to simulate n
-\textless- 100 outcomes of either a win (17)oraloss(-1) for the bet. Use
-the order c(17, -1) and corresponding probabilities. Then, use the sum
-function to add up the winnings over all iterations of the model. Make
-sure to include sum or DataCamp may crash with a ``Session Expired''
-error. - Use the mean function to compute the average winnings. - Use
-the sd function to compute the standard deviation of the winnings.
+(40.19344) for \(S\) that you calculated previously.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textasciigrave{}p\_green\textasciigrave{} as the probability of the ball landing in a green pocket}
+\NormalTok{p\_green \textless{}{-}}\StringTok{ }\DecValTok{2} \OperatorTok{/}\StringTok{ }\DecValTok{38}
+
+\CommentTok{\# Assign a variable \textasciigrave{}p\_not\_green\textasciigrave{} as the probability of the ball not landing in a green pocket}
+\NormalTok{p\_not\_green \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{{-}}\NormalTok{p\_green}
+
+\CommentTok{\# Define the number of bets using the variable \textquotesingle{}n\textquotesingle{}}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{100}
+
+\CommentTok{\# The variable \textasciigrave{}B\textasciigrave{} specifies the number of times we want the simulation to run. Let\textquotesingle{}s run the Monte Carlo simulation 10,000 times.}
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+
+\CommentTok{\# Use the \textasciigrave{}set.seed\textasciigrave{} function to make sure your answer matches the expected result after random sampling.}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Create an object called \textasciigrave{}S\textasciigrave{} that replicates the sample code for \textasciigrave{}B\textasciigrave{} iterations and sums the outcomes.}
+\NormalTok{S \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B,\{}
+\NormalTok{   X \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{17}\NormalTok{,}\OperatorTok{{-}}\DecValTok{1}\NormalTok{), }\DataTypeTok{size =}\NormalTok{ n, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(p\_green, p\_not\_green))}
+   \KeywordTok{sum}\NormalTok{(X)}
+\NormalTok{   \})}
+
+\CommentTok{\# Compute the average value for \textquotesingle{}S\textquotesingle{}}
+\KeywordTok{mean}\NormalTok{(S)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable `p_green` as the probability of the ball landing in a green pocket
-p_green <- 2 / 38
-
-# Assign a variable `p_not_green` as the probability of the ball not landing in a green pocket
-p_not_green <- 1-p_green
-
-# Define the number of bets using the variable 'n'
-n <- 100
-
-# The variable `B` specifies the number of times we want the simulation to run. Let's run the Monte Carlo simulation 10,000 times.
-B <- 10000
-
-# Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
-set.seed(1)
-
-# Create an object called `S` that replicates the sample code for `B` iterations and sums the outcomes.
-S <- replicate(B,{
-   X <- sample(c(17,-1), size = n, replace = TRUE, prob = c(p_green, p_not_green))
-   sum(X)
-   })
-
-# Compute the average value for 'S'
-mean(S)
+## [1] -5.91
 \end{verbatim}
 
-\begin{verbatim}
-## [1] -5.9086
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate the standard deviation of \textquotesingle{}S\textquotesingle{}}
+\KeywordTok{sd}\NormalTok{(S)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Calculate the standard deviation of 'S'
-sd(S)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 40.30608
+## [1] 40.3
 \end{verbatim}
 
 \begin{enumerate}
@@ -3920,26 +3914,24 @@ sd(S)
 \setcounter{enumi}{2}
 \tightlist
 \item
-  American Roulette Monte Carlo vs CLT
+  In this chapter, you calculated the probability of winning money in
+  American roulette using the CLT.
 \end{enumerate}
-
-In this chapter, you calculated the probability of winning money in
-American roulette using the CLT.
 
 Now, calculate the probability of winning money from the Monte Carlo
 simulation. The Monte Carlo simulation from the previous exercise has
-already been pre-run for you, resulting in the variable S that contains
-a list of 10,000 simulated outcomes. - Use the mean function to
-calculate the probability of winning money from the Monte Carlo
-simulation, S.
+already been pre-run for you, resulting in the variable \(S\) that
+contains a list of 10,000 simulated outcomes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Calculate the proportion of outcomes in the vector \textasciigrave{}S\textasciigrave{} that exceed $0}
+\KeywordTok{mean}\NormalTok{(S }\OperatorTok{\textgreater{}}\StringTok{ }\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Calculate the proportion of outcomes in the vector `S` that exceed $0
-mean(S>0)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.4232
+## [1] 0.423
 \end{verbatim}
 
 \begin{enumerate}
@@ -3947,12 +3939,10 @@ mean(S>0)
 \setcounter{enumi}{3}
 \tightlist
 \item
-  American Roulette Monte Carlo vs CLT comparison
+  The Monte Carlo result and the CLT approximation for the probability
+  of losing money after 100 bets are close, but not that close. What
+  could account for this?
 \end{enumerate}
-
-The Monte Carlo result and the CLT approximation for the probability of
-losing money after 100 bets are close, but not that close. What could
-account for this?
 
 \begin{itemize}
 \tightlist
@@ -3973,39 +3963,32 @@ account for this?
 \setcounter{enumi}{4}
 \tightlist
 \item
-  American Roulette average winnings per bet
+  Now create a random variable \(Y\) that contains your average winnings
+  per bet after betting on green 10,000 times.
 \end{enumerate}
 
-Now create a random variable Y that contains your average winnings per
-bet after betting on green 10,000 times. - Run a single Monte Carlo
-simulation of 10,000 bets using the following steps. (You do not need to
-replicate the sample code.) - Specify n as the number of times you want
-to sample from the possible outcomes. - Use the sample function to
-return n values from a vector of possible values: winning \$17 or losing
-\$1. Be sure to assign a probability to each outcome and indicate that
-you are sampling with replacement. - Calculate the average result per
-bet placed using the mean function.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Use the \textasciigrave{}set.seed\textasciigrave{} function to make sure your answer matches the expected result after random sampling.}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
 
-\begin{verbatim}
-# Use the `set.seed` function to make sure your answer matches the expected result after random sampling.
-set.seed(1)
+\CommentTok{\# Define the number of bets using the variable \textquotesingle{}n\textquotesingle{}}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{10000}
 
-# Define the number of bets using the variable 'n'
-n <- 10000
+\CommentTok{\# Assign a variable \textasciigrave{}p\_green\textasciigrave{} as the probability of the ball landing in a green pocket}
+\NormalTok{p\_green \textless{}{-}}\StringTok{ }\DecValTok{2} \OperatorTok{/}\StringTok{ }\DecValTok{38}
 
-# Assign a variable `p_green` as the probability of the ball landing in a green pocket
-p_green <- 2 / 38
+\CommentTok{\# Assign a variable \textasciigrave{}p\_not\_green\textasciigrave{} as the probability of the ball not landing in a green pocket}
+\NormalTok{p\_not\_green \textless{}{-}}\StringTok{ }\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{p\_green}
 
-# Assign a variable `p_not_green` as the probability of the ball not landing in a green pocket
-p_not_green <- 1 - p_green
+\CommentTok{\# Create a vector called \textasciigrave{}X\textasciigrave{} that contains the outcomes of \textasciigrave{}n\textasciigrave{} bets}
+\NormalTok{X \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{,}\DecValTok{17}\NormalTok{), n, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(p\_not\_green, p\_green))}
 
-# Create a vector called `X` that contains the outcomes of `n` bets
-X <- sample(c(17,-1), size = n, replace = TRUE, prob = c(p_green, p_not_green))
-
-# Define a variable `Y` that contains the mean outcome per bet. Print this mean to the console.
-Y <- mean(X)
-Y
-\end{verbatim}
+\CommentTok{\# Define a variable \textasciigrave{}Y\textasciigrave{} that contains the mean outcome per bet. Print this mean to the console.}
+\NormalTok{Y \textless{}{-}}\StringTok{ }\KeywordTok{mean}\NormalTok{(X)}
+\NormalTok{Y}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.008
@@ -4016,29 +3999,26 @@ Y
 \setcounter{enumi}{5}
 \tightlist
 \item
-  American Roulette per bet expected value
+  What is the expected value of \(Y\), the average outcome per bet after
+  betting on green 10,000 times?
 \end{enumerate}
 
-What is the expected value of Y, the average outcome per bet after
-betting on green 10,000 times? - Using the chances of winning \$17
-(p\_green) and the chances of losing \$1 (p\_not\_green), calculate the
-expected outcome of a bet that the ball will land in a green pocket. -
-Print this value to the console (do not assign it to a variable).
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Assign a variable \textasciigrave{}p\_green\textasciigrave{} as the probability of the ball landing in a green pocket}
+\NormalTok{p\_green \textless{}{-}}\StringTok{ }\DecValTok{2} \OperatorTok{/}\StringTok{ }\DecValTok{38}
+
+\CommentTok{\# Assign a variable \textasciigrave{}p\_not\_green\textasciigrave{} as the probability of the ball not landing in a green pocket}
+\NormalTok{p\_not\_green \textless{}{-}}\StringTok{ }\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{p\_green}
+
+\CommentTok{\# Calculate the expected outcome of \textasciigrave{}Y\textasciigrave{}, the mean outcome per bet in 10,000 bets}
+\NormalTok{Y \textless{}{-}}\StringTok{ }\NormalTok{p\_green }\OperatorTok{*}\StringTok{ }\DecValTok{17} \OperatorTok{+}\StringTok{ }\NormalTok{p\_not\_green }\OperatorTok{*}\StringTok{ }\DecValTok{{-}1}
+\NormalTok{Y}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Assign a variable `p_green` as the probability of the ball landing in a green pocket
-p_green <- 2 / 38
-
-# Assign a variable `p_not_green` as the probability of the ball not landing in a green pocket
-p_not_green <- 1 - p_green
-
-# Calculate the expected outcome of `Y`, the mean outcome per bet in 10,000 bets
-Y <- p_green * 17 + p_not_green * (-1)
-Y
-\end{verbatim}
-
-\begin{verbatim}
-## [1] -0.05263158
+## [1] -0.0526
 \end{verbatim}
 
 \begin{enumerate}
@@ -4046,29 +4026,29 @@ Y
 \setcounter{enumi}{6}
 \tightlist
 \item
-  American Roulette per bet standard error
+  What is the standard error of \(Y\), the average result of 10,000
+  spins?
 \end{enumerate}
 
-What is the standard error of Y, the average result of 10,000 spins? -
-Compute the standard error of Y, the average result of 10,000
-independent spins.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Define the number of bets using the variable \textquotesingle{}n\textquotesingle{}}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{10000}
+
+\CommentTok{\# Assign a variable \textasciigrave{}p\_green\textasciigrave{} as the probability of the ball landing in a green pocket}
+\NormalTok{p\_green \textless{}{-}}\StringTok{ }\DecValTok{2} \OperatorTok{/}\StringTok{ }\DecValTok{38}
+
+\CommentTok{\# Assign a variable \textasciigrave{}p\_not\_green\textasciigrave{} as the probability of the ball not landing in a green pocket}
+\NormalTok{p\_not\_green \textless{}{-}}\StringTok{ }\DecValTok{1} \OperatorTok{{-}}\StringTok{ }\NormalTok{p\_green}
+
+\CommentTok{\# Compute the standard error of \textquotesingle{}Y\textquotesingle{}, the mean outcome per bet from 10,000 bets.}
+\NormalTok{Y \textless{}{-}}\StringTok{ }\KeywordTok{abs}\NormalTok{((}\DecValTok{17} \OperatorTok{{-}}\StringTok{ }\DecValTok{{-}1}\NormalTok{))}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(p\_green}\OperatorTok{*}\NormalTok{p\_not\_green) }\OperatorTok{/}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n)}
+\NormalTok{Y}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Define the number of bets using the variable 'n'
-n <- 10000
-
-# Assign a variable `p_green` as the probability of the ball landing in a green pocket
-p_green <- 2 / 38
-
-# Assign a variable `p_not_green` as the probability of the ball not landing in a green pocket
-p_not_green <- 1 - p_green
-
-# Compute the standard error of 'Y', the mean outcome per bet from 10,000 bets.
-abs((17 - (-1))*sqrt(p_green*p_not_green) / sqrt(n))
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.04019344
+## [1] 0.0402
 \end{verbatim}
 
 \begin{enumerate}
@@ -4076,27 +4056,25 @@ abs((17 - (-1))*sqrt(p_green*p_not_green) / sqrt(n))
 \setcounter{enumi}{7}
 \tightlist
 \item
-  American Roulette winnings per game are positive
+  What is the probability that your winnings are positive after betting
+  on green 10,000 times?
 \end{enumerate}
 
-What is the probability that your winnings are positive after betting on
-green 10,000 times? - Execute the code that we wrote in previous
-exercises to determine the average and standard error. - Use the pnorm
-function to determine the probability of winning more than \$0.
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# We defined the average using the following code}
+\NormalTok{avg \textless{}{-}}\StringTok{ }\DecValTok{17}\OperatorTok{*}\NormalTok{p\_green }\OperatorTok{+}\StringTok{ }\DecValTok{{-}1}\OperatorTok{*}\NormalTok{p\_not\_green}
+
+\CommentTok{\# We defined standard error using this equation}
+\NormalTok{se \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\NormalTok{(}\DecValTok{17} \OperatorTok{{-}}\StringTok{ }\DecValTok{{-}1}\NormalTok{)}\OperatorTok{*}\KeywordTok{sqrt}\NormalTok{(p\_green}\OperatorTok{*}\NormalTok{p\_not\_green)}
+
+\CommentTok{\# Given this average and standard error, determine the probability of winning more than $0. Print the result to the console.}
+\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\DecValTok{0}\NormalTok{,avg,se)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# We defined the average using the following code
-avg <- 17*p_green + -1*p_not_green
-
-# We defined standard error using this equation
-se <- 1/sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
-
-# Given this average and standard error, determine the probability of winning more than $0. Print the result to the console.
-1 - pnorm(0, avg, se)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.0951898
+## [1] 0.0952
 \end{verbatim}
 
 \begin{enumerate}
@@ -4104,52 +4082,51 @@ se <- 1/sqrt(n) * (17 - -1)*sqrt(p_green*p_not_green)
 \setcounter{enumi}{8}
 \tightlist
 \item
-  American Roulette Monte Carlo again
+  Create a Monte Carlo simulation that generates 10,000 outcomes of
+  \(S\), the average outcome from 10,000 bets on green.
 \end{enumerate}
-
-Create a Monte Carlo simulation that generates 10,000 outcomes of S, the
-average outcome from 10,000 bets on green.
 
 Compute the average and standard deviation of the resulting list to
 confirm the results from previous exercises using the Central Limit
-Theorem. - Use the replicate function to model 10,000 iterations of a
-series of 10,000 bets. - Each iteration inside replicate should simulate
-10,000 bets and determine the average outcome of those 10,000 bets. If
-you forget to take the mean, DataCamp will crash with a ``Session
-Expired'' error. - Find the average of the 10,000 average outcomes. -
-Compute the standard deviation of the 10,000 simulations.
+Theorem.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#\# Make sure you fully follow instructions, including printing values to the console and correctly running the \textasciigrave{}replicate\textasciigrave{} loop. If not, you may encounter "Session Expired" errors.}
+
+\CommentTok{\# The variable \textasciigrave{}n\textasciigrave{} specifies the number of independent bets on green}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{10000}
+
+\CommentTok{\# The variable \textasciigrave{}B\textasciigrave{} specifies the number of times we want the simulation to run}
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+
+\CommentTok{\# Use the \textasciigrave{}set.seed\textasciigrave{} function to make sure your answer matches the expected result after random number generation}
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{\# Generate a vector \textasciigrave{}S\textasciigrave{} that contains the the average outcomes of 10,000 bets modeled 10,000 times}
+\NormalTok{S \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B,\{  }
+\NormalTok{  X \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{17}\NormalTok{,}\OperatorTok{{-}}\DecValTok{1}\NormalTok{), }\DataTypeTok{size =}\NormalTok{ n, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(p\_green, p\_not\_green))}
+  \KeywordTok{mean}\NormalTok{(X)}
+\NormalTok{\})}
+
+\CommentTok{\# Compute the average of \textasciigrave{}S\textasciigrave{}}
+\KeywordTok{mean}\NormalTok{(S)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# The variable `n` specifies the number of independent bets on green
-n <- 10000
-
-# The variable `B` specifies the number of times we want the simulation to run
-B <- 10000
-
-# Use the `set.seed` function to make sure your answer matches the expected result after random number generation
-set.seed(1)
-
-# Generate a vector `S` that contains the the average outcomes of 10,000 bets modeled 10,000 times
-S <- replicate(B,{  
-  X <- sample(c(17,-1), size = n, replace = TRUE, prob = c(p_green, p_not_green))
-  mean(X)
-})
-
-# Compute the average of `S`
-mean(S)
+## [1] -0.0522
 \end{verbatim}
 
-\begin{verbatim}
-## [1] -0.05223142
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute the standard deviation of \textasciigrave{}S\textasciigrave{}}
+\KeywordTok{sd}\NormalTok{(S)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
-# Compute the standard deviation of `S`
-sd(S)
-\end{verbatim}
-
-\begin{verbatim}
-## [1] 0.03996168
+## [1] 0.04
 \end{verbatim}
 
 \begin{enumerate}
@@ -4157,26 +4134,25 @@ sd(S)
 \setcounter{enumi}{9}
 \tightlist
 \item
-  American Roulette comparison
+  In a previous exercise, you found the probability of winning more than
+  \$0 after betting on green 10,000 times using the Central Limit
+  Theorem.
 \end{enumerate}
 
-In a previous exercise, you found the probability of winning more than
-\$0 after betting on green 10,000 times using the Central Limit Theorem.
 Then, you used a Monte Carlo simulation to model the average result of
 betting on green 10,000 times over 10,000 simulated series of bets.
 
 What is the probability of winning more than \$0 as estimated by your
-Monte Carlo simulation? The code to generate the vector S that contains
-the the average outcomes of 10,000 bets modeled 10,000 times has already
-been run for you. - Calculate the probability of winning more than \$0
-in the Monte Carlo simulation from the previous exercise. - You do not
-need to run another simulation: the results of the simulation are in
-your workspace as the vector S.
+Monte Carlo simulation? The code to generate the vector \(S\) that
+contains the the average outcomes of 10,000 bets modeled 10,000 times
+has already been run for you.
 
-\begin{verbatim}
-# Compute the proportion of outcomes in the vector 'S' where you won more than $0
-mean(S>0)
-\end{verbatim}
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Compute the proportion of outcomes in the vector \textquotesingle{}S\textquotesingle{} where you won more than $0}
+\KeywordTok{mean}\NormalTok{(S}\OperatorTok{\textgreater{}}\DecValTok{0}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
 
 \begin{verbatim}
 ## [1] 0.0977
@@ -4187,12 +4163,10 @@ mean(S>0)
 \setcounter{enumi}{10}
 \tightlist
 \item
-  American Roulette comparison analysis
+  The Monte Carlo result and the CLT approximation are now much closer
+  than when we calculated the probability of winning for 100 bets on
+  green. What could account for this difference?
 \end{enumerate}
-
-The Monte Carlo result and the CLT approximation are now much closer
-than when we calculated the probability of winning for 100 bets on
-green. What could account for this difference?
 
 \begin{itemize}
 \tightlist
@@ -4206,6 +4180,321 @@ green. What could account for this difference?
 \item[$\square$]
   D. It is not closer. The difference is within rounding error.
 \end{itemize}
+
+\hypertarget{assessment---sat-testing}{%
+\subsection{Assessment - SAT Testing}\label{assessment---sat-testing}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  and 2. The SAT is a standardized college admissions test used in the
+  United States. The following two multi-part questions will ask you
+  some questions about SAT testing.
+\end{enumerate}
+
+This is a 6-part question asking you to determine some probabilities of
+what happens when a student guessed for all of their answers on the SAT.
+Use the information below to inform your answers for the following
+questions.
+
+An old version of the SAT college entrance exam had a -0.25 point
+penalty for every incorrect answer and awarded 1 point for a correct
+answer. The quantitative test consisted of 44 multiple-choice questions
+each with 5 answer choices. Suppose a student chooses answers by
+guessing for all questions on the test.
+
+1a. What is the probability of guessing correctly for one question?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{/}\DecValTok{5} \CommentTok{\# one correct choice of 5 options}
+\NormalTok{p}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.2
+\end{verbatim}
+
+1b. What is the expected value of points for guessing on one question?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{a \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{b \textless{}{-}}\StringTok{ }\FloatTok{{-}0.25}
+\NormalTok{mu \textless{}{-}}\StringTok{ }\NormalTok{a}\OperatorTok{*}\NormalTok{p }\OperatorTok{+}\StringTok{ }\NormalTok{b}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p)}
+\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+1c. What is the expected score of guessing on all 44 questions?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{44}
+\NormalTok{n}\OperatorTok{*}\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0
+\end{verbatim}
+
+1d. What is the standard error of guessing on all 44 questions?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sigma \textless{}{-}}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\KeywordTok{abs}\NormalTok{(b}\OperatorTok{{-}}\NormalTok{a) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p))}
+\NormalTok{sigma}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 3.32
+\end{verbatim}
+
+1e. Use the Central Limit Theorem to determine the probability that a
+guessing student scores 8 points or higher on the test.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\DecValTok{8}\NormalTok{, mu, sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.00793
+\end{verbatim}
+
+1f. Set the seed to 21, then run a Monte Carlo simulation of 10,000
+students guessing on the test.
+
+(IMPORTANT! If you use R 3.6 or later, you will need to use the command
+\texttt{set.seed(x,\ sample.kind\ =\ "Rounding")} instead of
+\texttt{set.seed(x)}. Your R version will be printed at the top of the
+Console window when you start RStudio.)
+
+What is the probability that a guessing student scores 8 points or
+higher?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{set.seed}\NormalTok{(}\DecValTok{21}\NormalTok{, }\DataTypeTok{sample.kind =} \StringTok{"Rounding"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning in set.seed(21, sample.kind = "Rounding"): non-uniform 'Rounding'
+## sampler used
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{B \textless{}{-}}\StringTok{ }\DecValTok{10000}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{44}
+\NormalTok{p \textless{}{-}}\StringTok{ }\FloatTok{0.2}
+\NormalTok{tests \textless{}{-}}\StringTok{ }\KeywordTok{replicate}\NormalTok{(B, \{}
+\NormalTok{  X \textless{}{-}}\StringTok{ }\KeywordTok{sample}\NormalTok{(}\KeywordTok{c}\NormalTok{(}\DecValTok{1}\NormalTok{, }\FloatTok{{-}0.25}\NormalTok{), n, }\DataTypeTok{replace =} \OtherTok{TRUE}\NormalTok{, }\DataTypeTok{prob =} \KeywordTok{c}\NormalTok{(p, }\DecValTok{1}\OperatorTok{{-}}\NormalTok{p))}
+  \KeywordTok{sum}\NormalTok{(X)}
+\NormalTok{\})}
+\KeywordTok{mean}\NormalTok{(tests }\OperatorTok{\textgreater{}=}\StringTok{ }\DecValTok{8}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.008
+\end{verbatim}
+
+The SAT was recently changed to reduce the number of multiple choice
+options from 5 to 4 and also to eliminate the penalty for guessing.
+
+In this three-part question, you'll explore how that affected the
+expected values for the test.
+
+2a. Suppose that the number of multiple choice options is 4 and that
+there is no penalty for guessing - that is, an incorrect question gives
+a score of 0.
+
+What is the expected value of the score when guessing on this new test?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\DecValTok{1}\OperatorTok{/}\DecValTok{4}
+\NormalTok{a \textless{}{-}}\StringTok{ }\DecValTok{1}
+\NormalTok{b \textless{}{-}}\StringTok{ }\DecValTok{0}
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{44}
+\NormalTok{mu \textless{}{-}}\StringTok{ }\NormalTok{n }\OperatorTok{*}\StringTok{ }\NormalTok{a}\OperatorTok{*}\NormalTok{p }\OperatorTok{+}\StringTok{ }\NormalTok{b}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p)}
+\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 11
+\end{verbatim}
+
+2b. Using the normal approximation, what is the estimated probability of
+scoring over 30 when guessing?
+
+Report your answer using scientific notation with 3 significant digits
+in the format \texttt{x.xx*10\^{}y}. Do not round the values passed to
+\texttt{pnorm} or you will lose precision and have an incorrect answer.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sigma \textless{}{-}}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\KeywordTok{abs}\NormalTok{(b}\OperatorTok{{-}}\NormalTok{a) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p))}
+\DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\DecValTok{30}\NormalTok{, mu, sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 1.86e-11
+\end{verbatim}
+
+2c. Consider a range of correct answer probabilities
+\texttt{p\ \textless{}-\ seq(0.25,\ 0.95,\ 0.05)} representing a range
+of student skills.
+
+What is the lowest \texttt{p} such that the probability of scoring over
+35 exceeds 80\%?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\KeywordTok{seq}\NormalTok{(}\FloatTok{0.25}\NormalTok{, }\FloatTok{0.95}\NormalTok{, }\FloatTok{0.05}\NormalTok{)}
+\NormalTok{exp\_val \textless{}{-}}\StringTok{ }\KeywordTok{sapply}\NormalTok{(p, }\ControlFlowTok{function}\NormalTok{(x)\{}
+\NormalTok{  mu \textless{}{-}}\StringTok{ }\NormalTok{n }\OperatorTok{*}\StringTok{ }\NormalTok{a}\OperatorTok{*}\NormalTok{x }\OperatorTok{+}\StringTok{ }\NormalTok{b}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{x)}
+\NormalTok{  sigma \textless{}{-}}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\KeywordTok{abs}\NormalTok{(b}\OperatorTok{{-}}\NormalTok{a) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(x}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{x))}
+  \DecValTok{1}\OperatorTok{{-}}\KeywordTok{pnorm}\NormalTok{(}\DecValTok{35}\NormalTok{, mu, sigma)}
+\NormalTok{\})}
+
+\KeywordTok{min}\NormalTok{(p[}\KeywordTok{which}\NormalTok{(exp\_val }\OperatorTok{\textgreater{}}\StringTok{ }\FloatTok{0.8}\NormalTok{)])}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.85
+\end{verbatim}
+
+\hypertarget{assessment---betting-on-roulette}{%
+\subsection{Assessment - Betting on
+Roulette}\label{assessment---betting-on-roulette}}
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\setcounter{enumi}{2}
+\tightlist
+\item
+  A casino offers a House Special bet on roulette, which is a bet on
+  five pockets (00, 0, 1, 2, 3) out of 38 total pockets. The bet pays
+  out 6 to 1. In other words, a losing bet yields -\$1 and a successful
+  bet yields \$6. A gambler wants to know the chance of losing money if
+  he places 500 bets on the roulette House Special.
+\end{enumerate}
+
+The following 7-part question asks you to do some calculations related
+to this scenario.
+
+3a. What is the expected value of the payout for one bet?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{p \textless{}{-}}\StringTok{ }\DecValTok{5}\OperatorTok{/}\DecValTok{38}
+\NormalTok{a \textless{}{-}}\StringTok{ }\DecValTok{6}
+\NormalTok{b \textless{}{-}}\StringTok{ }\DecValTok{{-}1}
+\NormalTok{mu \textless{}{-}}\StringTok{ }\NormalTok{a}\OperatorTok{*}\NormalTok{p }\OperatorTok{+}\StringTok{ }\NormalTok{b}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p)}
+\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.0789
+\end{verbatim}
+
+3b. What is the standard error of the payout for one bet?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sigma \textless{}{-}}\StringTok{ }\KeywordTok{abs}\NormalTok{(b}\OperatorTok{{-}}\NormalTok{a) }\OperatorTok{*}\StringTok{ }\KeywordTok{sqrt}\NormalTok{(p}\OperatorTok{*}\NormalTok{(}\DecValTok{1}\OperatorTok{{-}}\NormalTok{p))}
+\NormalTok{sigma}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 2.37
+\end{verbatim}
+
+3c. What is the expected value of the average payout over 500 bets?
+
+Remember there is a difference between expected value of the average and
+expected value of the sum.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -0.0789
+\end{verbatim}
+
+3d. What is the standard error of the average payout over 500 bets?
+
+Remember there is a difference between the standard error of the average
+and standard error of the sum.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n \textless{}{-}}\StringTok{ }\DecValTok{500}
+\NormalTok{sigma}\OperatorTok{/}\KeywordTok{sqrt}\NormalTok{(n)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.106
+\end{verbatim}
+
+3e. What is the expected value of the sum of 500 bets?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{n}\OperatorTok{*}\NormalTok{mu}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] -39.5
+\end{verbatim}
+
+3f. What is the standard error of the sum of 500 bets?
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{sqrt}\NormalTok{(n) }\OperatorTok{*}\StringTok{ }\NormalTok{sigma}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 52.9
+\end{verbatim}
+
+3g. Use \texttt{pnorm} with the expected value of the sum and standard
+error of the sum to calculate the probability of losing money over 500
+bets, \(Pr(X \le 0)\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{pnorm}\NormalTok{(}\DecValTok{0}\NormalTok{, n}\OperatorTok{*}\NormalTok{mu, }\KeywordTok{sqrt}\NormalTok{(n)}\OperatorTok{*}\NormalTok{sigma)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 0.772
+\end{verbatim}
 
 \hypertarget{section-4-overview}{%
 \subsection{Section 4 Overview}\label{section-4-overview}}
