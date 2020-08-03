@@ -1387,6 +1387,7 @@ Which of the following plots is correct?
 - [X] B.
 
 ![Plot x against f_x](images/x_f_x_imageB.png)
+
 \newpage
 
 ## Assessment - ACT scores, part 2
@@ -1469,6 +1470,7 @@ Which of the following graphs is correct?
 - [X] D.
 
 ![Sample quantiles versus Theoretical quantiles](images/sample_theoretical_imageD.png)
+
 \newpage
 
 ## Section 3 Overview
@@ -1476,133 +1478,149 @@ Which of the following graphs is correct?
 Section 3 introduces you to Random Variables, Sampling Models, and the Central Limit Theorem.
 
 Section 3 is divided into two parts:
-- Random Variables and Sampling Models
-- The Central Limit Theorem.
+
+* Random Variables and Sampling Models
+* The Central Limit Theorem.
 
 After completing Section 3, you will:
-- understand what random variables are, how to generate them, and the correct mathematical notation to use with them.
-- be able to use sampling models to estimate characteristics of a larger population.
-- be able to explain the difference between a distribution and a probability distribution.
-- understand the Central Limit Theorem and the law of large numbers.
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html)
+* understand what random variables are, how to generate them, and the correct mathematical notation to use with them.
+* be able to use sampling models to estimate characteristics of a larger population.
+* be able to explain the difference between a distribution and a probability distribution.
+* understand the Central Limit Theorem and the law of large numbers.
 
 ## Random variables
 
-Random variables are numeric outcomes resulting from random processes. We can easily generate random variables using some of the simple examples we have shown. For example, define X to be 1 if a bead is blue and red otherwise:
-```
-beads <- rep( c("red", "blue"), times = c(2,3))
-X <- ifelse(sample(beads, 1) == "blue", 1, 0)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#random-variables-1)
 
-#Here X is a random variable: every time we select a new bead the outcome changes randomly. See below:
+**Key points**
 
+* Random variables are numeric outcomes resulting from random processes.
+* Statistical inference offers a framework for quantifying uncertainty due to randomness.
+
+*Code: Modeling a random variable*
+
+```{r}
+# define random variable x to be 1 if blue, 0 otherwise
+beads <- rep(c("red", "blue"), times = c(2, 3))
+x <- ifelse(sample(beads, 1) == "blue", 1, 0)
+
+# demonstrate that the random variable is different every time
+ifelse(sample(beads, 1) == "blue", 1, 0)
+ifelse(sample(beads, 1) == "blue", 1, 0)
 ifelse(sample(beads, 1) == "blue", 1, 0)
 ```
-```
-## [1] 1
-```
-```
-ifelse(sample(beads, 1) == "blue", 1, 0)
-```
-```
-## [1] 1
-```
-```
-ifelse(sample(beads, 1) == "blue", 1, 0)
-```
-```
-## [1] 1
-```
-```
-#Sometimes it's 1 and sometimes it's 0.
-```
+
 ## Sampling Models
 
-For example, we can model the process of polling likely voters as drawing 0’s- Republicans- and 1’s- Democrats- from an urn containing the 0 and 1 code for all likely voters.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#sampling-models)
 
-In epidemiological studies, we often assume that the subjects in our study are a random sample from the population of interest. The data related to a specific outcome can be modeled as a random sample
+**Key points**
 
-Similarly, in experimental research, we often assume that the individual organisms we are studying- for example, worms, flies, or mice- are a random sample from a larger population.
+* A sampling model models the random behavior of a process as the sampling of draws from an urn.
+* The **probability distribution of a random variable** is the probability of the observed value falling in any given interval.
+* We can define a CDF $F(a) = Pr(S \le a)$ to answer questions related to the probability of S being in any interval.
+* The average of many draws of a random variable is called its **expected value**.
+* The standard deviation of many draws of a random variable is called its **standard error**.
 
-Casino games offer a plethora of examples of real-world situations in which sampling models are used to answer specific questions.
+*Monte Carlo simulation: Chance of casino losing money on roulette*
 
-Roulette wheel example
-```
-color <- rep(c("Black", "Red", "Green"), c(18,18,2))
+We build a sampling model for the random variable $S$ that represents the casino's total winnings. 
 
+```{r}
+# sampling model 1: define urn, then sample
+color <- rep(c("Black", "Red", "Green"), c(18, 18, 2)) # define the urn for the sampling model
 n <- 1000
-X <- sample(ifelse(color =="Red", -1, 1), n, replace = TRUE)
+X <- sample(ifelse(color == "Red", -1, 1), n, replace = TRUE)    # 1000 draws from urn, -1 if red, else +1
+X[1:10]    # first 10 outcomes
 
-X <- sample(c(-1,1), n, replace = TRUE, prob=c(9/19, 10/19))
-S <- sum(X)
+# sampling model 2: define urn inside sample function by noting probabilities
+x <- sample(c(-1, 1), n, replace = TRUE, prob = c(9/19, 10/19))    # 1000 independent draws
+S <- sum(x)    # total winnings = sum of draws
 S
 ```
-```
-## [1] 38
-```
-Running a Monte Carlo Simulation with the above example:
-```
-a <- 0
-n <- 1000
-B <- 10000
-roulette_winnings <- function(n){
-  X <- sample(c(-1,1), n, replace = TRUE, prob=c(9/19, 10/19))
-  sum(X)
-}
-S <- replicate(B, roulette_winnings(n))
 
-#Now we can ask the following: in our simulations, how often did we get sums less than or equal to a?
+We use the sampling model to run a Monte Carlo simulation and use the results to estimate the probability of the casino losing money.
 
-mean(S <= a)
-```
-```
-## [1] 0.0492
-```
-```
-#Now we can easily answer the casino's question: how likely is it that we will lose money?
-mean(S<0)
-```
-```
-## [1] 0.0438
-```
-```
-s <- seq(min(S), max(S), length = 100)
-normal_density <- data.frame(S = s, f=dnorm(s, mean(S), sd(S)))
-data.frame(S=S) %>% ggplot(aes(S, ..density..)) +
-  geom_histogram(color = "black", binwidth = 10) +
-  ylab("Probability") +
-  geom_line(data = normal_density, mapping=aes(s,f), color="blue")
+```{r}
+n <- 1000    # number of roulette players
+B <- 10000    # number of Monte Carlo experiments
+S <- replicate(B, {
+    X <- sample(c(-1,1), n, replace = TRUE, prob = c(9/19, 10/19))    # simulate 1000 roulette spins
+    sum(X)    # determine total profit
+})
+
+mean(S < 0)    # probability of the casino losing money
 ```
 
-![Unknown-2](https://user-images.githubusercontent.com/17474099/77340239-4c57cd80-6d2d-11ea-9ce0-cdeb682df422.png)
+We can plot a histogram of the observed values of S as well as the normal density curve based on the mean and standard deviation of S.
 
-In the histogram above, we see that the distribution appears to be approximately normal. A qq-plot will confirm that the normal approximation is close to perfect. If, in fact, the distribution is normal, then all we need to define the distribution is the average and the standard deviation. Because we have the original values from which the distribution is created, we can easily compute these:
+```{r}
+s <- seq(min(S), max(S), length = 100)    # sequence of 100 values across range of S
+normal_density <- data.frame(s = s, f = dnorm(s, mean(S), sd(S))) # generate normal density for S
+data.frame (S = S) %>%    # make data frame of S for histogram
+    ggplot(aes(S, ..density..)) +
+    geom_histogram(color = "black", binwidth = 10) +
+    ylab("Probability") +
+    geom_line(data = normal_density, mapping = aes(s, f), color = "blue")
 ```
-mean(S)
-```
-```
-## [1] 52.842
-```
-```
-sd(S)
-```
-```
-## [1] 31.50489
-```
+
 ## Distributions versus Probability Distributions
 
-Previously we described how any list of numbers, let’s call it x1 through xn,has a distribution. The definition is quite straightforward. We define capital F of a as a function that answers the question, what proportion of the list is less than or equal to a. Because they are useful summaries, when the distribution is approximately normal, we define the average and the standard deviation. These are defined with a straightforward operation of the list. In r we simply compute the average and standard deviation this way,
-```
-m <- sum(x)/length(x)
-s <- sqrt(sum((x - m)^2) / length(x))
-```
-A random variable x has a distribution function. To define this, we do not need a list of numbers. It’s a theoretical concept. In this case, to define the distribution, we define capital F of a as a function that answers the question, what is the probability that x is less than or equal to a. There is no list of numbers. However, if x is defined by drawing from an urn with numbers in it, then there is a list, the list of numbers inside the urn. In this case, the distribution of that list is the probability distribution of x and the average and standard deviation of that list are the expected value and standard errors of the random variable. Another way to think about it that does not involve an urn is to run a Monte Carlo simulation and generate a very large list of outcomes of x. These outcomes are a list of numbers. The distribution of this list will be a very good approximation of the probability distribution of x. The longer the list, the better the approximation. The average and standard deviation of this list will approximate the expected value and standard error of the random variable.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#distributions-versus-probability-distributions)
+
+**Key points**
+
+* A random variable $X$ has a probability distribution function $F(a)$ that defines $Pr(X \le a)$ over all values of $a$.
+* Any list of numbers has a distribution. The probability distribution function of a random variable is defined mathematically and does not depend on a list of numbers.
+* The results of a Monte Carlo simulation with a large enough number of observations will approximate the probability distribution of $X$.
+* If a random variable is defined as draws from an urn:
+    * The probability distribution function of the random variable is defined as the distribution of the list of values in the urn.
+    * The expected value of the random variable is the average of values in the urn.
+    * The standard error of one draw of the random variable is the standard deviation of the values of the urn.
+    
+## Notation for Random Variables
+
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#notation-for-random-variables)
+
+**Key points**
+
+* Capital letters denote random variables ($X$) and lowercase letters denote observed values ($x$).
+* In the notation $Pr(X = x), we are asking how frequently the random variable $X$ is equal to the value $x$. For example, if $x = 6$, this statement becomes $Pr(X = 6)$.
 
 ## Central Limit Theorem (CLT)
 
-The Central Limit Theorem-or the CLT for short tells us that when the number of independent draws-also called sample size-is large, the probability distribution of the sum of these draws is approximately normal.
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#the-expected-value-and-standard-error) and [here](https://rafalab.github.io/dsbook/random-variables.html#central-limit-theorem)
 
-## Assessment 5: Random Variables and Sampling Models
+**Key points**
+
+* The Central Limit Theorem (CLT) says that the distribution of the sum of a random variable is approximated by a normal distribution.
+* The expected value of a random variable, E \left [ X \right] = \mu$, is the average of the values in the urn. This represents the expectation of one draw. 
+* The standard error of one draw of a random variable is the standard deviation of the values in the urn.
+* The expected value of the sum of draws is the number of draws times the expected value of the random variable. 
+* The standard error of the sum of independent draws of a random variable is the square root of the number of draws times the standard deviation of the urn. 
+
+*Equations*
+
+These equations apply to the case where there are only two outcomes, $a$ and $b$ with proportions $p$ and $1-p$ respectively. The general principles above also apply to random variables with more than two outcomes.
+
+Expected value of a random variable:
+
+$ap\:+\:b(1-p)$
+
+Expected value of the sum of n draws of a random variable: 
+
+$n\:X\:(ap + b(1-p)$
+
+Standard deviation of an urn with two values: 
+
+$|b-a|\sqrt{p(1-p}
+
+Standard error of the sum of n draws of a random variable:
+
+\sqrt n\:X\:|b-a|\sqrt{p(1-p}
+
+## Assessment - Random Variables and Sampling Models
 
 1.American Roulette probabilities
 
