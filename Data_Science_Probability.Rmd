@@ -1,9 +1,9 @@
 ---
 title: "Data Science Probability"
 output:
+  html_document: default
   pdf_document:
     latex_engine: xelatex
-  html_document: default
   word_document: default
 urlcolor: blue
 ---
@@ -2288,7 +2288,7 @@ x/180000
 
 *Equations: Calculating interest rate for 1% probability of losing money*
 
-We want to calculate the value of $x$ for which $Pr(S < 0) = 0.01$. The expected value E \left[ S \right] of the sum of $n = 1000$ loans given our definitions of $x$, $l$ and $p$ is:
+We want to calculate the value of $x$ for which $Pr(S < 0) = 0.01$. The expected value $E \left[ S \right]$ of the sum of $n = 1000$ loans given our definitions of $x$, $l$ and $p$ is:
 
 $\mu_S = (lp + x(1-p))*n$
 
@@ -2296,17 +2296,17 @@ And the standard error of the sum of $n$ loans, $SE \left [ S \right]$, is:
 
 $\sigma_S = |x-l|\sqrt{np(1-p)}$
 
-Because we know the definition of a Z-score is $Z = \fraq{x-\mu}{sigma}$, we know that $Pr(S < 0) = Pr(Z < - \frac{\mu}{\sigma}$. Thus, $Pr(S < 0) = 0.01$ equals:
+Because we know the definition of a Z-score is $Z = \frac{x-\mu}{\sigma}$, we know that $Pr(S < 0) = Pr(Z < - \frac{\mu}{\sigma})$. Thus, $Pr(S < 0) = 0.01$ equals:
 
-$Pr(Z < \frac{-{lp + x(1-p)}n}{(x-l)\sqrt{np(1-p)}) = 0.01$
+$Pr(Z < \frac{-(lp + x(1-p))n}{(x-l)\sqrt{np(1-p)}}) = 0.01$
 
 We know that ```z<-qnorm(0.01)``` gives us the value of $z$ for which $Pr(Z \le z) = 0.01$, meaning:
 
-$z = \frac{-{lp + x(1-p)}n}{(x-l)\sqrt{np(1-p)}$
+$z = \frac{-(lp + x(1-p))n}{(x-l)\sqrt{np(1-p)}}$
 
 Solving for $x$ gives:
 
-$x = -l \frac {np - z \sqrt{np(1-p}}{n(1-p) + z \sqrt{np(1-p}}$
+$x = -l \frac {np - z \sqrt{np(1-p)}}{n(1-p) + z \sqrt{np(1-p)}}$
 
 *Code: Calculating interest rate for 1% probability of losing money*
 
