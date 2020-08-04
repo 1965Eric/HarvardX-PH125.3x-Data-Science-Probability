@@ -2539,7 +2539,7 @@ In math notation, what should the interest rate be so that $Pr(S < 0) = 0.05$?
 
 Remember that we can add a constant to both sides of the equation to get:
 
-$Pr(\frac{S−E \left [S \right ]}{SE \left [S \right ]} < \frac{−E \left [S \right ]}{SE \left [S \right ]})
+$Pr(\frac{S−E \left [S \right ]}{SE \left [S \right ]} < \frac{−E \left [S \right ]}{SE \left [S \right ]})$
 
 which is
 
