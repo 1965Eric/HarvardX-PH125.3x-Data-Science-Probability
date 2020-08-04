@@ -2811,3 +2811,124 @@ data.frame(p, p_lose_million) %>%
   min()
 ```
 
+4a. Define a sampling model for simulating the total profit over 1,000 loans with probability of claim ```p_loss = .015```, loss of -$150,000 on a claim, and profit of $1,150 when there is no claim. Set the seed to 25, then run the model once.
+
+(IMPORTANT! If you use R 3.6 or later, you will need to use the command ```set.seed(x, sample.kind = "Rounding")``` instead of ```set.seed(x)```. Your R version will be printed at the top of the Console window when you start RStudio.)
+
+What is the reported profit (or loss) in millions (that is, divided by $10^6$)?
+
+```{r}
+set.seed(25)
+
+p <- .015
+loss <- -150000
+profit <- 1150
+n <- 1000
+
+outcomes <- sample(c(loss, profit), n, prob = c(p, 1-p), replace = TRUE)
+sum(outcomes)/10^6
+```
+
+4b. Set the seed to 27, then run a Monte Carlo simulation of your sampling model with 10,000 replicates to simulate the range of profits/losses over 1,000 loans.
+
+(IMPORTANT! If you use R 3.6 or later, you will need to use the command ```set.seed(x, sample.kind = "Rounding")``` instead of ```set.seed(x)```. Your R version will be printed at the top of the Console window when you start RStudio.)
+
+What is the observed probability of losing $1 million or more?
+
+```{r}
+set.seed(27)
+B <- 10000
+
+profits <- replicate(B, {
+  outcomes <- sample(c(loss, profit), n, prob = c(p, 1-p), replace = TRUE)
+  sum(outcomes)/10^6
+})
+
+mean(profits < -1)
+```
+
+#### 5. and 6. Insurance rates, part 3
+
+Question 5, which has 4 parts, continues the pandemic scenario from Questions 3 and 4.
+
+Suppose that there is a massive demand for life insurance due to the pandemic, and the company wants to find a premium cost for which the probability of losing money is under 5%, assuming the death rate stays stable at $p = 0.015$.
+
+5a. Calculate the premium required for a 5% chance of losing money given $n = 1000$ loans, probability of death $p = 0.015$, and loss per claim $l = -150000$. Save this premium as ```x``` for use in further questions.
+
+```{r}
+p <- .015
+n <- 1000
+l <- -150000
+z <- qnorm(.05)
+x <- -l*( n*p - z*sqrt(n*p*(1-p)))/ ( n*(1-p) + z*sqrt(n*p*(1-p)))
+x
+```
+
+5b. What is the expected profit per policy at this rate?
+
+```{r}
+l*p + x*(1-p)
+```
+
+5c. What is the expected profit over 1,000 policies?
+
+```{r}
+mu <- n*(l*p + x*(1-p))
+mu
+```
+
+5d. Run a Monte Carlo simulation with $B = 10000$ to determine the probability of losing money on 1,000 policies given the new premium ```x```, loss on a claim of $150,000, and probability of claim $p = .015$. Set the seed to 28 before running your simulation.
+
+(IMPORTANT! If you use R 3.6 or later, you will need to use the command ```set.seed(x, sample.kind = "Rounding")``` instead of ```set.seed(x)```. Your R version will be printed at the top of the Console window when you start RStudio.)
+
+What is the probability of losing money here?
+
+```{r}
+set.seed(28)
+B <- 10000
+profit <- replicate(B, {
+  draws <- sample(c(x, l), n,
+                  prob=c(1-p, p), replace = TRUE)
+  sum(draws)
+})
+
+mean(profit < 0)
+```
+
+The company cannot predict whether the pandemic death rate will stay stable. Set the seed to 29, then write a Monte Carlo simulation that for each of $B = 10000$ iterations:
+
+* randomly changes $p$ by adding a value between -0.01 and 0.01 with **sample(seq(-0.01, 0.01, length = 100), 1)**
+* uses the new random $p$ to generate a sample of $n = 1000$ policies with premium **x** and loss per claim $l = -150000$
+* returns the profit over $n$ policies (sum of random variable)
+
+(IMPORTANT! If you use R 3.6 or later, you will need to use the command **set.seed(x, sample.kind = "Rounding")** instead of **set.seed(x)**. Your R version will be printed at the top of the Console window when you start RStudio.)
+
+The outcome should be a vector of $B$ total profits. Use the results of the Monte Carlo simulation to answer the following three questions.
+
+(Hint: Use the process from lecture for modeling a situation for loans that changes the probability of default for all borrowers simultaneously.)
+
+6a. What is the expected value over 1,000 policies?
+
+```{r}
+# n, p, l and x as defined in the problem information
+set.seed(29)    # in R 3.6, set.seed(29, sample.kind="Rounding")
+  
+profit <- replicate(B, {
+    new_p <- p + sample(seq(-0.01, 0.01, length = 100), 1)
+    draws <- sample(c(x, l), n, 
+                    prob=c(1-new_p, new_p), replace = TRUE) 
+    sum(draws)
+})
+```
+
+6b. What is the probability of losing money?
+
+```{r}
+mean(profit < 0)
+```
+
+6c. What is the probability of losing more than $1 million?
+
+```{r}
+mean(profit < -1*10^6)
+```
