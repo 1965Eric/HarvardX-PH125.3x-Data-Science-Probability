@@ -2692,15 +2692,15 @@ p_male
 
 Use the formula for expected value of the sum of draws with the following values and solve for the premium $b$:
 
-$E \left [𝑆 \right ] = \mu S = 700000
+$E \left [𝑆 \right ] = \mu S = 700000$
 
 $n=1000$
 
-$p = death\:probability\:of\:age\:50\:male$
+$p = \mbox{death probability of age 50 male}$
 
 $a = 150000$
 
-$b = premium$
+$b = \mbox{premium}$
 
 $\mu_S = n(ap + b(1-p))$
 
