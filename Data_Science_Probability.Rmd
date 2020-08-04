@@ -1859,7 +1859,7 @@ You can read more about the Poisson distribution at [this link](https://en.wikip
     * As the probability of success decreases, more observations are needed.
 * If the probability of success is extremely low, such as winning a lottery, then the Central Limit Theorem may not apply even with extremely large sample sizes. The normal distribution is not a good approximation in these cases, and other distributions such as the Poisson distribution (not discussed in these courses) may be more appropriate.
 
-## Assessment 6: The Central Limit Theorem
+## Assessment - The Central Limit Theorem
 
 1. The exercises in the previous chapter explored winnings in American roulette. 
 
@@ -2421,7 +2421,7 @@ mean(profit < 0)    # probability of losing money
 mean(profit < -10000000)    # probability of losing over $10 million
 ```
 
-## Assessment 7: The Big Short
+## Assessment - The Big Short
 
 1. Say you manage a bank that gives out 10,000 loans. 
 
@@ -2578,4 +2578,160 @@ Which of the following achieves their goal without making interest rates go up?
 - [ ] B. A larger probability of default
 - [X] C. A reduced default rate
 - [ ] D. A larger cost per loan default
+
+## Assessment - The Big Short (edX)
+
+These exercises review and assess the following concepts:
+
+* Expected value and standard error of a single draw of a random variable
+* Expected value and standard error of the sum of draws of a random variable
+* Monte Carlo simulation of the sum of draws of a random variable
+* The Central Limit Theorem approximation of the sum of draws of a random variable
+* Using z-scores to calculate values related to the normal distribution and normal random variables
+* Calculating interest/premium rates to minimize chance of losing money
+* Determining a number of loans/policies required to profit
+* Simulating the effects of a change in event probability
+
+**Setup and libraries**
+
+Run the code below to set up your environment and load the libraries you will need for the following exercises:
+
+```{r, eval=FALSE, echo=TRUE}
+library(tidyverse)
+library(dslabs)
+```
+
+```{r}
+options(digits = 3)
+```
+
+*IMPORTANT*: Some of these exercises use **dslabs** datasets that were added in a July 2019 update. Make sure your package is up to date with the command ```update.packages("dslabs")```. You can also update all packages on your system by running ```update.packages()``` with no arguments, and you should consider doing this routinely.
+
+**Background**
+
+In the motivating example **The Big Short**, we discussed how discrete and continuous probability concepts relate to bank loans and interest rates. Similar business problems are faced by the insurance industry. 
+
+Just as banks must decide how much to charge as interest on loans based on estimates of loan defaults, insurance companies must decide how much to charge as premiums for policies given estimates of the probability that an individual will collect on that policy. 
+
+We will use data from 2015 [US Period Life Tables](https://www.ssa.gov/oact/STATS/table4c6.html). Here is the code you will need to load and examine the data from **dslabs**:
+
+```{r}
+data(death_prob)
+head(death_prob)
+```
+
+There are six multi-part questions for you to answer that follow.
+
+#### 1. and 2. Insurance rates, part 1
+
+Use the information below as you answer this 6-part question.
+
+An insurance company offers a one-year term life insurance policy that pays $150,000 in the event of death within one year. The premium (annual cost) for this policy for a 50 year old female is $1,150. Suppose that in the event of a claim, the company forfeits the premium and loses a total of $150,000, and if there is no claim the company gains the premium amount of $1,150. The company plans to sell 1,000 policies to this demographic.
+
+1a. The ```death_prob``` data frame contains information about the estimated probability of death within 1 year (```prob```) for different ages and sexes.
+
+Use ```death_prob``` to determine the death probability of a 50 year old female, ```p```.
+
+```{r}
+p <- death_prob %>%
+  filter(sex == "Female" & age == "50") %>%
+  pull(prob)
+p
+```
+
+1b. The loss in the event of the policy holder's death is -$150,000 and the gain if the policy holder remains alive is the premium $1,150.
+
+What is the expected value of the company's net profit on one policy for a 50 year old female?
+
+```{r}
+a <- -150000
+b <- 1150
+
+mu <- a*p + b*(1-p)
+mu
+```
+
+1c. Calculate the standard error of the profit on one policy for a 50 year old female.
+
+```{r}
+sigma <- abs(b-a) * sqrt(p*(1-p))
+sigma
+```
+
+1d. What is the expected value of the company's profit over all 1,000 policies for 50 year old females?
+
+```{r}
+n <- 1000
+n*mu
+```
+
+1e. What is the standard error of the sum of the expected value over all 1,000 policies for 50 year old females?
+
+```{r}
+sqrt(n) * sigma
+```
+
+1f. Use the Central Limit Theorem to calculate the probability that the insurance company loses money on this set of 1,000 policies.
+
+```{r}
+pnorm(0, n*mu, sqrt(n)*sigma)
+```
+
+50 year old males have a different probability of death than 50 year old females. We will calculate a profitable premium for 50 year old males in the following four-part question.
+
+2a. Use ```death_prob``` to determine the probability of death within one year for a 50 year old male.
+
+```{r}
+p_male <- death_prob %>%
+  filter(sex == "Male" & age == "50") %>%
+  pull(prob)
+p_male
+```
+
+2b. Suppose the company wants its expected profits from 1,000 50 year old males with $150,000 life insurance policies to be $700,000. 
+
+Use the formula for expected value of the sum of draws with the following values and solve for the premium $b$:
+
+$E \left [𝑆 \right ] = \mu S = 700000
+
+$n=1000$
+
+$p = death\:probability\:of\:age\:50\:male$
+
+$a = 150000$
+
+$b = premium$
+
+$\mu_S = n(ap + b(1-p))$
+
+$b = \frac{\frac{\mu_S}{n}-ap}{1-p}$
+
+What premium should be charged?
+
+```{r}
+p <- p_male
+mu_sum <- 700000
+n <- 1000
+a <- -150000
+
+b <- (mu_sum/n-a*p)/(1-p)
+b
+```
+
+2c. Using the new 50 year old male premium rate, calculate the standard error of the sum of 1,000 premiums.
+
+```{r}
+sigma_sum <- sqrt(n)*abs(b-a)*sqrt(p*(1-p))
+sigma_sum
+```
+
+2d. What is the probability of losing money on a series of 1,000 policies to 50 year old males?
+
+Use the Central Limit Theorem.
+
+```{r}
+pnorm(0, mu_sum, sigma_sum)
+```
+
+#### 3. and 4. Insurance rates, part 2
 
