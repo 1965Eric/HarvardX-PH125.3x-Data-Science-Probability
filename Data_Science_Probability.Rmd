@@ -2735,3 +2735,79 @@ pnorm(0, mu_sum, sigma_sum)
 
 #### 3. and 4. Insurance rates, part 2
 
+Life insurance rates are calculated using mortality statistics from the recent past. They are priced such that companies are almost assured to profit as long as the probability of death remains similar. If an event occurs that changes the probability of death in a given age group, the company risks significant losses.
+
+In this 6-part question, we'll look at a scenario in which a lethal pandemic disease increases the probability of death within 1 year for a 50 year old to .015. Unable to predict the outbreak, the company has sold 1,000 $150,000 life insurance policies for $1,150.
+
+3a. What is the expected value of the company's profits over 1,000 policies?
+
+```{r}
+p <- .015    # probability of claim
+a <- -150000    # loss per claim
+b <- 1150    # premium - profit when no claim
+n <- 1000
+
+exp_val <- n*(a*p + b*(1-p))
+exp_val
+```
+
+3b. What is the standard error of the expected value of the company's profits over 1,000 policies?
+
+```{r}
+se <- sqrt(n) * abs(b-a) * sqrt(p*(1-p))
+se
+```
+
+3c. What is the probability of the company losing money?
+
+```{r}
+pnorm(0, exp_val, se)
+```
+
+3d. Suppose the company can afford to sustain one-time losses of $1 million, but larger losses will force it to go out of business.
+
+What is the probability of losing more than $1 million?
+
+```{r}
+pnorm(-1*10^6, exp_val, se)
+```
+
+3e. Investigate death probabilities ```p <- seq(.01, .03, .001)```.
+
+What is the lowest death probability for which the chance of losing money exceeds 90%?
+
+```{r}
+p <- seq(.01, .03, .001)
+a <- -150000    # loss per claim
+b <- 1150    # premium - profit when no claim
+n <- 1000
+
+p_lose_money <- sapply(p, function(p){
+  exp_val <- n*(a*p + b*(1-p))
+  se <- sqrt(n) * abs(b-a) * sqrt(p*(1-p))
+  pnorm(0, exp_val, se)
+})
+
+data.frame(p, p_lose_money) %>%
+  filter(p_lose_money > 0.9) %>%
+  pull(p) %>%
+  min()
+```
+
+3f. Investigate death probabilities ```p <- seq(.01, .03, .0025)```.
+
+What is the lowest death probability for which the chance of losing over $1 million exceeds 90%?
+
+```{r}
+p_lose_million <- sapply(p, function(p){
+  exp_val <- n*(a*p + b*(1-p))
+  se <- sqrt(n) * abs(b-a) * sqrt(p*(1-p))
+  pnorm(-1*10^6, exp_val, se)
+})
+
+data.frame(p, p_lose_million) %>%
+  filter(p_lose_million > 0.9) %>%
+  pull(p) %>%
+  min()
+```
+
