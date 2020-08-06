@@ -2,9 +2,9 @@
 title: "Data Science Probability"
 output:
   word_document: default
+  html_document: default
   pdf_document:
     latex_engine: xelatex
-  html_document: default
 urlcolor: blue
 ---
 
@@ -185,7 +185,7 @@ The textbook section on independence, conditional probability and the multiplica
 
 * *Conditional probabilities* compute the probability that an event occurs given information about dependent events. For example, the probability of drawing a second king given that the first draw is a king is:
 
-$Pr(Card\:2\:is\:a\:king \mid Card\:1\:is\:a\:king) = 3/51$
+$Pr(\text{Card 2 is a king} \mid \text{Card 1 is a king}) = 3/51$
 
 * If two events $A$ and $B$ are independent, $Pr(A \mid B) = Pr(A)$.
 * To determine the probability of multiple events occurring, we use the *multiplication rule*.
@@ -194,15 +194,15 @@ $Pr(Card\:2\:is\:a\:king \mid Card\:1\:is\:a\:king) = 3/51$
 
 The multiplication rule for independent events is:
 
-$Pr(A\:and\:B\:and\:C) = Pr(A)\:X\:Pr(B)\:X\:Pr(C)$ 
+$Pr(\text{A and B and C}) = Pr(A)\:X\:Pr(B)\:X\:Pr(C)$ 
 
 The multiplication rule for dependent events considers the conditional probability of both events occurring:
 
-$Pr(A\:and\:B) = Pr(A)\:X\:Pr(B \mid A)$
+$Pr(\text{A and B}) = Pr(A)\:X\:Pr(B \mid A)$
 
 We can expand the multiplication rule for dependent events to more than 2 events:
 
-$Pr(A\:and\:B\:and\:C) = Pr(A)\:X\:Pr(B \mid A)\:X\:Pr(C \mid A\:and\:B)$
+$Pr(\text{A and B and C}) = Pr(A)\:X\:Pr(B \mid A)\:X\:Pr(C \mid \text{A and B})$
 
 ## Assessment - Introduction to Discrete Probability (using R)
 
@@ -412,11 +412,11 @@ The textbook discussion of **sapply** for the birthday problem can be found with
 * The function **sapply(x, f)** allows any other function **f** to be applied element-wise to the vector **x**.
 * The probability of an event happening is 1 minus the probability of that event not happening:
 
-$Pr(event) = 1 - Pr(no\:event)$
+$Pr(event) = 1 - Pr(\text{no event})$
 
 * We can compute the probability of shared birthdays mathematically:
 
-$Pr(shared\:birthdays) = 1 − Pr(no\:shared\:birthdays) = 1 − (1\:X\: \frac{364}{365}\:X \:\frac{363}{365}\:X...X\: \frac{365−n+1}{365})$ 
+$Pr(\text{shared birthdays}) = 1 − Pr(\text{no shared birthdays}) = 1 − (1\:X\: \frac{364}{365}\:X \:\frac{363}{365}\:X...X\: \frac{365−n+1}{365})$ 
 
 *Code: Function for calculating birthday problem Monte Carlo simulations for any value of n*
 
@@ -505,7 +505,7 @@ Under which situation are the two draws independent of one another?
 
 Remember that two events A and B are independent if: 
 
-$Pr(A\:and\:B) = Pr(A)P(B)$
+$Pr(\text{A and B}) = Pr(A)P(B)$
 
 - [ ] A. You don’t replace the first ball before drawing the next.
 - [X] B. You do replace the first ball before drawing the next.
@@ -578,19 +578,19 @@ Here is a link to the textbook section on the [addition rule](https://rafalab.gi
 
 * The addition rule states that the probability of event $A$ or event $B$ happening is the probability of event $A$ plus the probability of event $B$ minus the probability of both events $A$ and $B$ happening together.
 
-$Pr(A\:or\:B)=Pr(A) + Pr(B) − Pr(A\:and\:B)$
+$Pr(\text{A or B})=Pr(A) + Pr(B) − Pr(\text{A and B})$
 
-Note that $(A\:or\:B)$ is equivalent to $(A \mid B)$.
+Note that $(\text{A or B})$ is equivalent to $(A \mid B)$.
 
 *Example: The addition rule for a natural 21 in blackjack*
 
-We apply the addition rule where $A$ = drawing an ace then a facecard and $B$ = drawing a facecard then an ace. Note that in this case, both events A and B cannot happen at the same time, so $Pr(A\:and\:B) = 0$.
+We apply the addition rule where $A$ = drawing an ace then a facecard and $B$ = drawing a facecard then an ace. Note that in this case, both events A and B cannot happen at the same time, so $Pr(\text{A and B}) = 0$.
 
-$Pr(ace\:then\:facecard) = \frac{4}{52}\:X\: \frac{16}{51}$ 
+$Pr(\text{ace then facecard}) = \frac{4}{52}\:X\: \frac{16}{51}$ 
 
-$Pr(facecard\:then\:ace) = \frac{16}{52}\:X\: \frac{4}{51}$
+$Pr(\text{facecard then ace}) = \frac{16}{52}\:X\: \frac{4}{51}$
 
-$Pr(ace\:then\:facecard \mid facecard\:then\:ace) = \frac{4}{52}\:X\: \frac{16}{51}\:+\:\frac{16}{52}\:X\: \frac{4}{51} = 0.0483$  
+$Pr(\text{ace then facecard} \mid \text{facecard then ace}) = \frac{4}{52}\:X\: \frac{16}{51} + \frac{16}{52}\:X\: \frac{4}{51} = 0.0483$  
 
 ## The Monty Hall Problem
 
@@ -1606,7 +1606,7 @@ These equations apply to the case where there are only two outcomes, $a$ and $b$
 
 Expected value of a random variable:
 
-$ap\:+\:b(1-p))$
+$ap + b(1-p)$
 
 Expected value of the sum of n draws of a random variable: 
 
