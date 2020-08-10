@@ -2,9 +2,9 @@
 title: "Data Science Probability"
 output:
   word_document: default
-  html_document: default
   pdf_document:
     latex_engine: xelatex
+  html_document: default
 urlcolor: blue
 ---
 
@@ -67,7 +67,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 * The *probability of an event* is the proportion of times the event occurs when we repeat the experiment independently under the same conditions.
 
-$Pr(A)$ = probability of event A
+$\mbox{Pr}(A)$ = probability of event A
 
 * An *event* is defined as an outcome that can occur when when something happens by chance.
 * We can determine probabilities related to discrete variables (picking a red bead, choosing 48 Democrats and 52 Republicans from 100 likely voters) and continuous variables (height over 6 feet).
@@ -185,24 +185,24 @@ The textbook section on independence, conditional probability and the multiplica
 
 * *Conditional probabilities* compute the probability that an event occurs given information about dependent events. For example, the probability of drawing a second king given that the first draw is a king is:
 
-$Pr(\text{Card 2 is a king} \mid \text{Card 1 is a king}) = 3/51$
+$\mbox{Pr}(\text{Card 2 is a king} \mid \text{Card 1 is a king}) = 3/51$
 
-* If two events $A$ and $B$ are independent, $Pr(A \mid B) = Pr(A)$.
+* If two events $A$ and $B$ are independent, $\mbox{Pr}(A \mid B) = \mbox{Pr}(A)$.
 * To determine the probability of multiple events occurring, we use the *multiplication rule*.
 
 **Equations**
 
 The multiplication rule for independent events is:
 
-$Pr(\text{A and B and C}) = Pr(A)\:X\:Pr(B)\:X\:Pr(C)$ 
+$\mbox{Pr}(\text{A and B and C}) = \mbox{Pr}(A)\:X\:\mbox{Pr}(B)\:X\:\mbox{Pr}(C)$ 
 
 The multiplication rule for dependent events considers the conditional probability of both events occurring:
 
-$Pr(\text{A and B}) = Pr(A)\:X\:Pr(B \mid A)$
+$\mbox{Pr}(\text{A and B}) = \mbox{Pr}(A)\:X\:\mbox{Pr}(B \mid A)$
 
 We can expand the multiplication rule for dependent events to more than 2 events:
 
-$Pr(\text{A and B and C}) = Pr(A)\:X\:Pr(B \mid A)\:X\:Pr(C \mid \text{A and B})$
+$\mbox{Pr}(\text{A and B and C}) = \mbox{Pr}(A)\:X\:\mbox{Pr}(B \mid A)\:X\:\mbox{Pr}(C \mid \text{A and B})$
 
 ## Assessment - Introduction to Discrete Probability (using R)
 
@@ -412,11 +412,11 @@ The textbook discussion of **sapply** for the birthday problem can be found with
 * The function **sapply(x, f)** allows any other function **f** to be applied element-wise to the vector **x**.
 * The probability of an event happening is 1 minus the probability of that event not happening:
 
-$Pr(event) = 1 - Pr(\text{no event})$
+$\mbox{Pr}(event) = 1 - \mbox{Pr}(\text{no event})$
 
 * We can compute the probability of shared birthdays mathematically:
 
-$Pr(\text{shared birthdays}) = 1 − Pr(\text{no shared birthdays}) = 1 − (1\:X\: \frac{364}{365}\:X \:\frac{363}{365}\:X...X\: \frac{365−n+1}{365})$ 
+$\mbox{Pr}(\text{shared birthdays}) = 1 − \mbox{Pr}(\text{no shared birthdays}) = 1 − (1\:X\: \frac{364}{365}\:X \:\frac{363}{365}\:X...X\: \frac{365−n+1}{365})$ 
 
 *Code: Function for calculating birthday problem Monte Carlo simulations for any value of n*
 
@@ -505,7 +505,7 @@ Under which situation are the two draws independent of one another?
 
 Remember that two events A and B are independent if: 
 
-$Pr(\text{A and B}) = Pr(A)P(B)$
+$\mbox{Pr}(\text{A and B}) = \mbox{Pr}(A)P(B)$
 
 - [ ] A. You don’t replace the first ball before drawing the next.
 - [X] B. You do replace the first ball before drawing the next.
@@ -578,19 +578,19 @@ Here is a link to the textbook section on the [addition rule](https://rafalab.gi
 
 * The addition rule states that the probability of event $A$ or event $B$ happening is the probability of event $A$ plus the probability of event $B$ minus the probability of both events $A$ and $B$ happening together.
 
-$Pr(\text{A or B})=Pr(A) + Pr(B) − Pr(\text{A and B})$
+$\mbox{Pr}(\text{A or B})=\mbox{Pr}(A) + \mbox{Pr}(B) − \mbox{Pr}(\text{A and B})$
 
 Note that $(\text{A or B})$ is equivalent to $(A \mid B)$.
 
 *Example: The addition rule for a natural 21 in blackjack*
 
-We apply the addition rule where $A$ = drawing an ace then a facecard and $B$ = drawing a facecard then an ace. Note that in this case, both events A and B cannot happen at the same time, so $Pr(\text{A and B}) = 0$.
+We apply the addition rule where $A$ = drawing an ace then a facecard and $B$ = drawing a facecard then an ace. Note that in this case, both events A and B cannot happen at the same time, so $\mbox{Pr}(\text{A and B}) = 0$.
 
-$Pr(\text{ace then facecard}) = \frac{4}{52}\:X\: \frac{16}{51}$ 
+$\mbox{Pr}(\text{ace then facecard}) = \frac{4}{52}\:X\: \frac{16}{51}$ 
 
-$Pr(\text{facecard then ace}) = \frac{16}{52}\:X\: \frac{4}{51}$
+$\mbox{Pr}(\text{facecard then ace}) = \frac{16}{52}\:X\: \frac{4}{51}$
 
-$Pr(\text{ace then facecard} \mid \text{facecard then ace}) = \frac{4}{52}\:X\: \frac{16}{51} + \frac{16}{52}\:X\: \frac{4}{51} = 0.0483$  
+$\mbox{Pr}(\text{ace then facecard} \mid \text{facecard then ace}) = \frac{4}{52}\:X\: \frac{16}{51} + \frac{16}{52}\:X\: \frac{4}{51} = 0.0483$  
 
 ## The Monty Hall Problem
 
@@ -1054,11 +1054,11 @@ The previous discussion of CDF is from the Data Visualization course. Here is th
 
 * The *cumulative distribution function (CDF)* is a distribution function for continuous data $x$ that reports the proportion of the data below $a$ for all values of $a$:
 
-$F(a) = Pr(a) = Pr(x \le a)$ 
+$F(a) = \mbox{Pr}(a) = \mbox{Pr}(x \le a)$ 
 
 * The CDF is the *probability distribution function* for continuous variables. For example, to determine the probability that a male student is taller than 70.5 inches given a vector of male heights $x$, we can use the CDF:
 
-$Pr(x > 70.5) = 1 − Pr(x \le 70.5) = 1 − F(70.5)$ 
+$\mbox{Pr}(x > 70.5) = 1 − \mbox{Pr}(x \le 70.5) = 1 − F(70.5)$ 
 
 * The probability that an observation is in between two values $a, b$ is $F(b) - F(a)$.
 
@@ -1139,7 +1139,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 * The quantity with the most similar interpretation to the probability of a single value is the probability density function $f(x)$.
 * The probability density $f(x)$ is defined such that the integral of $f(x)$ over a range gives the CDF of that range.
 
-$F(a) = Pr(X \le a) = \int_{-\infty}^{a} f(x)dx$
+$F(a) = \mbox{Pr}(X \le a) = \int_{-\infty}^{a} f(x)dx$
 
 * In R, the probability density function for the normal distribution is given by **dnorm**. We will see uses of **dnorm** in the future.
 * Note that **dnorm** gives the density function and **pnorm** gives the distribution function, which is the integral of the density function.
@@ -1519,7 +1519,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 * A sampling model models the random behavior of a process as the sampling of draws from an urn.
 * The **probability distribution of a random variable** is the probability of the observed value falling in any given interval.
-* We can define a CDF $F(a) = Pr(S \le a)$ to answer questions related to the probability of S being in any interval.
+* We can define a CDF $F(a) = \mbox{Pr}(S \le a)$ to answer questions related to the probability of S being in any interval.
 * The average of many draws of a random variable is called its **expected value**.
 * The standard deviation of many draws of a random variable is called its **standard error**.
 
@@ -1571,7 +1571,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 **Key points**
 
-* A random variable $X$ has a probability distribution function $F(a)$ that defines $Pr(X \le a)$ over all values of $a$.
+* A random variable $X$ has a probability distribution function $F(a)$ that defines $\mbox{Pr}(X \le a)$ over all values of $a$.
 * Any list of numbers has a distribution. The probability distribution function of a random variable is defined mathematically and does not depend on a list of numbers.
 * The results of a Monte Carlo simulation with a large enough number of observations will approximate the probability distribution of $X$.
 * If a random variable is defined as draws from an urn:
@@ -1586,7 +1586,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 **Key points**
 
 * Capital letters denote random variables ($X$) and lowercase letters denote observed values ($x$).
-* In the notation $Pr(X = x)$, we are asking how frequently the random variable $X$ is equal to the value $x$. For example, if $x = 6$, this statement becomes $Pr(X = 6)$.
+* In the notation $\mbox{Pr}(X = x)$, we are asking how frequently the random variable $X$ is equal to the value $x$. For example, if $x = 6$, this statement becomes $\mbox{Pr}(X = 6)$.
 
 ## Central Limit Theorem (CLT)
 
@@ -2208,7 +2208,7 @@ n*mu
 sqrt(n) * sigma
 ```
 
-3g. Use ```pnorm``` with the expected value of the sum and standard error of the sum to calculate the probability of losing money over 500 bets, $Pr(X \le 0)$.
+3g. Use ```pnorm``` with the expected value of the sum and standard error of the sum to calculate the probability of losing money over 500 bets, $\mbox{Pr}(X \le 0)$.
 
 ```{r}
 pnorm(0, n*mu, sqrt(n)*sigma)
@@ -2288,7 +2288,7 @@ x/180000
 
 *Equations: Calculating interest rate for 1% probability of losing money*
 
-We want to calculate the value of $x$ for which $Pr(S < 0) = 0.01$. The expected value $E \left[ S \right]$ of the sum of $n = 1000$ loans given our definitions of $x$, $l$ and $p$ is:
+We want to calculate the value of $x$ for which $\mbox{Pr}(S < 0) = 0.01$. The expected value $E \left[ S \right]$ of the sum of $n = 1000$ loans given our definitions of $x$, $l$ and $p$ is:
 
 $\mu_S = (lp + x(1-p))*n$
 
@@ -2296,11 +2296,11 @@ And the standard error of the sum of $n$ loans, $SE \left [ S \right]$, is:
 
 $\sigma_S = |x-l|\sqrt{np(1-p)}$
 
-Because we know the definition of a Z-score is $Z = \frac{x-\mu}{\sigma}$, we know that $Pr(S < 0) = Pr(Z < - \frac{\mu}{\sigma})$. Thus, $Pr(S < 0) = 0.01$ equals:
+Because we know the definition of a Z-score is $Z = \frac{x-\mu}{\sigma}$, we know that $\mbox{Pr}(S < 0) = \mbox{Pr}(Z < - \frac{\mu}{\sigma})$. Thus, $\mbox{Pr}(S < 0) = 0.01$ equals:
 
-$Pr(Z < \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}) = 0.01$
+$\mbox{Pr}(Z < \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}) = 0.01$
 
-We know that ```z<-qnorm(0.01)``` gives us the value of $z$ for which $Pr(Z \le z) = 0.01$, meaning:
+We know that ```z<-qnorm(0.01)``` gives us the value of $z$ for which $\mbox{Pr}(Z \le z) = 0.01$, meaning:
 
 $z = \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}$
 
@@ -2359,7 +2359,7 @@ loss_per_foreclosure*p + x*(1-p)
 
 We can define our desired probability of losing money, $z$, as:
 
-$Pr(S < 0) = Pr(Z < - \frac{E \left [S \right]}{SE \left [S \right]}) = Pr(Z < z)$
+$\mbox{Pr}(S < 0) = \mbox{Pr}(Z < - \frac{E \left [S \right]}{SE \left [S \right]}) = \mbox{Pr}(Z < z)$
 
 If $\mu$ is the expected value of the urn (one loan) and $\sigma$ is the standard deviation of the urn (one loan), then $E \left [S \right] = n \mu$ and $SE \left [S \right] = \sqrt{n \sigma}$.
 
@@ -2535,19 +2535,19 @@ x
 
 What should the interest rate be so that the chance of losing money is 1 in 20?
 
-In math notation, what should the interest rate be so that $Pr(S < 0) = 0.05$?
+In math notation, what should the interest rate be so that $\mbox{Pr}(S < 0) = 0.05$?
 
 Remember that we can add a constant to both sides of the equation to get:
 
-$Pr(\frac{S−E \left [S \right ]}{SE \left [S \right ]} < \frac{−E \left [S \right ]}{SE \left [S \right ]})$
+$\mbox{Pr}(\frac{S−E \left [S \right ]}{SE \left [S \right ]} < \frac{−E \left [S \right ]}{SE \left [S \right ]})$
 
 which is
 
-$Pr(Z < \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}) = 0.05$
+$\mbox{Pr}(Z < \frac{-[lp + x(1-p)]n}{(x-l)\sqrt{np(1-p)}}) = 0.05$
 
 Let ```z = qnorm(0.05)``` give us the value of ```z``` for which:
 
-$Pr(Z \le z) = 0.05$
+$\mbox{Pr}(Z \le z) = 0.05$
 
 ```{r}
 # Assign the number of loans to the variable `n`
