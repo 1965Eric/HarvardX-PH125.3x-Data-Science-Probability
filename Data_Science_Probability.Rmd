@@ -2,9 +2,9 @@
 title: "Data Science Probability"
 output:
   word_document: default
+  html_document: default
   pdf_document:
     latex_engine: xelatex
-  html_document: default
 urlcolor: blue
 ---
 
@@ -22,7 +22,7 @@ Using a combination of a guided introduction through short video lectures and mo
 
 Probability theory is the mathematical foundation of statistical inference which is indispensable for analyzing data affected by chance, and thus essential for data scientists. In this course, you will learn important concepts in probability theory. The motivation for this course is the circumstances surrounding the financial crisis of 2007-2008. Part of what caused this financial crisis was that the risk of certain securities sold by financial institutions was underestimated. To begin to understand this very complicated event, we need to understand the basics of probability. We will introduce important concepts such as random variables, independence, Monte Carlo simulations, expected values, standard errors, and the Central Limit Theorem. These statistical concepts are fundamental to conducting statistical tests on data and understanding whether the data you are analyzing are likely occurring due to an experimental method or to chance. Statistical inference, covered in the next course in this series, builds upon probability theory.
 
-## Learning Objectives
+# Learning Objectives
 
 * Important concepts in probability theory including random variables and independence
 * How to perform a Monte Carlo simulation
@@ -43,7 +43,7 @@ You will learn about random variables (numeric outcomes resulting from random pr
 ### Section 4: The Big Short
 You will learn how interest rates are determined and how some bad assumptions led to the financial crisis of 2007-2008.
 
-## Section 1 Overview
+# Section 1 Overview
 
 Section 1 introduces you to Discrete Probability. Section 1 is divided into three parts:
 
@@ -1033,7 +1033,7 @@ p_control_either_highest
 p_case_either_highest/p_control_either_highest
 ```
 
-## Section 2 Overview
+# Section 2 Overview
 
 Section 2 introduces you to Continuous Probability.
 
@@ -1473,7 +1473,7 @@ Which of the following graphs is correct?
 
 \newpage
 
-## Section 3 Overview
+# Section 3 Overview
 
 Section 3 introduces you to Random Variables, Sampling Models, and the Central Limit Theorem.
 
@@ -2214,7 +2214,7 @@ sqrt(n) * sigma
 pnorm(0, n*mu, sqrt(n)*sigma)
 ```
 
-## Section 4 Overview
+# Section 4 Overview
 
 Section 4 introduces you to the Big Short.
 
