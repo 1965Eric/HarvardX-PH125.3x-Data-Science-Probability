@@ -4,9 +4,9 @@ output:
   bookdown::epub_book:
       number_sections: true
   html_document: default
+  word_document: default
   pdf_document:
     latex_engine: xelatex
-  word_document: default
 urlcolor: blue
 ---
 
@@ -14,9 +14,9 @@ urlcolor: blue
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-The textbook for the Data Science course series is [freely available online](https://rafalab.github.io/dsbook/).
+The textbook for the Data Science course series is [freely available online](https://rafalab.github.io/dsbook/){target="_blank"}.
 
-This course corresponds to the Probability section of textbook, starting [here](https://rafalab.github.io/dsbook/probability.html).
+This course corresponds to the Probability section of textbook, starting [here](https://rafalab.github.io/dsbook/probability.html){target="_blank"}.
 
 This course assumes you are comfortable with basic math, algebra, and logical operations. HarvardX has partnered with DataCamp for all assignments in R that allow you to program directly in a browser-based interface. You will not need to download any special software.
 
@@ -63,7 +63,7 @@ After completing Section 1, you will be able to:
 
 ## Discrete Probability
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#discrete-probability)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#discrete-probability){target="_blank"}.
 
 **Key points**
 
@@ -76,7 +76,7 @@ $\mbox{Pr}(A)$ = probability of event A
 
 ## Monte Carlo Simulations
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#monte-carlo-simulations)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#monte-carlo-simulations){target="_blank"}.
 
 **Key points**
 
@@ -120,7 +120,7 @@ Throughout this book, we use random number generators. This implies that many of
 You can learn more about setting the seed by looking at the documentation:
 
 ```{r, eval=FALSE, echo=TRUE}
-```?set.seed
+?set.seed
 ```
 
 In the exercises, we may ask you to set the seed to assure that the results you obtain are exactly what we expect them to be.
@@ -172,7 +172,7 @@ The mean of the zeros and ones thus gives the proportion of TRUE values. As we h
 
 ## Probability Distributions
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#discrete-probability-distributions)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#discrete-probability-distributions){target="_blank"}.
 
 **Key points**
 
@@ -181,7 +181,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 ## Independence
 
-The textbook section on independence, conditional probability and the multiplication rule is available [here](https://rafalab.github.io/dsbook/probability.html#independence)
+The textbook section on independence, conditional probability and the multiplication rule is available [here](https://rafalab.github.io/dsbook/probability.html#independence){target="_blank"}.
 
 **Key points**
 
@@ -274,7 +274,7 @@ p_1  * p_2
 
 ## Combinations and Permutations
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#combinations-and-permutations)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#combinations-and-permutations){target="_blank"}.
 
 **Key points**
 
@@ -377,7 +377,7 @@ mean(results)
 
 ## The Birthday Problem
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#birthday-problem)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#birthday-problem){target="_blank"}.
 
 **Key points**
 
@@ -403,9 +403,9 @@ mean(results)    # calculates proportion of groups with duplicated bdays
 
 ## sapply
 
-The textbook discussion of the basics of **sapply** can be found [in this textbook section](https://rafalab.github.io/dsbook/programming-basics.html#vectorization).
+The textbook discussion of the basics of **sapply** can be found [in this textbook section](https://rafalab.github.io/dsbook/programming-basics.html#vectorization){target="_blank"}.
 
-The textbook discussion of **sapply** for the birthday problem can be found within [the birthday problem section](https://rafalab.github.io/dsbook/probability.html#birthday-problem).
+The textbook discussion of **sapply** for the birthday problem can be found within [the birthday problem section](https://rafalab.github.io/dsbook/probability.html#birthday-problem){target="_blank"}.
 
 **Key points**
 
@@ -474,7 +474,7 @@ lines(n, eprob, col = "red")    # add line for exact prob
 
 ## How many Monte Carlo Experiments are enough?
 
-Here is a link to the [matching textbook section](https://rafalab.github.io/dsbook/probability.html#infinity-in-practice).
+Here is a link to the [matching textbook section](https://rafalab.github.io/dsbook/probability.html#infinity-in-practice){target="_blank"}.
 
 **Key points**
 
@@ -574,7 +574,7 @@ mean(celtic_wins)
 
 ## The Addition rule
 
-Here is a link to the textbook section on the [addition rule](https://rafalab.github.io/dsbook/probability.html#addition-rule).
+Here is a link to the textbook section on the [addition rule](https://rafalab.github.io/dsbook/probability.html#addition-rule){target="_blank"}.
 
 **Key points**
 
@@ -596,14 +596,14 @@ $\mbox{Pr}(\text{ace then facecard} \mid \text{facecard then ace}) = \frac{4}{52
 
 ## The Monty Hall Problem
 
-Here is the textbook section on the [Monty Hall Problem](https://rafalab.github.io/dsbook/probability.html#monty-hall-problem).
+Here is the textbook section on the [Monty Hall Problem](https://rafalab.github.io/dsbook/probability.html#monty-hall-problem){target="_blank"}.
 
 *Key points*
 
 * Monte Carlo simulations can be used to simulate random outcomes, which makes them useful when exploring ambiguous or less intuitive problems like the Monty Hall problem.
 * In the Monty Hall problem, contestants choose one of three doors that may contain a prize. Then, one of the doors that was not chosen by the contestant and does not contain a prize is revealed. The contestant can then choose whether to stick with the original choice or switch to the remaining unopened door.
 * Although it may seem intuitively like the contestant has a 1 in 2 chance of winning regardless of whether they stick or switch, Monte Carlo simulations demonstrate that the actual probability of winning is 1 in 3 with the stick strategy and 2 in 3 with the switch strategy.
-* For more on the Monty Hall problem, you can [watch a detailed explanation here](https://www.khanacademy.org/math/precalculus/prob-comb/dependent-events-precalc/v/monty-hall-problem) or [read an explanation here](https://en.wikipedia.org/wiki/Monty_Hall_problem).
+* For more on the Monty Hall problem, you can [watch a detailed explanation here](https://www.khanacademy.org/math/precalculus/prob-comb/dependent-events-precalc/v/monty-hall-problem){target="_blank"} or [read an explanation here](https://en.wikipedia.org/wiki/Monty_Hall_problem){target="_blank"}.
 
 *Code: Monte Carlo simulation of stick strategy*
 
@@ -1048,9 +1048,9 @@ After completing Section 2, you will:
 
 ## Continuous Probability
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-probability)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-probability){target="_blank"}.
 
-The previous discussion of CDF is from the Data Visualization course. Here is the [textbook section on the CDF](https://rafalab.github.io/dsbook/distributions.html#cdf-intro).
+The previous discussion of CDF is from the Data Visualization course. Here is the [textbook section on the CDF](https://rafalab.github.io/dsbook/distributions.html#cdf-intro){target="_blank"}.
 
 **Key points**
 
@@ -1086,7 +1086,7 @@ F <- function(a) mean(x <= a)
 
 ## Theoretical Distribution
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#theoretical-continuous-distributions)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#theoretical-continuous-distributions){target="_blank"}.
 
 **Key points**
 
@@ -1133,7 +1133,7 @@ pnorm(70.9, mean(x), sd(x)) - pnorm(70.1, mean(x), sd(x))
 
 ## Probability Density
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#the-probability-density)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#the-probability-density){target="_blank"}.
 
 **Key points**
 
@@ -1148,7 +1148,7 @@ $F(a) = \mbox{Pr}(X \le a) = \int_{-\infty}^{a} f(x)dx$
 
 ## Monte Carlo simulations
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#monte-carlo-simulations-for-continuous-variables)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#monte-carlo-simulations-for-continuous-variables){target="_blank"}.
 
 **Key points**
 
@@ -1189,7 +1189,7 @@ mean(tallest >= 7*12)    # proportion of times that tallest person exceeded 7 fe
 
 ## Other Continuous Distributions
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-distributions)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/probability.html#continuous-distributions){target="_blank"}.
 
 **Key points**
 
@@ -1396,7 +1396,7 @@ Which of the following plots is correct?
 
 3. In this 3-part question, you will convert raw ACT scores to Z-scores and answer some questions about them.
 
-Convert **act_scores** to Z-scores. Recall from [Data Visualization](https://www.edx.org/course/data-science-visualization) (the second course in this series) that to standardize values (convert values into Z-scores, that is, values distributed with a mean of 0 and standard deviation of 1), you must subtract the mean and then divide by the standard deviation. Use the mean and standard deviation of **act_scores**, not the original values used to generate random test scores.
+Convert **act_scores** to Z-scores. Recall from [Data Visualization](https://www.edx.org/course/data-science-visualization){target="_blank"} (the second course in this series) that to standardize values (convert values into Z-scores, that is, values distributed with a mean of 0 and standard deviation of 1), you must subtract the mean and then divide by the standard deviation. Use the mean and standard deviation of **act_scores**, not the original values used to generate random test scores.
 
 3a. What is the probability of a Z-score greater than 2 (2 standard deviations above the mean)?
 
@@ -1493,7 +1493,7 @@ After completing Section 3, you will:
 
 ## Random variables
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#random-variables-1)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#random-variables-1){target="_blank"}.
 
 **Key points**
 
@@ -1515,7 +1515,7 @@ ifelse(sample(beads, 1) == "blue", 1, 0)
 
 ## Sampling Models
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#sampling-models)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#sampling-models){target="_blank"}.
 
 **Key points**
 
@@ -1569,7 +1569,7 @@ data.frame (S = S) %>%    # make data frame of S for histogram
 
 ## Distributions versus Probability Distributions
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#distributions-versus-probability-distributions)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#distributions-versus-probability-distributions){target="_blank"}.
 
 **Key points**
 
@@ -1583,7 +1583,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
     
 ## Notation for Random Variables
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#notation-for-random-variables)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#notation-for-random-variables){target="_blank"}.
 
 **Key points**
 
@@ -1592,7 +1592,7 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 ## Central Limit Theorem (CLT)
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#the-expected-value-and-standard-error) and [here](https://rafalab.github.io/dsbook/random-variables.html#central-limit-theorem)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#the-expected-value-and-standard-error){target="_blank"} and [here](https://rafalab.github.io/dsbook/random-variables.html#central-limit-theorem){target="_blank"}.
 
 **Key points**
 
@@ -1794,7 +1794,7 @@ sqrt(n) * abs((17 - -1))*sqrt(p_green*p_not_green)
 
 ## Averages and Proportions
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#statistical-properties-of-averages)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#statistical-properties-of-averages){target="_blank"}.
 
 **Key points**
 
@@ -1840,7 +1840,7 @@ If $X$ is a normally distributed random variable and $a$ and $b$ are non-random 
 
 ## Law of Large Numbers
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#law-of-large-numbers)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#law-of-large-numbers){target="_blank"}.
 
 **Key points**
 
@@ -1850,9 +1850,9 @@ The textbook for this section is available [here](https://rafalab.github.io/dsbo
 
 ## How Large is Large in CLT?
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#how-large-is-large-in-the-central-limit-theorem)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#how-large-is-large-in-the-central-limit-theorem){target="_blank"}.
 
-You can read more about the Poisson distribution at [this link](https://en.wikipedia.org/wiki/Poisson_distribution).
+You can read more about the Poisson distribution at [this link](https://en.wikipedia.org/wiki/Poisson_distribution){target="_blank"}.
 
 **Key points**
 
@@ -2228,7 +2228,7 @@ After completing Section 4, you will:
 
 ## Interest Rates Explained
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#case-study-the-big-short)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#case-study-the-big-short){target="_blank"}.
 
 **Key points**
 
@@ -2339,7 +2339,7 @@ mean(profit<0)    # probability of losing money
 
 ## The Big Short
 
-The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#the-big-short)
+The textbook for this section is available [here](https://rafalab.github.io/dsbook/random-variables.html#the-big-short){target="_blank"}.
 
 **Key points**
 
@@ -2615,7 +2615,7 @@ In the motivating example **The Big Short**, we discussed how discrete and conti
 
 Just as banks must decide how much to charge as interest on loans based on estimates of loan defaults, insurance companies must decide how much to charge as premiums for policies given estimates of the probability that an individual will collect on that policy. 
 
-We will use data from 2015 [US Period Life Tables](https://www.ssa.gov/oact/STATS/table4c6.html). Here is the code you will need to load and examine the data from **dslabs**:
+We will use data from 2015 [US Period Life Tables](https://www.ssa.gov/oact/STATS/table4c6.html){target="_blank"}. Here is the code you will need to load and examine the data from **dslabs**:
 
 ```{r}
 data(death_prob)
